@@ -1,0 +1,56 @@
+[UTF-8 Japanese]
+
+                              J O V S O N Z
+                                  Readme
+
+                                              Copyright(c) 2009 olyutorskii
+
+
+=== Jovsonzとは ===
+
+ Jovsonzライブラリは、JSONデータの入出力を行うためのJavaライブラリです。
+JovsonzはJindolfプロジェクトから派生したオープンソースプロジェクトです。
+
+※ このアーカイブは、開発者向けにJovsonzのソースコードのみをまとめたものです。
+
+
+=== 実行環境 ===
+
+ - JovsonzはJava言語(JLS3)で記述されたプログラムです。
+ - JovsonzはJRE1.5に準拠したJava実行環境で利用できるように作られています。
+   原則として、JRE1.5に準拠した実行系であれば、プラットフォームを選びません。
+
+
+=== ディレクトリ内訳構成 ===
+
+基本的にはMaven2のmaven-archetype-quickstart構成に準じます。
+
+./README.txt
+    あなたが今見てるこれ。
+
+./CHANGELOG.txt
+    変更履歴。
+
+./LICENSE.txt
+    ライセンスに関して。
+
+./pom.xml
+    Maven2用プロジェクト構成定義ファイル。
+
+./src/main/java/
+    Javaのソースコード。
+
+./src/test/java/
+    JUnit 4.* 用のユニットテストコード。
+
+./src/main/config/
+    各種ビルド・構成管理に必要なファイル群。
+
+./src/main/config/checks.xml
+    Checkstyle用configファイル。
+
+./src/main/config/pmdrules.xml
+    PMD用ルール定義ファイル。
+
+
+--- EOF ---
