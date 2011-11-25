@@ -1,6 +1,6 @@
 [UTF-8 Japanese]
 
-                              J O V S O N Z
+                              J o v s o n z
                                   Readme
 
                                               Copyright(c) 2009 olyutorskii
@@ -21,9 +21,14 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
    原則として、JRE1.5に準拠した実行系であれば、プラットフォームを選びません。
 
 
+=== 開発プロジェクト運営元 ===
+
+  http://sourceforge.jp/projects/jovsonz/ まで。
+
+
 === ディレクトリ内訳構成 ===
 
-基本的にはMaven2のmaven-archetype-quickstart構成に準じます。
+基本的にはMaven3のmaven-archetype-quickstart構成に準じます。
 
 ./README.txt
     あなたが今見てるこれ。
@@ -34,8 +39,11 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 ./LICENSE.txt
     ライセンスに関して。
 
+./SCM.txt
+    ソースコード管理に関して。
+
 ./pom.xml
-    Maven2用プロジェクト構成定義ファイル。
+    Maven3用プロジェクト構成定義ファイル。
 
 ./src/main/java/
     Javaのソースコード。
