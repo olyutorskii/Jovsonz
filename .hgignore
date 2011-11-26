@@ -6,8 +6,8 @@
 #####################
 syntax: regexp
 
-^nb-configuration.xml$
-^nbactions.xml$
+^nb-configuration\.xml$
+^nbactions\.xml$
 ^\.classpath$
 ^\.project$
 
