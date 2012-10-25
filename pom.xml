@@ -279,6 +279,7 @@
                     <threshold>Low</threshold>
                     <!-- for Jenkins -->
                     <findbugsXmlOutput>true</findbugsXmlOutput>
+                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                     <xmlOutput>true</xmlOutput>
                 </configuration>
             </plugin>
@@ -488,6 +489,7 @@
                     <threshold>Low</threshold>
                     <!-- for Jenkins -->
                     <findbugsXmlOutput>true</findbugsXmlOutput>
+                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
                     <xmlOutput>true</xmlOutput>
                     <!-- excludeFilterFile/ -->
                 </configuration>
