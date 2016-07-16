@@ -397,7 +397,7 @@ public class JsNumber
      * スケール値を返す。
      * このインスタンスが整数文字列表記に由来する場合、
      * スケール値は0になるはず。
-     * 
+     *
      * <ul>
      * <li>"99"のスケール値は0
      * <li>"99.0"のスケール値は1
@@ -405,7 +405,7 @@ public class JsNumber
      * <li>"99E+3"のスケール値は-3
      * <li>"99.0E+3"のスケール値は-2
      * </ul>
-     * 
+     *
      * @return スケール値
      * @see java.math.BigDecimal#scale()
      */

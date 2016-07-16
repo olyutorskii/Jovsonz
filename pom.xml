@@ -25,12 +25,12 @@
 -->Jovsonz is a JSON library for Java<!--
  --></description>
 
-    <url>http://jovsonz.sourceforge.jp/</url>
+    <url>http://jovsonz.osdn.jp/</url>
     <inceptionYear>2009</inceptionYear>
 
     <organization>
         <name>Jovsonz Partners</name>
-        <url>http://sourceforge.jp/projects/jovsonz/</url>
+        <url>https://osdn.jp/projects/jovsonz/</url>
     </organization>
 
     <licenses>
@@ -46,7 +46,7 @@
             <id>olyutorskii</id>
             <url>https://sites.google.com/site/olyutorskiipit/</url>
             <organization>Jovsonz Partners</organization>
-            <organizationUrl>http://sourceforge.jp/projects/jovsonz/</organizationUrl>
+            <organizationUrl>https://osdn.jp/projects/jovsonz/</organizationUrl>
             <roles>
                 <role>Project Founder</role>
                 <role>Java Developer</role>
@@ -64,14 +64,14 @@
     <modules/>
 
     <scm>
-        <connection>scm:hg:http://hg.sourceforge.jp/view/jovsonz/Jovsonz</connection>
-        <developerConnection>scm:hg:ssh://hg.sourceforge.jp//hgroot/jovsonz/Jovsonz</developerConnection>
-        <url>http://hg.sourceforge.jp/view/jovsonz/Jovsonz/</url>
+        <connection>scm:hg:http://hg.osdn.jp/view/jovsonz/Jovsonz</connection>
+        <developerConnection>scm:hg:ssh://hg.osdn.jp//hgroot/jovsonz/Jovsonz</developerConnection>
+        <url>https://osdn.jp/projects/jovsonz/scm/hg/Jovsonz/</url>
     </scm>
 
     <issueManagement>
         <system>SourceForge.JP</system>
-        <url>http://sourceforge.jp/projects/jovsonz/ticket/</url>
+        <url>https://osdn.jp/projects/jovsonz/ticket/</url>
     </issueManagement>
 
     <ciManagement/>

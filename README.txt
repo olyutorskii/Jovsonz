@@ -23,7 +23,7 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 
 === 開発プロジェクト運営元 ===
 
-  http://sourceforge.jp/projects/jovsonz/ まで。
+  https://osdn.jp/projects/jovsonz/ まで。
 
 
 === ディレクトリ内訳構成 ===

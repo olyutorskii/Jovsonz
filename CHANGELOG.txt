@@ -7,6 +7,7 @@ Jovsonz 変更履歴
 X.XXX.X (20XX-XX-XX)
     ・Maven3対応。
     ・JDK1.7が必須となる。
+    ・OSDN.JP 対応。
 
 1.101.2 (2011-05-13)
     ・初回リリース。

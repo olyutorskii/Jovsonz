@@ -12,14 +12,14 @@ import java.io.IOException;
 /**
  * OBJECT型Value内に列挙される、名前の付いたValueとの組(PAIR)。
  * PAIRはValueではない。
- * 
+ *
  * <pre>
  * {
  *     "PairName1" : 99.9 ,
  *     "PairName2" : "textValue"
  * }
  * </pre>
- * 
+ *
  */
 public class JsPair {
 
