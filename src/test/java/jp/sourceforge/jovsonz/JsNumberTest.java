@@ -254,7 +254,7 @@ public class JsNumberTest {
                     throw new JsVisitException();
                 }
 
-                public void visitCompositionClose(JsComposition composite)
+                public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }

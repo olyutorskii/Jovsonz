@@ -44,7 +44,7 @@ class JsonAppender implements ValueVisitor {
     private final Appendable appout;
 
     private final Stack<DumpContext> contextStack =
-            new Stack<DumpContext>();
+            new Stack<>();
 
     private IOException ioException = null;
 
@@ -66,7 +66,7 @@ class JsonAppender implements ValueVisitor {
      * コンテキストをプッシュ退避する。
      * @param composition 現在のコンテキスト
      */
-    protected void pushComposition(JsComposition composition){
+    protected void pushComposition(JsComposition<?> composition){
         DumpContext context = new DumpContext(composition);
         this.contextStack.push(context);
         return;
@@ -77,9 +77,9 @@ class JsonAppender implements ValueVisitor {
      * @return スタックトップのコンテキスト
      * @throws EmptyStackException スタック構造が空
      */
-    protected JsComposition popComposition() throws EmptyStackException{
+    protected JsComposition<?> popComposition() throws EmptyStackException{
         DumpContext context = this.contextStack.pop();
-        JsComposition composition = context.getComposition();
+        JsComposition<?> composition = context.getComposition();
         return composition;
     }
 
@@ -126,7 +126,7 @@ class JsonAppender implements ValueVisitor {
         if(isNestEmpty()) return false;
 
         DumpContext context = this.contextStack.peek();
-        JsComposition composition = context.getComposition();
+        JsComposition<?> composition = context.getComposition();
         JsTypes type = composition.getJsTypes();
         if(type != JsTypes.ARRAY) return false;
 
@@ -338,7 +338,7 @@ class JsonAppender implements ValueVisitor {
 
         if(type.isComposition()){
             assert value instanceof JsComposition;
-            JsComposition composition = (JsComposition) value;
+            JsComposition<?> composition = (JsComposition) value;
             pushComposition(composition);
         }
 
@@ -372,10 +372,10 @@ class JsonAppender implements ValueVisitor {
      * @throws JsVisitException {@inheritDoc}
      */
     @Override
-    public void visitCompositionClose(JsComposition closed)
+    public void visitCompositionClose(JsComposition<?> closed)
             throws JsVisitException{
         boolean hasDumped = hasChildDumped();
-        JsComposition composition = popComposition();
+        JsComposition<?> composition = popComposition();
 
         if(hasDumped) putAfterLastElement();
         else          putEmptyElement();
@@ -400,7 +400,7 @@ class JsonAppender implements ValueVisitor {
      * ネストされた各JSON集約型コンテキストの出力状況。
      */
     private static class DumpContext{
-        private final JsComposition composition;
+        private final JsComposition<?> composition;
         private boolean childDumped;
 
         /**
@@ -408,7 +408,7 @@ class JsonAppender implements ValueVisitor {
          * 子要素が出力された事実は無い状態で始まる。
          * @param composition レベルに対応するOBJECTもしくはARRAY型Value
          */
-        DumpContext(JsComposition composition){
+        DumpContext(JsComposition<?> composition){
             this.composition = composition;
             this.childDumped = false;
             return;
@@ -418,7 +418,7 @@ class JsonAppender implements ValueVisitor {
          * このレベルに対応するJSON集約型を返す。
          * @return OBJECTもしくはARRAY型Value
          */
-        JsComposition getComposition(){
+        JsComposition<?> getComposition(){
             return this.composition;
         }
 

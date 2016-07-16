@@ -41,7 +41,7 @@ public class UnmodIterator<E> implements Iterator<E> {
     public static <E> Iterator<E> wrapUnmod(Iterator<E> iterator)
             throws NullPointerException{
         if(iterator == null) throw new NullPointerException();
-        return new UnmodIterator<E>(iterator);
+        return new UnmodIterator<>(iterator);
     }
 
     /**
@@ -56,9 +56,10 @@ public class UnmodIterator<E> implements Iterator<E> {
         if(iterable == null) throw new NullPointerException();
         final Iterable<E> innerArg = iterable;
         return new Iterable<E>(){
+            @Override
             public Iterator<E> iterator(){
                 Iterator<E> iterator = innerArg.iterator();
-                return new UnmodIterator<E>(iterator);
+                return new UnmodIterator<>(iterator);
             }
         };
     }
@@ -74,7 +75,7 @@ public class UnmodIterator<E> implements Iterator<E> {
             throws NullPointerException{
         if(iterable == null) throw new NullPointerException();
         Iterator<E> iterator = iterable.iterator();
-        return new UnmodIterator<E>(iterator);
+        return new UnmodIterator<>(iterator);
     }
 
     /**

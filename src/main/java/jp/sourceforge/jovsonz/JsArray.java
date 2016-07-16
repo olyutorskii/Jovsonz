@@ -32,7 +32,7 @@ public class JsArray
     private static final String ERRMSG_NOELEM =
             "missing element in ARRAY";
 
-    private final List<JsValue> valueList = new LinkedList<JsValue>();
+    private final List<JsValue> valueList = new LinkedList<>();
     private boolean changed = false;
 
     /**
@@ -112,7 +112,7 @@ public class JsArray
 
         for(JsValue value : this.valueList){
             if( ! (value instanceof JsComposition) ) continue;
-            JsComposition composition = (JsComposition) value;
+            JsComposition<?> composition = (JsComposition) value;
             if(composition.hasChanged()) return true;
         }
 
@@ -128,7 +128,7 @@ public class JsArray
 
         for(JsValue value : this.valueList){
             if( ! (value instanceof JsComposition) ) continue;
-            JsComposition composition = (JsComposition) value;
+            JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
 
@@ -282,6 +282,7 @@ public class JsArray
      * @return 反復子イテレータ
      * @see UnmodIterator
      */
+    @Override
     public Iterator<JsValue> iterator(){
         return UnmodIterator.unmodIterator(this.valueList);
     }

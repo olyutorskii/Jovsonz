@@ -52,7 +52,7 @@ public class JsonTest {
         String HASHSEP = "\u0020:\u0020";
 
         Reader reader;
-        JsComposition root;
+        JsComposition<?> root;
         StringBuilder dump = new StringBuilder();
 
         reader = new StringReader("{}");
@@ -271,7 +271,7 @@ public class JsonTest {
         System.out.println("parseJson");
 
         Reader reader;
-        JsComposition root;
+        JsComposition<?> root;
 
         reader = new StringReader("{}");
         root = Json.parseJson(reader);

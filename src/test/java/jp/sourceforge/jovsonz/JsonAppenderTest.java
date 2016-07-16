@@ -156,7 +156,7 @@ public class JsonAppenderTest {
         System.out.println("getIOException");
 
         Reader reader = new StringReader("[1,2,3,4,5]");
-        JsComposition root = Json.parseJson(reader);
+        JsComposition<?> root = Json.parseJson(reader);
 
         Appendable app = new TroubleAppender(3);
         JsonAppender appender = new JsonAppender(app);

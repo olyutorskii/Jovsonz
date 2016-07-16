@@ -41,7 +41,7 @@ public class UnmodIteratorTest {
     public void tearDown() {
     }
 
-    private void assert3ListAndIterator(List list, Iterator unmod){
+    private void assert3ListAndIterator(List<?> list, Iterator<?> unmod){
         assertEquals(3, list.size());
 
         assertTrue(unmod.hasNext());

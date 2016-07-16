@@ -236,6 +236,7 @@ class JsonSource implements Closeable {
      * @throws IOException 入出力エラー
      * @see java.io.Closeable
      */
+    @Override
     public void close() throws IOException{
         this.closed = true;
         this.stackPt = 0;

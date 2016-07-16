@@ -41,7 +41,7 @@ public class JsObject
             "no hash value in OBJECT";
 
     private final Map<String, JsPair> pairMap =
-            new TreeMap<String, JsPair>();
+            new TreeMap<>();
     private final Collection<JsPair> pairCollection = this.pairMap.values();
 
     private boolean changed = false;
@@ -139,7 +139,7 @@ public class JsObject
         for(JsPair pair : this){
             JsValue value = pair.getValue();
             if( ! (value instanceof JsComposition) ) continue;
-            JsComposition composition = (JsComposition) value;
+            JsComposition<?> composition = (JsComposition) value;
             if(composition.hasChanged()) return true;
         }
 
@@ -156,7 +156,7 @@ public class JsObject
         for(JsPair pair : this){
             JsValue value = pair.getValue();
             if( ! (value instanceof JsComposition) ) continue;
-            JsComposition composition = (JsComposition) value;
+            JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
 
@@ -329,7 +329,7 @@ public class JsObject
      * @return PAIRリスト
      */
     public List<JsPair> getPairList(){
-        List<JsPair> result = new ArrayList<JsPair>(this.pairMap.size());
+        List<JsPair> result = new ArrayList<>(this.pairMap.size());
 
         for(JsPair pair : this){
             result.add(pair);
@@ -344,6 +344,7 @@ public class JsObject
      * PAIR出現順序は未定義。
      * @return 反復子イテレータ
      */
+    @Override
     public Iterator<JsPair> iterator(){
         return UnmodIterator.unmodIterator(this.pairCollection);
     }

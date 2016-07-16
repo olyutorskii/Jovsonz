@@ -35,7 +35,7 @@ public final class Json {
      * @throws JsVisitException 何らかの理由で処理中断
      * @throws IOException 出力エラー
      */
-    public static void dumpJson(Appendable appout, JsComposition topValue)
+    public static void dumpJson(Appendable appout, JsComposition<?> topValue)
             throws NullPointerException,
                    JsVisitException,
                    IOException {
@@ -97,7 +97,7 @@ public final class Json {
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
-    private static JsComposition parseJson(JsonSource source)
+    private static JsComposition<?> parseJson(JsonSource source)
             throws IOException, JsParseException{
         JsValue topValue = parseValue(source);
         if(topValue == null) return null;
@@ -106,7 +106,7 @@ public final class Json {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDROOT,
                                        source.getLineNumber() );
         }
-        JsComposition result = (JsComposition) topValue;
+        JsComposition<?> result = (JsComposition) topValue;
 
         return result;
     }
@@ -119,7 +119,7 @@ public final class Json {
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
-    public static JsComposition parseJson(Reader source)
+    public static JsComposition<?> parseJson(Reader source)
             throws IOException, JsParseException{
         JsonSource jsonSource = new JsonSource(source);
         return parseJson(jsonSource);

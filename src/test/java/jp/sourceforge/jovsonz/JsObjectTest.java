@@ -474,7 +474,7 @@ public class JsObjectTest {
                     return;
                 }
 
-                public void visitCompositionClose(JsComposition composite)
+                public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     visited.add(composite);
                     return;

@@ -36,7 +36,7 @@ public interface ValueVisitor {
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      * 投げられる。
      */
-    void visitCompositionClose(JsComposition composition)
+    void visitCompositionClose(JsComposition<?> composition)
             throws JsVisitException;
 
 }
