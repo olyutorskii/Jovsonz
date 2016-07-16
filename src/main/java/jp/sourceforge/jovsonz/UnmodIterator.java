@@ -102,7 +102,7 @@ public class UnmodIterator<E> implements Iterator<E> {
     /**
      * {@inheritDoc}
      * 必ず失敗し例外を投げる。
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException {@inheritDoc}
      */
     @Override
     public void remove() throws UnsupportedOperationException{
