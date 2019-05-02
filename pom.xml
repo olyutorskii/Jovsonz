@@ -8,7 +8,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-  http://maven.apache.org/maven-v4_0_0.xsd"
+  http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
     <modelVersion>4.0.0</modelVersion>
     <!--parent/-->
@@ -57,9 +57,7 @@
     <contributors/>
     <mailingLists/>
 
-    <prerequisites>
-        <maven>3.0.1</maven>
-    </prerequisites>
+    <!-- prerequisites/ -->
 
     <modules/>
 
@@ -120,17 +118,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
-                <configuration>
-                    <rules>
-                        <requireMavenVersion>
-                            <version>[3.0.1,)</version>
-                        </requireMavenVersion>
-                        <requireJavaVersion>
-                            <version>[1.7,)</version>
-                        </requireJavaVersion>
-                    </rules>
-                </configuration>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.3.9,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[1.8,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -148,13 +154,15 @@
                         <fileset>
                             <directory>${project.basedir}</directory>
                             <includes>
-                                <include>**/.DS_Store</include>
-                                <include>**/_MACOSX</include>
+                                <include>**/*~</include>
+                                <include>**/*.swp</include>
+                                <include>**/*.DS_Store</include>
+                                <include>**/._*</include>
+                                <include>**/__MACOSX</include>
                                 <include>**/Thumbs.db</include>
-                                <include>**/thumbs.db</include>
-                                <include>**/Desktop.ini</include>
                                 <include>**/desktop.ini</include>
                                 <include>**/core</include>
+                                <include>**/hs_err_pid*</include>
                             </includes>
                         </fileset>
                     </filesets>
