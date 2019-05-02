@@ -76,14 +76,13 @@
     <distributionManagement/>
 
     <properties>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -91,6 +90,11 @@
 
         <locale>en</locale>
         <site.locales>${locale}</site.locales>
+        <javadoc.locale>${locale}</javadoc.locale>
+        <spotbugs.jvmArgs>-Duser.language=${locale}</spotbugs.jvmArgs>
+
+        <!-- Walk around: JDK 11 javadoc + Maven -->
+        <detectJavaApiLink>false</detectJavaApiLink>
 
         <surefire-plugin.version>3.0.0-M3</surefire-plugin.version>
         <jacoco-plugin.version>0.8.3</jacoco-plugin.version>
@@ -123,6 +127,7 @@
     <pluginRepositories/>
 
     <build>
+
         <pluginManagement/>
 
         <plugins>
@@ -133,7 +138,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -184,21 +189,21 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.8</source>  <!-- for NetBeans IDE -->
                     <target>1.8</target>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
                     <compilerArguments>
                         <Xlint/>
                     </compilerArguments>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
 
@@ -255,9 +260,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>
+                                true
+                            </addDefaultImplementationEntries>
+                        </manifest>
                         <manifestEntries>
                             <Built-By>${project.organization.name}</Built-By>
                         </manifestEntries>
@@ -268,7 +278,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <configuration>
                     <includePom>true</includePom>
                     <archive>
@@ -291,7 +301,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>3.0.0-M1</version>
             </plugin>
 
             <plugin>
@@ -442,12 +452,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <version>3.1.0</version>
                 <configuration>
-                    <skip>false</skip>
+                    <author>false</author>
                     <notimestamp>true</notimestamp>
                     <quiet>true</quiet>
                     <show>protected</show>
+                    <header>${project.name} ${project.version} API</header>
+                    <version>true</version>
+                    <locale>${javadoc.locale}</locale>
+                    <!-- for JDK11 javadoc -->
+                    <additionalJOption>-J-Duser.language=${javadoc.locale}</additionalJOption>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -461,10 +476,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
+                <version>3.0.0</version>
             </plugin>
 
             <plugin>
