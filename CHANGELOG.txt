@@ -7,7 +7,8 @@ Jovsonz 変更履歴
 X.XXX.X (20XX-XX-XX)
     ・Maven3対応。
     ・JDK1.7が必須となる。
-    ・OSDN.JP 対応。
+    ・SourceForge.JP → OSDN.JP → OSDN.net 対応。
+    ・Mercurial(1.101.3-SNAPSHOT)からGit(1.101.103-SNAPSHOT)へSCMを移行。
 
 1.101.2 (2011-05-13)
     ・初回リリース。

@@ -30,13 +30,13 @@
 
     <organization>
         <name>Jovsonz Partners</name>
-        <url>https://osdn.jp/projects/jovsonz/</url>
+        <url>https://osdn.net/projects/jovsonz/</url>
     </organization>
 
     <licenses>
         <license>
             <name>The MIT License</name>
-            <url>https://opensource.org/licenses/mit-license.php</url>
+            <url>https://opensource.org/licenses/MIT</url>
             <distribution>manual</distribution>
         </license>
     </licenses>
@@ -46,7 +46,7 @@
             <id>olyutorskii</id>
             <url>https://sites.google.com/site/olyutorskiipit/</url>
             <organization>Jovsonz Partners</organization>
-            <organizationUrl>https://osdn.jp/projects/jovsonz/</organizationUrl>
+            <organizationUrl>https://osdn.net/projects/jovsonz/</organizationUrl>
             <roles>
                 <role>Project Founder</role>
                 <role>Java Developer</role>
@@ -64,14 +64,14 @@
     <modules/>
 
     <scm>
-        <connection>scm:hg:http://hg.osdn.jp/view/jovsonz/Jovsonz</connection>
-        <developerConnection>scm:hg:ssh://hg.osdn.jp//hgroot/jovsonz/Jovsonz</developerConnection>
-        <url>https://osdn.jp/projects/jovsonz/scm/hg/Jovsonz/</url>
+        <connection>scm:git:git://git.osdn.net/gitroot/jovsonz/Jovsonz.git</connection>
+        <developerConnection>scm:git:https://scm.osdn.net/gitroot/jovsonz/Jovsonz.git</developerConnection>
+        <url>https://osdn.net/projects/jovsonz/scm/git/Jovsonz/</url>
     </scm>
 
     <issueManagement>
-        <system>OSDN.JP</system>
-        <url>https://osdn.jp/projects/jovsonz/ticket/</url>
+        <system>OSDN.net</system>
+        <url>https://osdn.net/projects/jovsonz/ticket/</url>
     </issueManagement>
 
     <ciManagement/>
@@ -80,8 +80,8 @@
     <properties>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
@@ -166,8 +166,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.7</source>  <!-- for NetBeans IDE -->
-                    <target>1.7</target>
+                    <source>1.8</source>  <!-- for NetBeans IDE -->
+                    <target>1.8</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
                     <compilerArguments>
