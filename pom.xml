@@ -89,6 +89,9 @@
 
         <project.mainconf>${project.basedir}/src/main/config</project.mainconf>
 
+        <locale>en</locale>
+        <site.locales>${locale}</site.locales>
+
         <checkstyle.config.location>${project.mainconf}/checks.xml</checkstyle.config.location>
         <checkstyle.enable.rss>false</checkstyle.enable.rss>
 
@@ -251,12 +254,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.1</version>
                 <configuration>
-                    <generateReports>true</generateReports>
-                    <locales>ja</locales>
-                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-                    <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+                    <locales>${site.locales}</locales>
                 </configuration>
             </plugin>
 
@@ -342,7 +342,7 @@
                     <exclude>**/version.properties</exclude>
 
                     <exclude>**/.DS_Store</exclude>
-                    <exclude>**/_MACOSX</exclude>
+                    <exclude>**/__MACOSX</exclude>
                     <exclude>**/Thumbs.db</exclude>
                     <exclude>**/thumbs.db</exclude>
                     <exclude>**/Desktop.ini</exclude>
@@ -362,7 +362,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0</version>
                 <configuration>
                     <linkOnly>true</linkOnly>
                     <offline>true</offline>
@@ -372,20 +372,21 @@
                         <reports>
                             <report>index</report>
                             <report>summary</report>
-                            <report>license</report>
-                            <report>dependencies</report>
-                            <report>plugins</report>
-                            <report>scm</report>
-                            <report>project-team</report>
-<!--
-                            <report>dependency-convergence</report>
+                            <report>licenses</report>
                             <report>dependency-info</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>plugins</report>
+                            <report>plugin-management</report>
+                            <report>team</report>
+                            <report>issue-management</report>
+                            <report>scm</report>
+<!--
                             <report>dependency-management</report>
                             <report>distribution-management</report>
-                            <report>issue-tracking</report>
-                            <report>mailing-list</report>
+                            <report>ci-management</report>
+                            <report>mailing-lists</report>
                             <report>modules</report>
-                            <report>plugin-management</report>
 -->
                         </reports>
                     </reportSet>
