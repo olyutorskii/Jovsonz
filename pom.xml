@@ -8,7 +8,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-  http://maven.apache.org/maven-v4_0_0.xsd"
+  http://maven.apache.org/xsd/maven-4.0.0.xsd"
 >
     <modelVersion>4.0.0</modelVersion>
     <!--parent/-->
@@ -16,7 +16,7 @@
     <groupId>jp.sourceforge.jovsonz</groupId>
     <artifactId>jovsonz</artifactId>
 
-    <version>1.101.103-SNAPSHOT</version>
+    <version>1.101.104</version>
 
     <packaging>jar</packaging>
     <name>Jovsonz</name>
@@ -30,13 +30,13 @@
 
     <organization>
         <name>Jovsonz Partners</name>
-        <url>https://osdn.jp/projects/jovsonz/</url>
+        <url>https://osdn.net/projects/jovsonz/</url>
     </organization>
 
     <licenses>
         <license>
             <name>The MIT License</name>
-            <url>https://opensource.org/licenses/mit-license.php</url>
+            <url>https://opensource.org/licenses/MIT</url>
             <distribution>manual</distribution>
         </license>
     </licenses>
@@ -46,7 +46,7 @@
             <id>olyutorskii</id>
             <url>https://sites.google.com/site/olyutorskiipit/</url>
             <organization>Jovsonz Partners</organization>
-            <organizationUrl>https://osdn.jp/projects/jovsonz/</organizationUrl>
+            <organizationUrl>https://osdn.net/projects/jovsonz/</organizationUrl>
             <roles>
                 <role>Project Founder</role>
                 <role>Java Developer</role>
@@ -57,42 +57,62 @@
     <contributors/>
     <mailingLists/>
 
-    <prerequisites>
-        <maven>3.0.1</maven>
-    </prerequisites>
+    <!-- prerequisites/ -->
 
     <modules/>
 
     <scm>
-        <connection>scm:hg:http://hg.osdn.jp/view/jovsonz/Jovsonz</connection>
-        <developerConnection>scm:hg:ssh://hg.osdn.jp//hgroot/jovsonz/Jovsonz</developerConnection>
-        <url>https://osdn.jp/projects/jovsonz/scm/hg/Jovsonz/</url>
+        <connection>scm:git:git://git.osdn.net/gitroot/jovsonz/Jovsonz.git</connection>
+        <developerConnection>scm:git:https://scm.osdn.net/gitroot/jovsonz/Jovsonz.git</developerConnection>
+        <url>https://osdn.net/projects/jovsonz/scm/git/Jovsonz/</url>
     </scm>
 
     <issueManagement>
-        <system>OSDN.JP</system>
-        <url>https://osdn.jp/projects/jovsonz/ticket/</url>
+        <system>OSDN.net</system>
+        <url>https://osdn.net/projects/jovsonz/ticket/</url>
     </issueManagement>
 
     <ciManagement/>
     <distributionManagement/>
 
     <properties>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
         <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
 
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <project.mainconf>${project.basedir}/src/main/config</project.mainconf>
 
-        <checkstyle.config.location>${project.mainconf}/checks.xml</checkstyle.config.location>
+        <locale>en</locale>
+        <site.locales>${locale}</site.locales>
+        <javadoc.locale>${locale}</javadoc.locale>
+        <spotbugs.jvmArgs>-Duser.language=${locale}</spotbugs.jvmArgs>
+
+        <!-- Walk around: JDK 11 javadoc + Maven -->
+        <detectJavaApiLink>false</detectJavaApiLink>
+
+        <surefire-plugin.version>3.0.0-M3</surefire-plugin.version>
+        <jacoco-plugin.version>0.8.3</jacoco-plugin.version>
+
+        <checkstyle-plugin.version>3.0.0</checkstyle-plugin.version>
+        <checkstyleruntime.version>8.18</checkstyleruntime.version>
+        <checkstyle.config.location>${project.basedir}/config/checkstyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.suppressions.location>${project.basedir}/config/checkstyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
         <checkstyle.enable.rss>false</checkstyle.enable.rss>
+
+        <pmd-plugin.version>3.12.0</pmd-plugin.version>
+        <pmd.analysisCache>true</pmd.analysisCache>
+
+        <spotbugs-plugin.version>3.1.11</spotbugs-plugin.version>
+        <spotbugs.effort>Max</spotbugs.effort>
+        <spotbugs.threshold>Low</spotbugs.threshold>
+        <!-- for Jenkins -->
+        <spotbugs.xmlOutput>true</spotbugs.xmlOutput>
 
     </properties>
 
@@ -113,75 +133,166 @@
     <pluginRepositories/>
 
     <build>
-        <pluginManagement/>
+
+        <pluginManagement>
+
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyleruntime.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+            </plugins>
+
+        </pluginManagement>
 
         <plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
-                <configuration>
-                    <rules>
-                        <requireMavenVersion>
-                            <version>[3.0.1,)</version>
-                        </requireMavenVersion>
-                        <requireJavaVersion>
-                            <version>[1.7,)</version>
-                        </requireJavaVersion>
-                    </rules>
-                </configuration>
-            </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
-            </plugin>
+            <!-- clean lifecycle -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.0</version>
                 <configuration>
                     <filesets>
                         <fileset>
                             <directory>${project.basedir}</directory>
                             <includes>
-                                <include>**/.DS_Store</include>
-                                <include>**/_MACOSX</include>
+                                <include>**/*~</include>
+                                <include>**/*.swp</include>
+                                <include>**/*.DS_Store</include>
+                                <include>**/._*</include>
+                                <include>**/__MACOSX</include>
                                 <include>**/Thumbs.db</include>
-                                <include>**/thumbs.db</include>
-                                <include>**/Desktop.ini</include>
                                 <include>**/desktop.ini</include>
                                 <include>**/core</include>
+                                <include>**/hs_err_pid*</include>
                             </includes>
                         </fileset>
                     </filesets>
                 </configuration>
             </plugin>
 
+
+            <!-- default lifecycle -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.3.9,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[1.8,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.7</source>  <!-- for NetBeans IDE -->
-                    <target>1.7</target>
-                    <showDeprecation>true</showDeprecation>
-                    <showWarnings>true</showWarnings>
+                    <source>1.8</source>  <!-- for NetBeans IDE -->
+                    <target>1.8</target>
                     <compilerArguments>
                         <Xlint/>
                     </compilerArguments>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire-plugin.version}</version>
+                <configuration>
+                    <enableAssertions>true</enableAssertions>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.0</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>
+                                true
+                            </addDefaultImplementationEntries>
+                        </manifest>
                         <manifestEntries>
                             <Built-By>${project.organization.name}</Built-By>
                         </manifestEntries>
@@ -191,20 +302,8 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <archiveBaseDirectory>.</archiveBaseDirectory>
-                    <descriptors>
-                        <descriptor>src/main/assembly/descriptor.xml</descriptor>
-                    </descriptors>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <configuration>
                     <includePom>true</includePom>
                     <archive>
@@ -226,76 +325,63 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.0</version>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <skipTests>false</skipTests>
-                    <enableAssertions>true</enableAssertions>
-                </configuration>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
             </plugin>
+
+
+            <!-- site lifecycle -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.1</version>
                 <configuration>
-                    <generateReports>true</generateReports>
-                    <locales>ja</locales>
-                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-                    <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+                    <locales>${site.locales}</locales>
+                </configuration>
+            </plugin>
+
+
+            <!-- goals without lifecycle -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/src.xml</descriptor>
+                    </descriptors>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.15</version>
-                <!-- config from property value -->
+                <version>${checkstyle-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.6</version>
+                <version>${pmd-plugin.version}</version>
                 <configuration>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
                     <rulesets>
-                        <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
+                        <ruleset>${project.basedir}/config/pmd/pmdrules.xml</ruleset>
                     </rulesets>
                 </configuration>
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.3</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <!-- for Jenkins -->
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <xmlOutput>true</xmlOutput>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format> <!-- for Jenkins -->
-                    </formats>
-                </configuration>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-plugin.version}</version>
             </plugin>
 
         </plugins>
@@ -334,7 +420,7 @@
                     <exclude>**/version.properties</exclude>
 
                     <exclude>**/.DS_Store</exclude>
-                    <exclude>**/_MACOSX</exclude>
+                    <exclude>**/__MACOSX</exclude>
                     <exclude>**/Thumbs.db</exclude>
                     <exclude>**/thumbs.db</exclude>
                     <exclude>**/Desktop.ini</exclude>
@@ -354,7 +440,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0</version>
                 <configuration>
                     <linkOnly>true</linkOnly>
                     <offline>true</offline>
@@ -364,20 +450,21 @@
                         <reports>
                             <report>index</report>
                             <report>summary</report>
-                            <report>license</report>
-                            <report>dependencies</report>
-                            <report>plugins</report>
-                            <report>scm</report>
-                            <report>project-team</report>
-<!--
-                            <report>dependency-convergence</report>
+                            <report>licenses</report>
                             <report>dependency-info</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>plugins</report>
+                            <report>plugin-management</report>
+                            <report>team</report>
+                            <report>issue-management</report>
+                            <report>scm</report>
+<!--
                             <report>dependency-management</report>
                             <report>distribution-management</report>
-                            <report>issue-tracking</report>
-                            <report>mailing-list</report>
+                            <report>ci-management</report>
+                            <report>mailing-lists</report>
                             <report>modules</report>
-                            <report>plugin-management</report>
 -->
                         </reports>
                     </reportSet>
@@ -387,12 +474,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
+                <version>3.1.0</version>
                 <configuration>
-                    <skip>false</skip>
+                    <author>false</author>
                     <notimestamp>true</notimestamp>
                     <quiet>true</quiet>
                     <show>protected</show>
+                    <header>${project.name} ${project.version} API</header>
+                    <version>true</version>
+                    <locale>${javadoc.locale}</locale>
+                    <!-- for JDK11 javadoc -->
+                    <additionalJOption>-J-Duser.language=${javadoc.locale}</additionalJOption>
                 </configuration>
                 <reportSets>
                     <reportSet>
@@ -406,49 +498,32 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
+                <version>3.0.0</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>2.19.1</version>
-                <configuration>
-                    <showSuccess>false</showSuccess>
-                </configuration>
+                <version>${surefire-plugin.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
-                            <report>report-only</report>
+                            <report>report</report>
                         </reports>
                     </reportSet>
                 </reportSets>
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <formats>
-                        <format>html</format>
-                        <format>xml</format> <!-- for Jenkins -->
-                    </formats>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.15</version>
-                <configuration>
-                    <skip>false</skip>
-                    <!-- config from property value -->
-                </configuration>
+                <version>${checkstyle-plugin.version}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -461,12 +536,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.6</version>
+                <version>${pmd-plugin.version}</version>
                 <configuration>
-                    <skip>false</skip>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
                     <rulesets>
-                        <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
+                        <ruleset>${project.basedir}/config/pmd/pmdrules.xml</ruleset>
                     </rulesets>
                 </configuration>
                 <reportSets>
@@ -480,31 +553,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.3</version>
-                <configuration>
-                    <skip>false</skip>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <!-- for Jenkins -->
-                    <findbugsXmlOutput>true</findbugsXmlOutput>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <xmlOutput>true</xmlOutput>
-                    <!-- excludeFilterFile/ -->
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>javancss-maven-plugin</artifactId>
-                <version>2.1</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jdepend-maven-plugin</artifactId>
-                <version>2.0</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-plugin.version}</version>
             </plugin>
 
         </plugins>

@@ -16,14 +16,14 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 
 === 実行環境 ===
 
- - JovsonzはJava言語(JavaSE7)で記述されたプログラムです。
- - JovsonzはJRE1.7に準拠したJava実行環境で利用できるように作られています。
-   原則として、JRE1.7に準拠した実行系であれば、プラットフォームを選びません。
+ - JovsonzはJava言語(JavaSE8)で記述されたプログラムです。
+ - JovsonzはJavaSE8に準拠したJava実行環境で利用できるように作られています。
+   原則として、JavaSE8に準拠した実行系であれば、プラットフォームを選びません。
 
 
 === 開発プロジェクト運営元 ===
 
-  https://osdn.jp/projects/jovsonz/ まで。
+  https://osdn.net/projects/jovsonz/ まで。
 
 
 === ディレクトリ内訳構成 ===
@@ -39,9 +39,6 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 ./LICENSE.txt
     ライセンスに関して。
 
-./SCM.txt
-    ソースコード管理に関して。
-
 ./pom.xml
     Maven3用プロジェクト構成定義ファイル。
 
@@ -51,13 +48,13 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 ./src/test/java/
     JUnit 4.* 用のユニットテストコード。
 
-./src/main/config/
+./config/
     各種ビルド・構成管理に必要なファイル群。
 
-./src/main/config/checks.xml
+./config/checkstyle/checkstyle.xml
     Checkstyle用configファイル。
 
-./src/main/config/pmdrules.xml
+./config/pmd/pmdrules.xml
     PMD用ルール定義ファイル。
 
 
