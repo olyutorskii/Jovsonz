@@ -102,6 +102,9 @@
         <checkstyle.config.location>${project.mainconf}/checks.xml</checkstyle.config.location>
         <checkstyle.enable.rss>false</checkstyle.enable.rss>
 
+        <pmd-plugin.version>3.12.0</pmd-plugin.version>
+        <pmd.analysisCache>true</pmd.analysisCache>
+
         <spotbugs-plugin.version>3.1.11</spotbugs-plugin.version>
         <spotbugs.effort>Max</spotbugs.effort>
         <spotbugs.threshold>Low</spotbugs.threshold>
@@ -346,11 +349,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.6</version>
+                <version>${pmd-plugin.version}</version>
                 <configuration>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
                     <rulesets>
-                        <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
+                        <ruleset>${project.basedir}/config/pmd/pmdrules.xml</ruleset>
                     </rulesets>
                 </configuration>
             </plugin>
@@ -517,12 +519,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.6</version>
+                <version>${pmd-plugin.version}</version>
                 <configuration>
-                    <skip>false</skip>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
                     <rulesets>
-                        <ruleset>${project.mainconf}/pmdrules.xml</ruleset>
+                        <ruleset>${project.basedir}/config/pmd/pmdrules.xml</ruleset>
                     </rulesets>
                 </configuration>
                 <reportSets>
