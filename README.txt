@@ -48,13 +48,13 @@ JovsonzはJindolfプロジェクトから派生したオープンソースプロ
 ./src/test/java/
     JUnit 4.* 用のユニットテストコード。
 
-./src/main/config/
+./config/
     各種ビルド・構成管理に必要なファイル群。
 
-./src/main/config/checks.xml
+./config/checkstyle/checkstyle.xml
     Checkstyle用configファイル。
 
-./src/main/config/pmdrules.xml
+./config/pmd/pmdrules.xml
     PMD用ルール定義ファイル。
 
 
