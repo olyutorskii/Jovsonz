@@ -4,7 +4,7 @@
 Jovsonz 変更履歴
 
 
-X.XXX.X (20XX-XX-XX)
+1.101.104 (2019-05-03)
     ・Maven3対応。
     ・JDK1.8が必須となる。
     ・SourceForge.JP → OSDN.JP → OSDN.net 対応。
