@@ -16,7 +16,7 @@
     <groupId>jp.sourceforge.jovsonz</groupId>
     <artifactId>jovsonz</artifactId>
 
-    <version>1.101.104</version>
+    <version>1.101.105-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>Jovsonz</name>
