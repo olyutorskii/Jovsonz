@@ -2,16 +2,16 @@
 
 <!--
     Custom rule set
-    for PMD [ https://pmd.github.io/ ] 6.13.0 or later
+    for PMD [ https://pmd.github.io/ ] 6.28.0 or later
 
-    Copyright(c) 2016 olyutorskii
+    Copyright(c) 2019 olyutorskii
 -->
 
 <ruleset
   xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
-  http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+  https://pmd.sourceforge.io/ruleset_2_0_0.xsd"
   name="Custom ruleset"
 >
 
@@ -23,12 +23,12 @@
 
     <rule ref="category/java/codestyle.xml" >
         <exclude name="CommentDefaultAccessModifier" />
-        <exclude name="DefaultPackage" />
         <exclude name="LocalVariableCouldBeFinal" />
         <exclude name="MethodArgumentCouldBeFinal" />
         <exclude name="OnlyOneReturn" />
         <exclude name="ShortVariable" />
         <exclude name="UnnecessaryLocalBeforeReturn" />
+        <exclude name="UnnecessaryModifier" />
         <exclude name="UnnecessaryReturn" />
     </rule>
     <rule ref="category/java/codestyle.xml/ControlStatementBraces" >
@@ -39,11 +39,9 @@
     </rule>
 
     <rule ref="category/java/design.xml" >
-        <exclude name="AvoidThrowingNullPointerException" />
         <exclude name="AvoidUncheckedExceptionsInSignatures" />
         <exclude name="LawOfDemeter" />
         <exclude name="LoosePackageCoupling" />
-        <exclude name="SimplifyBooleanReturns" />
     </rule>
 
     <rule ref="category/java/documentation.xml" />
@@ -55,13 +53,13 @@
     <rule ref="category/java/documentation.xml/CommentSize" >
         <properties>
             <property name="maxLines" value="25"/>
+            <property name="maxLineLength" value="100"/>
         </properties>
     </rule>
 
     <rule ref="category/java/errorprone.xml" >
         <exclude name="AvoidLiteralsInIfCondition" />
         <exclude name="BeanMembersShouldSerialize" />
-        <exclude name="DataflowAnomalyAnalysis" />
     </rule>
 
     <rule ref="category/java/multithreading.xml" />
