@@ -17,7 +17,7 @@ public interface JsValue {
      *
      * @return JSON型列挙
      */
-    JsTypes getJsTypes();
+    public abstract JsTypes getJsTypes();
 
     /**
      * 深さ優先探索を行い各種構造の出現をビジターに通知する。
@@ -26,6 +26,6 @@ public interface JsValue {
      * @throws JsVisitException ビジターにより
      *  トラバース中断が判断された時に投げられる。
      */
-    void traverse(ValueVisitor visitor) throws JsVisitException;
+    public abstract void traverse(ValueVisitor visitor) throws JsVisitException;
 
 }

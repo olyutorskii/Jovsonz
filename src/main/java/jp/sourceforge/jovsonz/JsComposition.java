@@ -27,19 +27,19 @@ public interface JsComposition<E> extends JsValue, Iterable<E> {
      *
      * @return 要素数
      */
-    int size();
+    public abstract int size();
 
     /**
      * 子要素が空か否か判定する。
      *
      * @return 要素がなければtrue
      */
-    boolean isEmpty();
+    public abstract boolean isEmpty();
 
     /**
      * 子要素を空にする。
      */
-    void clear();
+    public abstract void clear();
 
     /**
      * このValueおよび子孫に変更があったか判定する。
@@ -53,11 +53,11 @@ public interface JsComposition<E> extends JsValue, Iterable<E> {
      *
      * @return 変更があればtrue
      */
-    boolean hasChanged();
+    public abstract boolean hasChanged();
 
     /**
      * このValueおよび子孫に変更がなかったことにする。
      */
-    void setUnchanged();
+    public abstract void setUnchanged();
 
 }

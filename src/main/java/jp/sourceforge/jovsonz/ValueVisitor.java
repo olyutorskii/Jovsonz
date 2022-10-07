@@ -19,7 +19,7 @@ public interface ValueVisitor {
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *  投げられる。
      */
-    void visitValue(JsValue value) throws JsVisitException;
+    public abstract void visitValue(JsValue value) throws JsVisitException;
 
     /**
      * OBJECT型内部のPAIR名登場の通知を受け取る。
@@ -30,7 +30,7 @@ public interface ValueVisitor {
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *  投げられる。
      */
-    void visitPairName(String pairName) throws JsVisitException;
+    public abstract void visitPairName(String pairName) throws JsVisitException;
 
     /**
      * 括弧構造終了の通知を受け取る。
@@ -41,7 +41,7 @@ public interface ValueVisitor {
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *  投げられる。
      */
-    void visitCompositionClose(JsComposition<?> composition)
+    public abstract void visitCompositionClose(JsComposition<?> composition)
             throws JsVisitException;
 
 }
