@@ -29,6 +29,7 @@ public final class Json {
 
     /**
      * JSON最上位構造から文字出力を開始する。
+     *
      * @param appout 出力先
      * @param topValue OBJECT型かARRAY型のValue
      * @throws NullPointerException 引数がnull
@@ -57,9 +58,10 @@ public final class Json {
 
     /**
      * JSONの各種Valueを文字ソースから読み取る。
+     *
      * @param source 文字入力
      * @return 各種Value。
-     * 0個以上連続するホワイトスペースと共にソースの終わりに達したときはnull
+     *  0個以上連続するホワイトスペースと共にソースの終わりに達したときはnull
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
@@ -91,9 +93,10 @@ public final class Json {
 
     /**
      * JSONの最上位構造を文字ソースから読み取る。
+     *
      * @param source 文字入力ソース
      * @return JSON最上位構造。OBJECT型かARRAY型のいずれか。
-     * 入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
+     *  入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
@@ -113,9 +116,10 @@ public final class Json {
 
     /**
      * JSONの最上位構造を文字リーダから読み取る。
+     *
      * @param source 文字入力リーダ
      * @return JSON最上位構造。OBJECT型かARRAY型のいずれか。
-     * 入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
+     *  入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */

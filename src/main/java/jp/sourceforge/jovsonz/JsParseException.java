@@ -9,7 +9,8 @@ package jp.sourceforge.jovsonz;
 
 /**
  * 入力文字列パース中断例外。
- * JSON文字列ソースへのパース処理の中断時に投げられる。
+ *
+ * <p>JSON文字列ソースへのパース処理の中断時に投げられる。
  */
 @SuppressWarnings("serial")
 public class JsParseException extends Exception {
@@ -35,6 +36,7 @@ public class JsParseException extends Exception {
 
     /**
      * コンストラクタ。
+     *
      * @param message 詳細メッセージ。不明な場合はnull
      * @param lineNumber 行番号。不明な場合は0以下の値
      */
@@ -45,6 +47,7 @@ public class JsParseException extends Exception {
 
     /**
      * コンストラクタ。
+     *
      * @param message 詳細メッセージ。不明な場合はnull
      * @param cause 原因となった例外。不明な場合はnull
      * @param lineNumber 行番号。不明な場合は0以下の値
@@ -57,6 +60,7 @@ public class JsParseException extends Exception {
 
     /**
      * パースエラーの起きた行番号を返す。
+     *
      * @return 行番号。不明な場合は0以下の値。
      */
     public int getLineNumber(){
@@ -65,6 +69,7 @@ public class JsParseException extends Exception {
 
     /**
      * 有効な行番号を保持しているか判定する。
+     *
      * @return 有効な行番号(1以上)を保持していればtrue
      */
     public boolean hasValidLineNumber(){
@@ -74,7 +79,9 @@ public class JsParseException extends Exception {
 
     /**
      * {@inheritDoc}
-     * 有効な行番号があれば一緒に出力される。
+     *
+     * <p>有効な行番号があれば一緒に出力される。
+     *
      * @return {@inheritDoc}
      */
     @Override

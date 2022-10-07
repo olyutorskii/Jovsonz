@@ -18,9 +18,12 @@ import java.util.TreeMap;
 
 /**
  * JSON OBJECT型Valueを表す。
- * PAIR名と子要素の組(PAIR)の集合を反映する。
+ *
+ * <p>PAIR名と子要素の組(PAIR)の集合を反映する。
  * PAIR名の並び順に関しては未定義とする。
- * <h1>表記例</h1>
+ *
+ * <p>表記例
+ *
  * <pre>
  * {
  *     "Name" : "Joe" ,
@@ -57,9 +60,12 @@ public class JsObject
 
     /**
      * JSON文字列ソースからOBJECT型Valueを読み込む。
-     * さらに子Valueへとパース解析が進む可能性がある。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
+     *
+     * <p>さらに子Valueへとパース解析が進む可能性がある。
+     *
+     * <p>別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return OBJECT型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -117,7 +123,9 @@ public class JsObject
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#OBJECT}を返す。
+     *
+     * <p>常に{@link JsTypes#OBJECT}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -127,9 +135,11 @@ public class JsObject
 
     /**
      * このValueおよび子孫に変更があったか判定する。
-     * PAIRの追加・削除が行われたか、
+     *
+     * <p>PAIRの追加・削除が行われたか、
      * もしくはPAIRのValue値いずれかに変更が認められれば、
      * このOBJECT型Valueに変更があったとみなされる。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -165,9 +175,12 @@ public class JsObject
 
     /**
      * 深さ優先探索を行い各種構造の出現をビジターに通知する。
-     * thisを通知した後、PAIRの各名前およびValueを順に訪問し、
+     *
+     * <p>thisを通知した後、PAIRの各名前およびValueを順に訪問し、
      * 最後に閉じ括弧を通知する。
-     * PAIRの訪問順に関しては未定義。
+     *
+     * <p>PAIRの訪問順に関しては未定義。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -189,6 +202,7 @@ public class JsObject
 
     /**
      * PAIR総数を返す。
+     *
      * @return PAIR総数
      */
     @Override
@@ -198,6 +212,7 @@ public class JsObject
 
     /**
      * PAIR集合が空か判定する。
+     *
      * @return 空ならtrue
      */
     @Override
@@ -217,7 +232,9 @@ public class JsObject
 
     /**
      * ハッシュ値を返す。
-     * 全てのPAIRのハッシュ値からその都度合成される。高コスト注意！。
+     *
+     * <p>全てのPAIRのハッシュ値からその都度合成される。高コスト注意！。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -227,9 +244,11 @@ public class JsObject
 
     /**
      * 等価判定を行う。
-     * 双方のPAIR数が一致し、
+     *
+     * <p>双方のPAIR数が一致し、
      * 全てのPAIR名およびそれに対応付けられたValueが一致した場合のみ
      * 等価と判断される。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -245,6 +264,7 @@ public class JsObject
 
     /**
      * 名前とValueからPAIRを登録する。
+     *
      * @param name 名前
      * @param value Value
      * @return 旧Value。同じ内容のPAIRがすでに存在していたらnull
@@ -271,6 +291,7 @@ public class JsObject
 
     /**
      * PAIR名からValueを取得する。
+     *
      * @param name PAIR名
      * @return 対応するValue。見つからなければnull
      */
@@ -283,7 +304,9 @@ public class JsObject
 
     /**
      * PAIRを追加する。
-     * 同じPAIR名を持つPAIRは無条件に上書きされる。
+     *
+     * <p>同じPAIR名を持つPAIRは無条件に上書きされる。
+     *
      * @param pair PAIR
      */
     public void putPair(JsPair pair){
@@ -293,6 +316,7 @@ public class JsObject
 
     /**
      * PAIR名からPAIRを返す。
+     *
      * @param name PAIR名
      * @return PAIR。見つからなければnull
      */
@@ -305,6 +329,7 @@ public class JsObject
 
     /**
      * 指定した名前のPAIRを削除する。
+     *
      * @param name PAIR名
      * @return 消されたPAIR。該当するPAIRがなければnull
      */
@@ -317,6 +342,7 @@ public class JsObject
 
     /**
      * 保持する全PAIRのPAIR名の集合を返す。
+     *
      * @return すべての名前
      */
     public Set<String> nameSet(){
@@ -325,7 +351,9 @@ public class JsObject
 
     /**
      * PAIRのリストを返す。
-     * このリストを上書き操作しても影響はない。
+     *
+     * <p>このリストを上書き操作しても影響はない。
+     *
      * @return PAIRリスト
      */
     public List<JsPair> getPairList(){
@@ -340,8 +368,10 @@ public class JsObject
 
     /**
      * PAIRにアクセスするための反復子を提供する。
-     * この反復子での削除作業はできない。
+     *
+     * <p>この反復子での削除作業はできない。
      * PAIR出現順序は未定義。
+     *
      * @return 反復子イテレータ
      */
     @Override
@@ -351,7 +381,9 @@ public class JsObject
 
     /**
      * 文字列表現を返す。
-     * JSON表記の全体もしくは一部としての利用も可能。
+     *
+     * <p>JSON表記の全体もしくは一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override

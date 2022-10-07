@@ -9,12 +9,12 @@ package jp.sourceforge.jovsonz;
 
 /**
  * トラバース中断例外。
- * JSONツリー構造のトラバース処理の中断時に投げられる。
- * <p>
- * トラバース処理内部でIOExceptionなどのチェック例外が発生した場合、
+ *
+ * <p>JSONツリー構造のトラバース処理の中断時に投げられる。
+ *
+ * <p>トラバース処理内部でIOExceptionなどのチェック例外が発生した場合、
  * チェーン例外機構({@link java.lang.Throwable#getCause()} etc.)
  * を用いるのが望ましい。
- * </p>
  */
 @SuppressWarnings("serial")
 public class JsVisitException extends Exception {
@@ -29,6 +29,7 @@ public class JsVisitException extends Exception {
 
     /**
      * コンストラクタ。
+     *
      * @param message 詳細メッセージ。不明な場合はnull
      */
     public JsVisitException(String message){
@@ -38,6 +39,7 @@ public class JsVisitException extends Exception {
 
     /**
      * コンストラクタ。
+     *
      * @param message 詳細メッセージ。不明な場合はnull
      * @param cause 原因となった例外。不明な場合はnull
      */
@@ -48,6 +50,7 @@ public class JsVisitException extends Exception {
 
     /**
      * コンストラクタ。
+     *
      * @param cause 原因となった例外。不明な場合はnull
      */
     public JsVisitException(Throwable cause){

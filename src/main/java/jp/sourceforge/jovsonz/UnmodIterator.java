@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 /**
  * 既存の{@link java.util.Iterator}および{@link java.lang.Iterable}に対し、
  * 削除のできない変更操作不可なIteratorラッパを提供する。
+ *
  * @param <E> コレクション内の要素型
  */
 public class UnmodIterator<E> implements Iterator<E> {
@@ -21,6 +22,7 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * コンストラクタ。
+     *
      * @param iterator ラップ元Iterator
      * @throws NullPointerException 引数がnull
      */
@@ -33,6 +35,7 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * 削除操作不可なラップIteratorを生成する。
+     *
      * @param <E> コレクション内の要素型
      * @param iterator ラップ元Iterator
      * @return 変更操作不可なIterator
@@ -46,6 +49,7 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * 削除操作不可なラップIterableを生成する。
+     *
      * @param <E> コレクション内の要素型
      * @param iterable ラップ元Iterable
      * @return 変更操作不可なIteratorを生成するIterable
@@ -66,6 +70,7 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * Iterableに由来する削除操作不可なラップIteratorを生成する。
+     *
      * @param <E> コレクション内の要素型
      * @param iterable Iterable
      * @return 変更操作不可なIterator
@@ -80,7 +85,9 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * {@inheritDoc}
-     * 反復子に次の要素があるか判定する。
+     *
+     * <p>反復子に次の要素があるか判定する。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -90,7 +97,9 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * {@inheritDoc}
-     * 反復子の次の要素を取得する。
+     *
+     * <p>反復子の次の要素を取得する。
+     *
      * @return {@inheritDoc}
      * @throws NoSuchElementException これ以上要素はない。
      */
@@ -101,7 +110,9 @@ public class UnmodIterator<E> implements Iterator<E> {
 
     /**
      * {@inheritDoc}
-     * 必ず失敗し例外を投げる。
+     *
+     * <p>必ず失敗し例外を投げる。
+     *
      * @throws UnsupportedOperationException {@inheritDoc}
      */
     @Override

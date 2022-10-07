@@ -43,7 +43,8 @@
  *
  * <hr>
  *
- * <h1>JSON基本型</h1>
+ * <p>JSON基本型
+ *
  * <dl>
  * <dt>OBJECT型</dt>
  * <dd>{  "Name" : "Joe",  "Age" : 88  }</dd>

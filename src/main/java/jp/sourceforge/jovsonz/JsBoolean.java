@@ -11,9 +11,12 @@ import java.io.IOException;
 
 /**
  * JSON BOOLEAN型Valueを表す。
- * 真偽値を反映する。
+ *
+ * <p>真偽値を反映する。
  * インスタンスは2つしか存在しえない。
- * <h1>表記例</h1>
+ *
+ * <p>表記例
+ *
  * <pre>
  * true
  * false
@@ -39,7 +42,8 @@ public final class JsBoolean
 
     /**
      * 隠しコンストラクタ。
-     * 2回しか呼ばれないはず。
+     *
+     * <p>2回しか呼ばれないはず。
      */
     private JsBoolean(){
         super();
@@ -48,8 +52,10 @@ public final class JsBoolean
 
     /**
      * JSON文字列ソースからBOOLEAN型Valueを読み込む。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
+     *
+     * <p>別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return BOOLEAN型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -91,7 +97,9 @@ public final class JsBoolean
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#BOOLEAN}を返す。
+     *
+     * <p>常に{@link JsTypes#BOOLEAN}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -101,7 +109,9 @@ public final class JsBoolean
 
     /**
      * 各種構造の出現をビジターに通知する。
-     * この実装ではthisの出現のみを通知する。
+     *
+     * <p>この実装ではthisの出現のみを通知する。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -114,8 +124,10 @@ public final class JsBoolean
 
     /**
      * {@inheritDoc}
-     * ハッシュ値を返す。
+     *
+     * <p>ハッシュ値を返す。
      * 真なら{@link #HASH_TRUE}、偽なら{@link #HASH_FALSE}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -128,7 +140,9 @@ public final class JsBoolean
 
     /**
      * {@inheritDoc}
-     * 等価判定を行う。
+     *
+     * <p>等価判定を行う。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -141,8 +155,10 @@ public final class JsBoolean
 
     /**
      * {@inheritDoc}
-     * BOOLEAN型Valueを順序付ける。
+     *
+     * <p>BOOLEAN型Valueを順序付ける。
      * ({@link #TRUE}、{@link #FALSE})の順に順序付けられる。
+     *
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
      * @throws NullPointerException 引数がnull
@@ -161,6 +177,7 @@ public final class JsBoolean
 
     /**
      * boolean値を反映したBOOLEAN型Valueを返す。
+     *
      * @param bool boolean値
      * @return BOOLEAN型Value
      */
@@ -171,6 +188,7 @@ public final class JsBoolean
 
     /**
      * boolean値を返す。
+     *
      * @return boolean値
      */
     public boolean booleanValue(){
@@ -180,6 +198,7 @@ public final class JsBoolean
 
     /**
      * 真か判定する。
+     *
      * @return 真ならtrue
      */
     public boolean isTrue(){
@@ -189,6 +208,7 @@ public final class JsBoolean
 
     /**
      * 偽か判定する。
+     *
      * @return 偽ならtrue
      */
     public boolean isFalse(){
@@ -198,7 +218,9 @@ public final class JsBoolean
 
     /**
      * 文字列表現を返す。
-     * JSON表記の一部としての利用も可能。
+     *
+     * <p>JSON表記の一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override
