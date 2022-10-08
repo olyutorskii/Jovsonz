@@ -24,6 +24,7 @@ public class JsParseException extends Exception {
 
     private static final int LINE_UNKNOWN = 0;
 
+    /** line number. */
     private final int lineNumber;
 
     /**
