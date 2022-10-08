@@ -11,9 +11,12 @@ import java.io.IOException;
 
 /**
  * JSON NULL型Valueを表す。
- * Javaのnullとは一切無関係。
+ *
+ * <p>Javaのnullとは一切無関係。
  * その実体はシングルトン。
- * <h1>表記例</h1>
+ *
+ * <p>表記例
+ *
  * <pre>
  * null
  * </pre>
@@ -32,7 +35,8 @@ public final class JsNull
 
     /**
      * 隠しコンストラクタ。
-     * 1回しか呼ばれないはず
+     *
+     * <p>1回しか呼ばれないはず
      */
     private JsNull(){
         super();
@@ -41,8 +45,10 @@ public final class JsNull
 
     /**
      * JSON文字列ソースからNULL型Valueを読み込む。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
+     *
+     * <p>別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return NULL型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -67,7 +73,9 @@ public final class JsNull
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#NULL}を返す。
+     *
+     * <p>常に{@link JsTypes#NULL}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -77,7 +85,9 @@ public final class JsNull
 
     /**
      * 各種構造の出現をビジターに通知する。
-     * この実装ではthisの出現のみを通知する。
+     *
+     * <p>この実装ではthisの出現のみを通知する。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -90,8 +100,10 @@ public final class JsNull
 
     /**
      * {@inheritDoc}
-     * ハッシュ値を返す。
+     *
+     * <p>ハッシュ値を返す。
      * 常に{@value ONLYHASH}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -101,8 +113,10 @@ public final class JsNull
 
     /**
      * {@inheritDoc}
-     * 等価判定を行う。
+     *
+     * <p>等価判定を行う。
      * {@link #NULL}が渡された時のみtrueを返す。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -115,8 +129,10 @@ public final class JsNull
 
     /**
      * {@inheritDoc}
-     * NULL型Valueを順序付ける。シングルトン相手にほぼ無意味。
+     *
+     * <p>NULL型Valueを順序付ける。シングルトン相手にほぼ無意味。
      * null以外の引数には必ず0を返す。
+     *
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
      * @throws NullPointerException 引数がnull
@@ -129,9 +145,11 @@ public final class JsNull
 
     /**
      * {@inheritDoc}
-     * 文字列表現を返す。
+     *
+     * <p>文字列表現を返す。
      * 常に文字列 {@value TEXT} を返す。
      * JSON表記の一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override

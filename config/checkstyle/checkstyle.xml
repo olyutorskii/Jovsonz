@@ -211,6 +211,7 @@
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration" />
         <module name="UnnecessarySemicolonInEnumeration" />
         <module name="UnnecessarySemicolonInTryWithResources" />
+        <module name="UnusedLocalVariable" />
         <module name="VariableDeclarationUsageDistance" />
 
 
@@ -362,20 +363,55 @@
             <property name="allowNoEmptyLineBetweenFields" value="true" />
         </module>
         <module name="GenericWhitespace" />
-        <module name="MethodParamPad" />
+        <module name="MethodParamPad">
+            <property
+                name="tokens"
+                value="CTOR_DEF, LITERAL_NEW, METHOD_DEF, SUPER_CTOR_CALL"
+            />
+        </module>
         <module name="NoLineWrap" />
-        <module name="NoWhitespaceAfter" />
+        <module name="NoWhitespaceAfter">
+            <property name="allowLineBreaks" value="false" />
+            <property name="tokens" value="INC, DEC, DOT" />
+        </module>
         <module name="NoWhitespaceBefore">
-            <property name="allowLineBreaks" value="true" />
+            <property name="allowLineBreaks" value="false" />
+            <property name="tokens" value="COMMA, POST_INC, POST_DEC" />
         </module>
         <module name="NoWhitespaceBeforeCaseDefaultColon" />
         <module name="OperatorWrap" />
-        <module name="ParenPad" />
-        <module name="SeparatorWrap" />
+        <module name="ParenPad">
+            <property name="option" value="nospace" />
+            <property
+                name="tokens"
+                value="CTOR_CALL, METHOD_CALL, SUPER_CTOR_CALL"
+            />
+        </module>
+        <module name="SeparatorWrap">
+            <property name="tokens" value="DOT" />
+            <property name="option" value="nl" />
+        </module>
         <module name="SingleSpaceSeparator" />
         <module name="TypecastParenPad" />
-        <module name="WhitespaceAfter" />
-        <module name="WhitespaceAround" />
+        <module name="WhitespaceAfter" >
+            <property name="tokens" value="COMMA, SEMI" />
+        </module>
+        <module name="WhitespaceAround">
+            <property
+                name="tokens"
+                value="ASSIGN,
+                       LAND, LOR,
+                       BAND, BOR, BXOR, BSR,
+                       BAND_ASSIGN, BOR_ASSIGN, BXOR_ASSIGN, BSR_ASSIGN,
+                       SL, SR,
+                       SL_ASSIGN, SR_ASSIGN,
+                       MINUS, STAR, DIV, MOD,
+                       PLUS_ASSIGN, MINUS_ASSIGN,
+                       STAR_ASSIGN, DIV_ASSIGN, MOD_ASSIGN,
+                       EQUAL, NOT_EQUAL, GT, GE, LT, LE
+                       "
+            />
+        </module>
 
 
     </module>

@@ -14,9 +14,12 @@ import java.io.StringReader;
 
 /**
  * JSONデータ用入力ソース。
- * 先読みした文字のプッシュバック機能と行番号のカウント機能を有する。
- * 行番号は1から始まる。
+ *
+ * <p>先読みした文字のプッシュバック機能と行番号のカウント機能を有する。
+ *
+ * <p>行番号は1から始まる。
  * 行と行はLF('\n')で区切られるものとする。(※CRは無視)
+ *
  * @see java.io.PushbackReader
  * @see java.io.LineNumberReader
  */
@@ -48,6 +51,7 @@ class JsonSource implements Closeable {
 
     /**
      * コンストラクタ。
+     *
      * @param reader 文字入力リーダー
      * @throws NullPointerException 引数がnull
      */
@@ -60,8 +64,11 @@ class JsonSource implements Closeable {
 
     /**
      * コンストラクタ。
-     * 任意の文字列を入力ソースとする。
+     *
+     * <p>任意の文字列を入力ソースとする。
+     *
      * @param text 文字列
+     *
      * @see java.io.StringReader
      */
     public JsonSource(CharSequence text){
@@ -71,6 +78,7 @@ class JsonSource implements Closeable {
 
     /**
      * JSON規格のwhitespace文字を判定する。
+     *
      * @param ch 判定対象文字
      * @return whitespaceならtrue
      */
@@ -89,8 +97,9 @@ class JsonSource implements Closeable {
 
     /**
      * JSON規格のwhitespace文字を判定する。
+     *
      * @param ch 判定対象文字。
-     * 上位16bitがゼロでなければwhitespaceと判定されない。
+     *  上位16bitがゼロでなければwhitespaceと判定されない。
      * @return whitespaceならtrue。引数が負の場合はfalse。
      */
     public static boolean isWhitespace(int ch){
@@ -101,6 +110,7 @@ class JsonSource implements Closeable {
 
     /**
      * プッシュバック可能な残り文字数を返す。
+     *
      * @return プッシュバック可能な残り文字数
      */
     public int getPushBackSpared(){
@@ -109,6 +119,7 @@ class JsonSource implements Closeable {
 
     /**
      * 現時点での行番号を返す。
+     *
      * @return 1から始まる行番号
      */
     public int getLineNumber(){
@@ -117,8 +128,10 @@ class JsonSource implements Closeable {
 
     /**
      * 1文字読み込む。
+     *
      * @return 読み込んだ文字。入力が終わっている場合は負の値。
      * @throws IOException 入力エラー
+     *
      * @see java.io.Reader#read()
      */
     public int read() throws IOException{
@@ -138,6 +151,7 @@ class JsonSource implements Closeable {
 
     /**
      * 入力末端ではないと仮定して1文字読み込む。
+     *
      * @return 読み込んだ文字。
      * @throws IOException 入力エラー
      * @throws JsParseException 入力が終わっている
@@ -153,8 +167,10 @@ class JsonSource implements Closeable {
 
     /**
      * 入力が文字列とマッチするか判定する。
-     * 失敗しても読み戻しは行われない。
+     *
+     * <p>失敗しても読み戻しは行われない。
      * 長さ0の文字列は必ずマッチに成功する。
+     *
      * @param seq マッチ対象文字列
      * @return マッチすればtrue
      * @throws IOException 入力エラー
@@ -171,7 +187,9 @@ class JsonSource implements Closeable {
 
     /**
      * 1文字読み戻す。
-     * 行数カウントへも反映される。
+     *
+     * <p>行数カウントへも反映される。
+     *
      * @param ch 読み戻す文字
      * @throws IOException バッファあふれもしくはクローズ済み
      */
@@ -191,8 +209,11 @@ class JsonSource implements Closeable {
 
     /**
      * 1文字読み戻す。
-     * char型にキャストした引数が次回読み込まれる。
-     * 行数カウントへも反映される。
+     *
+     * <p>char型にキャストした引数が次回読み込まれる。
+     *
+     * <p>行数カウントへも反映される。
+     *
      * @param ch 読み戻す文字。負の符号を含む上位16bitは無視される。
      * @throws IOException バッファあふれもしくはクローズ済み
      */
@@ -203,6 +224,7 @@ class JsonSource implements Closeable {
 
     /**
      * whitespace文字を読み飛ばす。
+     *
      * @throws IOException 入力エラー
      */
     public void skipWhiteSpace() throws IOException{
@@ -220,6 +242,7 @@ class JsonSource implements Closeable {
 
     /**
      * まだ読み込めるデータがあるか判定する。
+     *
      * @return まだ読めるデータがあればtrue
      * @throws IOException IO入力エラー
      */
@@ -232,8 +255,11 @@ class JsonSource implements Closeable {
 
     /**
      * コンストラクタで指定されたReaderを閉じる。
-     * クローズ後の読み込みおよび読み戻し動作は全て例外を投げる。
+     *
+     * <p>クローズ後の読み込みおよび読み戻し動作は全て例外を投げる。
+     *
      * @throws IOException 入出力エラー
+     *
      * @see java.io.Closeable
      */
     @Override

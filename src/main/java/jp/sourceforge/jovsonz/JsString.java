@@ -11,8 +11,11 @@ import java.io.IOException;
 
 /**
  * JSON STRING型Valueを表す。
- * Unicode文字列データを反映する。
- * <h1>表記例</h1>
+ *
+ * <p>Unicode文字列データを反映する。
+ *
+ * <p>表記例
+ *
  * <pre>
  * "xyz"
  * "漢"
@@ -35,7 +38,8 @@ public class JsString
 
     /**
      * コンストラクタ。
-     * 長さ0の空文字が設定される。
+     *
+     * <p>長さ0の空文字が設定される。
      */
     public JsString(){
         this("");
@@ -44,7 +48,9 @@ public class JsString
 
     /**
      * コンストラクタ。
-     * 引数はJSON書式ではない生文字列。
+     *
+     * <p>引数はJSON書式ではない生文字列。
+     *
      * @param rawSeq 生文字列
      * @throws NullPointerException 引数がnull
      */
@@ -58,6 +64,7 @@ public class JsString
     /**
      * FFFF形式4桁で16進エスケープされた文字列を読み、
      * char1文字にデコードする。
+     *
      * @param source 文字列ソース
      * @return 文字
      * @throws IOException 入力エラー
@@ -98,11 +105,12 @@ public class JsString
 
     /**
      * '\'に続くスペシャルキャラの読み込みを行う。
+     *
      * @param source 文字列ソース
      * @param app スペシャルキャラ格納文字列
      * @throws IOException 入出力エラー
      * @throws JsParseException "\z"などの不正なスペシャルキャラ
-     * もしくは意図しない入力終了
+     *  もしくは意図しない入力終了
      */
     private static void parseSpecial(JsonSource source, Appendable app)
             throws IOException, JsParseException{
@@ -130,8 +138,10 @@ public class JsString
 
     /**
      * JSON文字列ソースからSTRING型Valueを読み込む。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
+     *
+     * <p>別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return STRING型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -168,11 +178,13 @@ public class JsString
 
     /**
      * 任意の文字からエスケープ出力用シンボルを得る。
-     * このシンボルは'\'に続けて用いられる1文字である。
+     *
+     * <p>このシンボルは'\'に続けて用いられる1文字である。
      * 'u'を返す事はありえない。
+     *
      * @param ch 任意の文字
      * @return エスケープ出力用シンボル。
-     * 1文字エスケープの必要がない場合は'\0'
+     *  1文字エスケープの必要がない場合は'\0'
      */
     private static char escapeSymbol(char ch){
         char result;
@@ -192,7 +204,9 @@ public class JsString
 
     /**
      * 特殊文字をエスケープ出力する。
-     * 特殊文字でなければなにもしない。
+     *
+     * <p>特殊文字でなければなにもしない。
+     *
      * @param appout 出力先
      * @param ch 文字
      * @return 特殊文字出力がエスケープされた時にtrue
@@ -218,6 +232,7 @@ public class JsString
 
     /**
      * JSON STRING型Value形式で文字列を出力する。
+     *
      * @param appout 文字出力
      * @param seq 文字列
      * @throws IOException 出力エラー
@@ -241,6 +256,7 @@ public class JsString
 
     /**
      * JSON STRING型Value形式の文字列を返す。
+     *
      * @param seq 生文字列
      * @return STRING型表記に変換された文字列
      */
@@ -258,7 +274,9 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#STRING}を返す。
+     *
+     * <p>常に{@link JsTypes#STRING}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -268,7 +286,9 @@ public class JsString
 
     /**
      * 各種構造の出現をビジターに通知する。
-     * この実装ではthisの出現のみを通知する。
+     *
+     * <p>この実装ではthisの出現のみを通知する。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -281,7 +301,9 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * ハッシュ値を返す。
+     *
+     * <p>ハッシュ値を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -291,8 +313,11 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * 等価判定を行う。
-     * {@link java.lang.String#equals(Object)}に準ずる。
+     *
+     * <p>等価判定を行う。
+     *
+     * <p>{@link java.lang.String#equals(Object)}に準ずる。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -308,8 +333,11 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * STRING型Valueを昇順に順序付ける。
-     * {@link java.lang.String#compareTo(String)}に準ずる。
+     *
+     * <p>STRING型Valueを昇順に順序付ける。
+     *
+     * <p>{@link java.lang.String#compareTo(String)}に準ずる。
+     *
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -322,7 +350,9 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * 指定位置の文字を返す。
+     *
+     * <p>指定位置の文字を返す。
+     *
      * @param index {@inheritDoc}
      * @return {@inheritDoc}
      * @throws IndexOutOfBoundsException {@inheritDoc}
@@ -335,7 +365,9 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * 文字列長(char値総数)を返す。
+     *
+     * <p>文字列長(char値総数)を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -345,7 +377,9 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * 部分文字列を返す。
+     *
+     * <p>部分文字列を返す。
+     *
      * @param start {@inheritDoc}
      * @param end {@inheritDoc}
      * @return {@inheritDoc}
@@ -359,6 +393,7 @@ public class JsString
 
     /**
      * クォーテーションやエスケープ処理の施されていない生の文字列を返す。
+     *
      * @return 生の文字列
      */
     public String toRawString(){
@@ -367,8 +402,10 @@ public class JsString
 
     /**
      * {@inheritDoc}
-     * クォーテーションとエスケープ処理の施された文字列表記を生成する。
+     *
+     * <p>クォーテーションとエスケープ処理の施された文字列表記を生成する。
      * JSON表記の一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override

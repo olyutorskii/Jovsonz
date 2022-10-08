@@ -33,6 +33,7 @@ public enum JsTypes {
 
     /**
      * コンストラクタ。
+     *
      * @param klass {@link java.lang.Class}型
      */
     private JsTypes(Class<? extends JsValue> klass){
@@ -49,6 +50,7 @@ public enum JsTypes {
 
     /**
      * {@link java.lang.Class}型から対応する型列挙を返す。
+     *
      * @param carg 任意のjava.lang.Class型変数
      * @return 型列挙。JSON型に由来しないクラスが指定されたときはnull
      * @throws NullPointerException 引数がnull
@@ -66,6 +68,7 @@ public enum JsTypes {
 
     /**
      * 対応する{@link java.lang.Class}型を返す。
+     *
      * @return java.lang.Class型
      */
     public Class<? extends JsValue> getJsClass(){
@@ -74,7 +77,9 @@ public enum JsTypes {
 
     /**
      * このJSON型が子要素を持ちうるか判定する。
-     * 子要素を持ちうるJSON型はOBJECT型かARRAY型のみ。
+     *
+     * <p>子要素を持ちうるJSON型はOBJECT型かARRAY型のみ。
+     *
      * @return 子要素を持ちうるならtrue
      */
     public boolean isComposition(){

@@ -11,7 +11,8 @@ import java.io.IOException;
 
 /**
  * OBJECT型Value内に列挙される、名前の付いたValueとの組(PAIR)。
- * PAIRはValueではない。
+ *
+ * <p>PAIRはValueではない。
  *
  * <pre>
  * {
@@ -28,6 +29,7 @@ public class JsPair {
 
     /**
      * コンストラクタ。
+     *
      * @param name PAIR名
      * @param value PAIR名に対応付けられるValue
      * @throws NullPointerException 引数のいずれかがnull
@@ -46,10 +48,12 @@ public class JsPair {
 
     /**
      * コンストラクタ。
-     * STRING型をValueに持つPAIRが生成される。
+     *
+     * <p>STRING型をValueに持つPAIRが生成される。
+     *
      * @param name PAIR名
      * @param text PAIR名に対応付けられる文字列データ。
-     * エスケープされる前段階の表記。
+     *  エスケープされる前段階の表記。
      * @throws NullPointerException 引数がnull
      */
     public JsPair(String name, CharSequence text)
@@ -60,7 +64,9 @@ public class JsPair {
 
     /**
      * コンストラクタ。
-     * BOOLEAN型をValueに持つPAIRが生成される。
+     *
+     * <p>BOOLEAN型をValueに持つPAIRが生成される。
+     *
      * @param name PAIR名
      * @param bool PAIR名に対応付けられる真偽値
      * @throws NullPointerException PAIR名がnull
@@ -73,7 +79,9 @@ public class JsPair {
 
     /**
      * コンストラクタ。
-     * NUMBER型をValueに持つPAIRが生成される。
+     *
+     * <p>NUMBER型をValueに持つPAIRが生成される。
+     *
      * @param name PAIR名
      * @param number PAIR名に対応付けられる整数値
      * @throws NullPointerException PAIR名がnull
@@ -86,7 +94,9 @@ public class JsPair {
 
     /**
      * コンストラクタ。
-     * NUMBER型をValueに持つPAIRが生成される。
+     *
+     * <p>NUMBER型をValueに持つPAIRが生成される。
+     *
      * @param name PAIR名
      * @param number PAIR名に対応付けられる実数値
      * @throws NullPointerException PAIR名がnull
@@ -99,6 +109,7 @@ public class JsPair {
 
     /**
      * PAIR名を返す。
+     *
      * @return PAIR名
      */
     public String getName(){
@@ -107,6 +118,7 @@ public class JsPair {
 
     /**
      * Valueを返す。
+     *
      * @return Value
      */
     public JsValue getValue(){
@@ -115,8 +127,11 @@ public class JsPair {
 
     /**
      * {@inheritDoc}
-     * ハッシュ値を返す。
-     * PAIR名とValue双方のハッシュ値から合成される。
+     *
+     * <p>ハッシュ値を返す。
+     *
+     * <p>PAIR名とValue双方のハッシュ値から合成される。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -128,8 +143,11 @@ public class JsPair {
 
     /**
      * {@inheritDoc}
-     * 等価判定を行う。
-     * PAIR名とValue双方が一致する場合のみ真となる。
+     *
+     * <p>等価判定を行う。
+     *
+     * <p>PAIR名とValue双方が一致する場合のみ真となる。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      */
@@ -148,7 +166,9 @@ public class JsPair {
 
     /**
      * 文字列表現を返す。
-     * JSON表記の一部としての利用も可能。
+     *
+     * <p>JSON表記の一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override

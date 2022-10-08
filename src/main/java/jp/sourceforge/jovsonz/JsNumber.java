@@ -15,18 +15,22 @@ import java.math.RoundingMode;
 
 /**
  * JSON NUMBER型Valueを表す。
- * 整数、実数を含めた数値を反映する。
- * <p>
- * 10を基数とした{@link java.math.BigDecimal}を実装ベースとする。
+ *
+ * <p>整数、実数を含めた数値を反映する。
+ *
+ * <p>10を基数とした{@link java.math.BigDecimal}を実装ベースとする。
  * ※ IEEE754浮動小数ではない。
- * </p>
- * <p>(1)と(1.0)はスケール値によって区別される</p>
- * <h1>表記例</h1>
+ *
+ * <p>(1)と(1.0)はスケール値によって区別される
+ *
+ * <p>表記例
+ *
  * <pre>
  * -43
  * 0.56
  * 3.23E-06
  * </pre>
+ *
  * @see java.math.BigDecimal
  */
 public class JsNumber
@@ -46,6 +50,7 @@ public class JsNumber
 
     /**
      * コンストラクタ。
+     *
      * @param val 初期整数値
      */
     public JsNumber(long val){
@@ -55,12 +60,14 @@ public class JsNumber
 
     /**
      * コンストラクタ。
-     * <p>
-     * {@link java.math.BigDecimal#valueOf(double)}と同等の丸めが行われる。
-     * (1.0/10.0)を渡すと0.1相当になる。
-     * 必要に応じて{@link java.math.BigDecimal}を
+     *
+     * <p>{@link java.math.BigDecimal#valueOf(double)}と同等の丸めが行われる。
+     *
+     * <p>(1.0/10.0)を渡すと0.1相当になる。
+     *
+     * <p>必要に応じて{@link java.math.BigDecimal}を
      * 引数に持つコンストラクタと使い分けること。
-     * </p>
+     *
      * @param val 初期実数値
      * @see java.math.BigDecimal#valueOf(double)
      */
@@ -71,9 +78,10 @@ public class JsNumber
 
     /**
      * コンストラクタ。
+     *
      * @param val 初期整数値
      * @throws ArithmeticException 正確な結果を
-     * {@link java.math.BigDecimal}に納め切れない
+     *  {@link java.math.BigDecimal}に納め切れない
      */
     public JsNumber(BigInteger val) throws ArithmeticException{
         this(new BigDecimal(val, DEF_MC));
@@ -82,11 +90,14 @@ public class JsNumber
 
     /**
      * コンストラクタ。
-     * 書式は{@link java.math.BigDecimal#BigDecimal(String)}に準ずる。
+     *
+     * <p>書式は{@link java.math.BigDecimal#BigDecimal(String)}に準ずる。
+     *
      * @param val 初期数値の文字列表記
      * @throws NumberFormatException 不正な数値表記
      * @throws ArithmeticException 正確な結果を
-     * {@link java.math.BigDecimal}に納め切れない
+     *  {@link java.math.BigDecimal}に納め切れない
+     *
      * @see java.math.BigDecimal#BigDecimal(String)
      */
     public JsNumber(CharSequence val)
@@ -97,6 +108,7 @@ public class JsNumber
 
     /**
      * コンストラクタ。
+     *
      * @param val 初期数値
      * @throws NullPointerException 引数がnull
      */
@@ -109,8 +121,10 @@ public class JsNumber
 
     /**
      * 任意の文字がUnicodeのBasic-Latinの数字か否か判定する。
+     *
      * @param ch 文字
      * @return 数字ならtrue
+     *
      * @see java.lang.Character#isDigit(char)
      */
     public static boolean isLatinDigit(char ch){
@@ -120,9 +134,12 @@ public class JsNumber
 
     /**
      * 文字ソースから符号付きの数字並びを読み込む。
-     * 先頭'+'符号は読み飛ばされる。
+     *
+     * <p>先頭'+'符号は読み飛ばされる。
      * 冒頭のゼロ'0'に続く数字を許すか否か指定が可能。
-     * <p>NUMBER型表記の整数部、小数部、指数部読み込みの下請けメソッド。</p>
+     *
+     * <p>NUMBER型表記の整数部、小数部、指数部読み込みの下請けメソッド。
+     *
      * @param source 文字列ソース
      * @param app 出力先
      * @param allowZeroTrail 冒頭のゼロ'0'に続く数字を許すならtrue
@@ -174,7 +191,9 @@ public class JsNumber
 
     /**
      * 文字ソースから、ピリオド「.」で始まるNUMBER型小数部を読み込む。
-     * 小数部がなければなにもせずに戻る。
+     *
+     * <p>小数部がなければなにもせずに戻る。
+     *
      * @param source 文字列ソース
      * @param app 出力先
      * @return 引数と同じ出力先
@@ -220,7 +239,9 @@ public class JsNumber
 
     /**
      * 文字ソースから「e」もしくは「E」で始まるNUMBER型指数部を読み込む。
-     * 指数部がなければなにもせずに戻る。
+     *
+     * <p>指数部がなければなにもせずに戻る。
+     *
      * @param source 文字列ソース
      * @param app 出力先
      * @return 引数と同じ出力先
@@ -247,8 +268,10 @@ public class JsNumber
 
     /**
      * JSON文字列ソースからNUMBER型Valueを読み込む。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
+     *
+     * <p>別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return NUMBER型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -275,7 +298,9 @@ public class JsNumber
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#NUMBER}を返す。
+     *
+     * <p>常に{@link JsTypes#NUMBER}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -285,7 +310,9 @@ public class JsNumber
 
     /**
      * 各種構造の出現をビジターに通知する。
-     * この実装ではthisの出現のみを通知する。
+     *
+     * <p>この実装ではthisの出現のみを通知する。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -298,9 +325,12 @@ public class JsNumber
 
     /**
      * {@inheritDoc}
-     * ハッシュ値を返す。
+     *
+     * <p>ハッシュ値を返す。
      * {@link java.math.BigDecimal#hashCode()}と同じ値を返す。
+     *
      * @return {@inheritDoc}
+     *
      * @see java.math.BigDecimal#hashCode()
      */
     @Override
@@ -310,12 +340,16 @@ public class JsNumber
 
     /**
      * {@inheritDoc}
-     * 等価判定を行う。
+     *
+     * <p>等価判定を行う。
      * {@link java.math.BigDecimal#equals(Object)}と同等の判断が行われる。
-     * 「1.2」と「0.12E+1」など、
+     *
+     * <p>「1.2」と「0.12E+1」など、
      * スケールの一致しない値は異なる値と見なされる。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
+     *
      * @see java.math.BigDecimal#equals(Object)
      */
     @Override
@@ -328,11 +362,15 @@ public class JsNumber
 
     /**
      * {@inheritDoc}
-     * NUMBER型Valueを昇順に順序付ける。
-     * 「1.2」と「0.12E+1」など、スケールが異なっても値が同じであれば
+     *
+     * <p>NUMBER型Valueを昇順に順序付ける。
+     *
+     * <p>「1.2」と「0.12E+1」など、スケールが異なっても値が同じであれば
      * 等しい値と見なされる。
+     *
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
+     *
      * @see java.math.BigDecimal#compareTo(BigDecimal)
      */
     @Override
@@ -343,8 +381,11 @@ public class JsNumber
 
     /**
      * int型の数値を返す。
-     * 情報が失われる可能性がある。
+     *
+     * <p>情報が失われる可能性がある。
+     *
      * @return int型数値
+     *
      * @see java.lang.Number#intValue()
      * @see java.math.BigDecimal#intValue()
      */
@@ -354,8 +395,11 @@ public class JsNumber
 
     /**
      * long型の数値を返す。
-     * 情報が失われる可能性がある。
+     *
+     * <p>情報が失われる可能性がある。
+     *
      * @return long型数値
+     *
      * @see java.lang.Number#longValue()
      * @see java.math.BigDecimal#longValue()
      */
@@ -365,8 +409,11 @@ public class JsNumber
 
     /**
      * float型の数値を返す。
-     * 情報が失われる可能性がある。
+     *
+     * <p>情報が失われる可能性がある。
+     *
      * @return float型数値
+     *
      * @see java.lang.Number#floatValue()
      * @see java.math.BigDecimal#floatValue()
      */
@@ -376,8 +423,11 @@ public class JsNumber
 
     /**
      * double型の数値を返す。
-     * 情報が失われる可能性がある。
+     *
+     * <p>情報が失われる可能性がある。
+     *
      * @return double型数値
+     *
      * @see java.lang.Number#doubleValue()
      * @see java.math.BigDecimal#doubleValue()
      */
@@ -387,6 +437,7 @@ public class JsNumber
 
     /**
      * {@link java.math.BigDecimal}型の数値表現を返す。
+     *
      * @return BigDecimal型数値
      */
     public BigDecimal decimalValue(){
@@ -395,7 +446,8 @@ public class JsNumber
 
     /**
      * スケール値を返す。
-     * このインスタンスが整数文字列表記に由来する場合、
+     *
+     * <p>このインスタンスが整数文字列表記に由来する場合、
      * スケール値は0になるはず。
      *
      * <ul>
@@ -407,6 +459,7 @@ public class JsNumber
      * </ul>
      *
      * @return スケール値
+     *
      * @see java.math.BigDecimal#scale()
      */
     public int scale(){
@@ -415,8 +468,10 @@ public class JsNumber
 
     /**
      * 文字列表現を返す。
-     * {@link java.math.BigDecimal#toString()}に準ずる。
+     *
+     * <p>{@link java.math.BigDecimal#toString()}に準ずる。
      * JSON表記の一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override

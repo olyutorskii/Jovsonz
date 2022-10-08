@@ -14,18 +14,15 @@ import java.util.Stack;
 
 /**
  * JSON文字出力用ビジター。
- * <p>
- * JSON Valueのトラバース時にこのビジターを指定すると、
+ *
+ * <p>JSON Valueのトラバース時にこのビジターを指定すると、
  * 事前に用意した文字出力先にJSONフォーマットで出力される。
- * </p>
- * <p>
- * 出力に伴う{@link java.io.IOException}は
+ *
+ * <p>出力に伴う{@link java.io.IOException}は
  * {@link JsVisitException}のチェーン例外となる。
- * </p>
- * <p>
- * 前回パースの成功／失敗に関わらず、
+ *
+ * <p>前回パースの成功／失敗に関わらず、
  * インスタンスの再利用時の挙動は保証されない。
- * </p>
  */
 class JsonAppender implements ValueVisitor {
 
@@ -51,6 +48,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * コンストラクタ。
+     *
      * @param appout 出力先
      * @throws NullPointerException 引数がnull
      */
@@ -64,6 +62,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * コンテキストをプッシュ退避する。
+     *
      * @param composition 現在のコンテキスト
      */
     protected void pushComposition(JsComposition<?> composition){
@@ -74,6 +73,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * コンテキストをポップ復帰する。
+     *
      * @return スタックトップのコンテキスト
      * @throws EmptyStackException スタック構造が空
      */
@@ -85,6 +85,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * ネスト構造の深さを返す。
+     *
      * @return 0から始まる深さ
      */
     protected int nestDepth(){
@@ -93,6 +94,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * ネスト構造が空(深さ0)か判定する。
+     *
      * @return 空ならtrue
      */
     protected boolean isNestEmpty(){
@@ -101,6 +103,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * ネスト後、一つでも子要素が出力されたか判定する。
+     *
      * @return 子要素が出力されていればtrue
      */
     protected boolean hasChildDumped(){
@@ -120,6 +123,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 現在のコンテキストがARRAY型配列要素出力中の状態か否か判定する。
+     *
      * @return 現在のコンテキストがARRAY型配列要素出力中ならtrue
      */
     protected boolean isArrayContext(){
@@ -135,8 +139,10 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 1文字出力。
+     *
      * @param ch 文字
      * @throws JsVisitException 出力エラー。
+     *
      * @see java.lang.Appendable#append(char)
      */
     protected void append(char ch) throws JsVisitException{
@@ -151,8 +157,10 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 文字列出力。
+     *
      * @param seq 文字列
      * @throws JsVisitException 出力エラー。
+     *
      * @see java.lang.Appendable#append(CharSequence)
      */
     protected void append(CharSequence seq) throws JsVisitException{
@@ -167,7 +175,9 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 可能であれば出力先をフラッシュする。
+     *
      * @throws JsVisitException 出力エラー
+     *
      * @see java.io.Flushable
      */
     protected void flush() throws JsVisitException{
@@ -184,6 +194,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * トラバース中断の原因となったIOExceptionを返す。
+     *
      * @return トラバース中断の原因となったIOException。なければnull。
      */
     public IOException getIOException(){
@@ -192,6 +203,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * トラバース中断の原因となったIOExceptionがあるか判定する。
+     *
      * @return トラバース中断の原因となったIOExceptionがあればtrue
      */
     public boolean hasIOException(){
@@ -201,6 +213,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * pairの名前を出力する。
+     *
      * @param name pair名
      * @throws JsVisitException 出力エラー
      */
@@ -216,6 +229,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * pair区切りコロンを出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putPairSeparator() throws JsVisitException{
@@ -225,7 +239,9 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 要素間区切りコンマを出力する。
-     * JSONでは最後の要素の後にコンマを出力してはいけない。
+     *
+     * <p>JSONでは最後の要素の後にコンマを出力してはいけない。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putComma() throws JsVisitException{
@@ -235,6 +251,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * 改行を出力する。
+     *
      * @throws JsVisitException 出力エラー。
      */
     protected void putNewLine() throws JsVisitException{
@@ -244,6 +261,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * インデントを出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putIndent() throws JsVisitException{
@@ -256,6 +274,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * OBJECT及びARRAY型の最初の要素の前部分を出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putBefore1stElement() throws JsVisitException{
@@ -266,6 +285,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * OBJECT及びARRAY型の要素間区切りを出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putBetweenElement() throws JsVisitException{
@@ -277,6 +297,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * OBJECT及びARRAY型の最後の要素の後部分を出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putAfterLastElement() throws JsVisitException{
@@ -287,6 +308,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * OBJECT及びARRAY型の空要素を出力する。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putEmptyElement() throws JsVisitException{
@@ -296,6 +318,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * パース前の出力を行う。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putBeforeParse() throws JsVisitException{
@@ -305,6 +328,7 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * パース後の出力を行う。
+     *
      * @throws JsVisitException 出力エラー
      */
     protected void putAfterParse() throws JsVisitException{
@@ -314,7 +338,9 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * {@inheritDoc}
-     * Valueの出力を行う。
+     *
+     * <p>Valueの出力を行う。
+     *
      * @param value {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -347,7 +373,9 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * {@inheritDoc}
-     * OBJECT内の各pairの名前を出力する。
+     *
+     * <p>OBJECT内の各pairの名前を出力する。
+     *
      * @param pairName {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -367,7 +395,9 @@ class JsonAppender implements ValueVisitor {
 
     /**
      * {@inheritDoc}
-     * 閉じ括弧を出力する。
+     *
+     * <p>閉じ括弧を出力する。
+     *
      * @param closed {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -405,7 +435,9 @@ class JsonAppender implements ValueVisitor {
 
         /**
          * コンストラクタ。
-         * 子要素が出力された事実は無い状態で始まる。
+         *
+         * <p>子要素が出力された事実は無い状態で始まる。
+         *
          * @param composition レベルに対応するOBJECTもしくはARRAY型Value
          */
         DumpContext(JsComposition<?> composition){
@@ -416,6 +448,7 @@ class JsonAppender implements ValueVisitor {
 
         /**
          * このレベルに対応するJSON集約型を返す。
+         *
          * @return OBJECTもしくはARRAY型Value
          */
         JsComposition<?> getComposition(){
@@ -424,6 +457,7 @@ class JsonAppender implements ValueVisitor {
 
         /**
          * このレベルで子要素出力が行われたか判定する。
+         *
          * @return 子要素出力が行われていたならtrue
          */
         boolean hasChildDumped(){
