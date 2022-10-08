@@ -14,8 +14,11 @@ import java.util.List;
 
 /**
  * JSON ARRAY型Valueを表す。
- * 子要素の配列リストを反映する。
- * <h1>表記例</h1>
+ *
+ * <p>子要素の配列リストを反映する。
+ *
+ * <p>表記例
+ *
  * <pre>
  * [
  *     true ,
@@ -45,9 +48,11 @@ public class JsArray
 
     /**
      * JSON文字列ソースからARRAY型Valueを読み込む。
-     * さらに子Valueへとパース解析が進む可能性がある。
+     *
+     * <p>さらに子Valueへとパース解析が進む可能性がある。
      * 別型の可能性のある先頭文字を読み込んだ場合、
      * ソースに文字を読み戻した後nullが返される。
+     *
      * @param source 文字列ソース
      * @return ARRAY型Value。別型の可能性がある場合はnull。
      * @throws IOException 入力エラー
@@ -91,7 +96,9 @@ public class JsArray
 
     /**
      * {@inheritDoc}
-     * 常に{@link JsTypes#ARRAY}を返す。
+     *
+     * <p>常に{@link JsTypes#ARRAY}を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -101,9 +108,11 @@ public class JsArray
 
     /**
      * このValueおよび子孫に変更があったか判定する。
-     * 子要素の追加・削除が行われたか、
+     *
+     * <p>子要素の追加・削除が行われたか、
      * もしくは子要素のいずれかに変更が認められれば、
      * このARRAY型Valueに変更があったとみなされる。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -137,7 +146,9 @@ public class JsArray
 
     /**
      * 深さ優先探索を行い各種構造の出現をビジターに通知する。
-     * thisを通知した後、子Valueを順に訪問し、最後に閉じ括弧を通知する。
+     *
+     * <p>thisを通知した後、子Valueを順に訪問し、最後に閉じ括弧を通知する。
+     *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
@@ -156,6 +167,7 @@ public class JsArray
 
     /**
      * 配列要素数を返す。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -165,6 +177,7 @@ public class JsArray
 
     /**
      * 配列が空か判定する。
+     *
      * @return {@inheritDoc}
      */
     @Override
@@ -184,7 +197,9 @@ public class JsArray
 
     /**
      * ハッシュ値を返す。
-     * 全ての子孫Valueのハッシュ値からその都度合成される。高コスト注意！。
+     *
+     * <p>全ての子孫Valueのハッシュ値からその都度合成される。高コスト注意！。
+     *
      * @return {@inheritDoc}
      * @see java.util.List#hashCode()
      */
@@ -195,9 +210,11 @@ public class JsArray
 
     /**
      * 等価判定を行う。
-     * 双方の配列サイズが一致し
+     *
+     * <p>双方の配列サイズが一致し
      * その全ての子Valueでのequals()が等価と判断された場合のみ
      * 等価と判断される。
+     *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @see java.util.List#equals(Object)
@@ -214,7 +231,9 @@ public class JsArray
 
     /**
      * 配列にValueを追加する。
-     * 同じJsValueインスタンスを複数回追加することも可能。
+     *
+     * <p>同じJsValueインスタンスを複数回追加することも可能。
+     *
      * @param value JSON Value
      * @throws NullPointerException 引数がnull
      */
@@ -227,6 +246,7 @@ public class JsArray
 
     /**
      * 配列から指定された位置のValueを返す。
+     *
      * @param index 0で始まる配列上の位置
      * @return Value JSON Value
      * @throws IndexOutOfBoundsException 不正な位置指定
@@ -237,12 +257,15 @@ public class JsArray
 
     /**
      * 配列からValueを削除する。
-     * {@link java.util.List#remove(Object)}と異なり、
+     *
+     * <p>{@link java.util.List#remove(Object)}と異なり、
      * 削除対象の検索に際して
      * {@link java.lang.Object#equals(Object)}は使われない。
-     * 一致するインスタンスが複数存在する場合、
+     *
+     * <p>一致するインスタンスが複数存在する場合、
      * 先頭に近いインスタンスのみ削除される。
      * 一致するインスタンスが存在しなければなにもしない。
+     *
      * @param value JSON Value
      * @return 既存のValueが削除されたならtrue
      */
@@ -266,6 +289,7 @@ public class JsArray
 
     /**
      * 配列から指定位置のValueを削除する。
+     *
      * @param index 0で始まる削除対象のインデックス値
      * @return 削除されたValue
      * @throws IndexOutOfBoundsException 不正なインデックス値
@@ -278,7 +302,9 @@ public class JsArray
 
     /**
      * Valueにアクセスするための反復子を提供する。
-     * この反復子での削除作業はできない。
+     *
+     * <p>この反復子での削除作業はできない。
+     *
      * @return 反復子イテレータ
      * @see UnmodIterator
      */
@@ -289,8 +315,11 @@ public class JsArray
 
     /**
      * {@inheritDoc}
-     * 文字列表現を返す。
-     * JSON表記の全体もしくは一部としての利用も可能。
+     *
+     * <p>文字列表現を返す。
+     *
+     * <p>JSON表記の全体もしくは一部としての利用も可能。
+     *
      * @return {@inheritDoc}
      */
     @Override
