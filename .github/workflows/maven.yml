@@ -19,14 +19,14 @@ jobs:
 
     strategy:
       matrix:
-        java: [ 11, 17, 21 ]
+        java: [ 11, 17, 20 ]
     name: Java ${{ matrix.java }} building
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        distribution: 'oracle'
+        distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
     - name: Build with Maven
@@ -45,7 +45,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        distribution: 'oracle'
+        distribution: 'temurin'
         java-version: '8'
         cache: 'maven'
     - name: Build with Maven
