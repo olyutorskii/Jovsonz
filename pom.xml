@@ -25,12 +25,12 @@
 -->Jovsonz is a JSON library for Java<!--
  --></description>
 
-    <url>http://jovsonz.osdn.jp/</url>
+    <url>https://github.com/olyutorskii/Jovsonz</url>
     <inceptionYear>2009</inceptionYear>
 
     <organization>
         <name>Jovsonz Partners</name>
-        <url>https://osdn.net/projects/jovsonz/</url>
+        <url>https://github.com/olyutorskii/Jovsonz</url>
     </organization>
 
     <licenses>
@@ -43,10 +43,10 @@
 
     <developers>
         <developer>
-            <id>olyutorskii</id>
-            <url>https://sites.google.com/site/olyutorskiipit/</url>
+            <id>Olyutorskii</id>
+            <url>https://github.com/olyutorskii</url>
             <organization>Jovsonz Partners</organization>
-            <organizationUrl>https://osdn.net/projects/jovsonz/</organizationUrl>
+            <organizationUrl>https://github.com/olyutorskii/Jovsonz</organizationUrl>
             <roles>
                 <role>Project Founder</role>
                 <role>Java Developer</role>
@@ -62,14 +62,14 @@
     <modules/>
 
     <scm>
-        <connection>scm:git:git://git.osdn.net/gitroot/jovsonz/Jovsonz.git</connection>
-        <developerConnection>scm:git:https://scm.osdn.net/gitroot/jovsonz/Jovsonz.git</developerConnection>
-        <url>https://osdn.net/projects/jovsonz/scm/git/Jovsonz/</url>
+        <connection>scm:git:git://github.com/olyutorskii/Jovsonz.git</connection>
+        <developerConnection>scm:git:git@github.com:olyutorskii/Jovsonz.git</developerConnection>
+        <url>https://github.com/olyutorskii/Jovsonz</url>
     </scm>
 
     <issueManagement>
-        <system>OSDN.net</system>
-        <url>https://osdn.net/projects/jovsonz/ticket/</url>
+        <system>GitHub</system>
+        <url>https://github.com/olyutorskii/Jovsonz/issues</url>
     </issueManagement>
 
     <ciManagement/>
