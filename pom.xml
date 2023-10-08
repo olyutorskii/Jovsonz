@@ -16,7 +16,7 @@
     <groupId>jp.sourceforge.jovsonz</groupId>
     <artifactId>jovsonz</artifactId>
 
-    <version>1.101.107-SNAPSHOT</version>
+    <version>1.101.109-SNAPSHOT</version>
 
     <packaging>jar</packaging>
     <name>Jovsonz</name>
@@ -73,7 +73,14 @@
     </issueManagement>
 
     <ciManagement/>
-    <distributionManagement/>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/olyutorskii/Jovsonz</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
