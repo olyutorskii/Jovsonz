@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.101.108] - 2023-10-08
+
 ### Fixed
 - Javadoc modifications for JDK21
 
@@ -37,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Release
 
 
-[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.106...HEAD
+[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.108...HEAD
+[1.101.108]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.106...v1.101.108
 [1.101.106]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.104...v1.101.106
 [1.101.104]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.2...release-1.101.104
 [1.101.2]: https://github.com/olyutorskii/Jovsonz/releases/tag/release-1.101.2
