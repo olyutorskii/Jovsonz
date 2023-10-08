@@ -189,9 +189,9 @@ public class JsString
     private static char escapeSymbol(char ch){
         char result;
         switch(ch){
-        case '"' : result = '"';  break;
+        case '"':  result = '"';  break;
         case '\\': result = '\\'; break;
-        case '/' : result = '/';  break;
+        case '/':  result = '/';  break;
         case '\b': result = 'b';  break;
         case '\f': result = 'f';  break;
         case '\n': result = 'n';  break;
