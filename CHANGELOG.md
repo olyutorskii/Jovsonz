@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JDK1.8 or later is required
 
 
-## [1.101.102] - 2011-05-13
+## [1.101.2] - 2011-05-13
 
 ### Added
 - Initial Release
@@ -39,8 +39,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.106...HEAD
 [1.101.106]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.104...v1.101.106
-[1.101.104]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.102...release-1.101.104
-[1.101.102]: https://github.com/olyutorskii/Jovsonz/releases/tag/release-1.101.102
+[1.101.104]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.2...release-1.101.104
+[1.101.2]: https://github.com/olyutorskii/Jovsonz/releases/tag/release-1.101.2
 
 
 --- EOF ---
