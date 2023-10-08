@@ -9,13 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 /**
  *
@@ -23,22 +21,6 @@ import static org.junit.Assert.*;
 public class JsObjectTest {
 
     public JsObjectTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception{
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception{
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
     }
 
     /**

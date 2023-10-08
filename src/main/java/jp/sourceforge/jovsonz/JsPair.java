@@ -53,7 +53,7 @@ public class JsPair {
      *
      * @param name PAIR名
      * @param text PAIR名に対応付けられる文字列データ。
-     *  エスケープされる前段階の表記。
+     *     エスケープされる前段階の表記。
      * @throws NullPointerException 引数がnull
      */
     public JsPair(String name, CharSequence text)

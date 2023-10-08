@@ -6,7 +6,7 @@
 
 <!--
     Checkstyle modules
-    for Checkstyle 8.45 or later
+    for Checkstyle 10.10.0 or later
 
     [ https://checkstyle.org/ ]
 
@@ -30,6 +30,7 @@
     <!--module name="SuppressionFilter" /-->
     <!--module name="SuppressionSingleFilter" /-->
     <module name="SuppressWarningsFilter" />
+    <module name="SuppressWithNearbyTextFilter" />
     <module name="SuppressWithPlainTextCommentFilter" />
 
 
@@ -200,7 +201,10 @@
             <property name="checkMethods" value="false" />
             <property name="validateOnlyOverlapping" value="false" />
         </module>
-        <module name="ReturnCount" />
+        <module name="ReturnCount">
+            <property name="max"        value="3" />
+            <property name="maxForVoid" value="3" />
+        </module>
         <module name="SimplifyBooleanExpression" />
         <module name="SimplifyBooleanReturn" />
         <module name="StringLiteralEquality" />
