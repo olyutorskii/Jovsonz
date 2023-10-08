@@ -61,7 +61,7 @@ public final class Json {
      *
      * @param source 文字入力
      * @return 各種Value。
-     *  0個以上連続するホワイトスペースと共にソースの終わりに達したときはnull
+     *     0個以上連続するホワイトスペースと共にソースの終わりに達したときはnull
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
@@ -96,7 +96,7 @@ public final class Json {
      *
      * @param source 文字入力ソース
      * @return JSON最上位構造。OBJECT型かARRAY型のいずれか。
-     *  入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
+     *     入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */
@@ -119,7 +119,7 @@ public final class Json {
      *
      * @param source 文字入力リーダ
      * @return JSON最上位構造。OBJECT型かARRAY型のいずれか。
-     *  入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
+     *     入力が0個以上のホワイトスペースのみで埋められていた場合はnull。
      * @throws IOException 入力エラー
      * @throws JsParseException パースエラー
      */

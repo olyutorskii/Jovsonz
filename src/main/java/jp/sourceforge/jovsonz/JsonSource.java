@@ -99,7 +99,7 @@ class JsonSource implements Closeable {
      * JSON規格のwhitespace文字を判定する。
      *
      * @param ch 判定対象文字。
-     *  上位16bitがゼロでなければwhitespaceと判定されない。
+     *     上位16bitがゼロでなければwhitespaceと判定されない。
      * @return whitespaceならtrue。引数が負の場合はfalse。
      */
     public static boolean isWhitespace(int ch){

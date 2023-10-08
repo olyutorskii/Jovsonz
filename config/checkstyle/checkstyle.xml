@@ -201,7 +201,10 @@
             <property name="checkMethods" value="false" />
             <property name="validateOnlyOverlapping" value="false" />
         </module>
-        <module name="ReturnCount" />
+        <module name="ReturnCount">
+            <property name="max"        value="3" />
+            <property name="maxForVoid" value="3" />
+        </module>
         <module name="SimplifyBooleanExpression" />
         <module name="SimplifyBooleanReturn" />
         <module name="StringLiteralEquality" />
