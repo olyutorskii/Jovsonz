@@ -81,7 +81,7 @@ public class JsNumber
      *
      * @param val 初期整数値
      * @throws ArithmeticException 正確な結果を
-     *  {@link java.math.BigDecimal}に納め切れない
+     *     {@link java.math.BigDecimal}に納め切れない
      */
     public JsNumber(BigInteger val) throws ArithmeticException{
         this(new BigDecimal(val, DEF_MC));
@@ -96,7 +96,7 @@ public class JsNumber
      * @param val 初期数値の文字列表記
      * @throws NumberFormatException 不正な数値表記
      * @throws ArithmeticException 正確な結果を
-     *  {@link java.math.BigDecimal}に納め切れない
+     *     {@link java.math.BigDecimal}に納め切れない
      *
      * @see java.math.BigDecimal#BigDecimal(String)
      */

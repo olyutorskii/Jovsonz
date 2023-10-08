@@ -82,10 +82,10 @@ public class JsString
         int digit3 = Character.digit(hex3Ch, HEX_BASE);
         int digit4 = Character.digit(hex4Ch, HEX_BASE);
 
-        if(   digit1 < 0
-           || digit2 < 0
-           || digit3 < 0
-           || digit4 < 0 ){
+        if(    digit1 < 0
+            || digit2 < 0
+            || digit3 < 0
+            || digit4 < 0 ){
             throw new JsParseException(ERRMSG_INVESC, source.getLineNumber());
         }
 
@@ -110,7 +110,7 @@ public class JsString
      * @param app スペシャルキャラ格納文字列
      * @throws IOException 入出力エラー
      * @throws JsParseException "\z"などの不正なスペシャルキャラ
-     *  もしくは意図しない入力終了
+     *     もしくは意図しない入力終了
      */
     private static void parseSpecial(JsonSource source, Appendable app)
             throws IOException, JsParseException{
@@ -184,7 +184,7 @@ public class JsString
      *
      * @param ch 任意の文字
      * @return エスケープ出力用シンボル。
-     *  1文字エスケープの必要がない場合は'\0'
+     *     1文字エスケープの必要がない場合は'\0'
      */
     private static char escapeSymbol(char ch){
         char result;
@@ -355,7 +355,8 @@ public class JsString
      *
      * @param index {@inheritDoc}
      * @return {@inheritDoc}
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @throws IndexOutOfBoundsException if the {@code index} argument is negative
+     *     or not less than the length of this string.
      */
     @Override
     public char charAt(int index)
@@ -383,7 +384,10 @@ public class JsString
      * @param start {@inheritDoc}
      * @param end {@inheritDoc}
      * @return {@inheritDoc}
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @throws IndexOutOfBoundsException
+     *     if {@code start} or {@code end} is negative,
+     *     if {@code end} is greater than {@code length()},
+     *     or if {@code start} is greater than {@code end}
      */
     @Override
     public CharSequence subSequence(int start, int end)

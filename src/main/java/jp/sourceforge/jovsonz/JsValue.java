@@ -24,7 +24,7 @@ public interface JsValue {
      *
      * @param visitor ビジター
      * @throws JsVisitException ビジターにより
-     *  トラバース中断が判断された時に投げられる。
+     *     トラバース中断が判断された時に投げられる。
      */
     public abstract void traverse(ValueVisitor visitor) throws JsVisitException;
 
