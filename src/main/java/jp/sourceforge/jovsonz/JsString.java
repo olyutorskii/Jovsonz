@@ -118,15 +118,33 @@ public class JsString
 
         char chData = source.readOrDie();
         switch(chData){
-        case '"':  special = '"';  break;
-        case '\\': special = '\\'; break;
-        case '/':  special = '/';  break;
-        case 'b':  special = '\b'; break;
-        case 'f':  special = '\f'; break;
-        case 'n':  special = '\n'; break;
-        case 'r':  special = '\r'; break;
-        case 't':  special = '\t'; break;
-        case 'u':  special = parseHexChar(source); break;
+        case '"':
+            special = '"';
+            break;
+        case '\\':
+            special = '\\';
+            break;
+        case '/':
+            special = '/';
+            break;
+        case 'b':
+            special = '\b';
+            break;
+        case 'f':
+            special = '\f';
+            break;
+        case 'n':
+            special = '\n';
+            break;
+        case 'r':
+            special = '\r';
+            break;
+        case 't':
+            special = '\t';
+            break;
+        case 'u':
+            special = parseHexChar(source);
+            break;
         default:
             throw new JsParseException(ERRMSG_INVESC, source.getLineNumber());
         }
@@ -189,15 +207,33 @@ public class JsString
     private static char escapeSymbol(char ch){
         char result;
         switch(ch){
-        case '"':  result = '"';  break;
-        case '\\': result = '\\'; break;
-        case '/':  result = '/';  break;
-        case '\b': result = 'b';  break;
-        case '\f': result = 'f';  break;
-        case '\n': result = 'n';  break;
-        case '\r': result = 'r';  break;
-        case '\t': result = 't';  break;
-        default:   result = '\0'; break;
+        case '"':
+            result = '"';
+            break;
+        case '\\':
+            result = '\\';
+            break;
+        case '/':
+            result = '/';
+            break;
+        case '\b':
+            result = 'b';
+            break;
+        case '\f':
+            result = 'f';
+            break;
+        case '\n':
+            result = 'n';
+            break;
+        case '\r':
+            result = 'r';
+            break;
+        case '\t':
+            result = 't';
+            break;
+        default:
+            result = '\0';
+            break;
         }
         return result;
     }

@@ -152,8 +152,11 @@ public class JsNumber
                                               boolean allowZeroTrail)
             throws IOException, JsParseException{
         char head = source.readOrDie();
-        if     (head == '-') app.append('-');
-        else if(head != '+') source.unread(head);
+        if(head == '-'){
+            app.append('-');
+        }else if(head != '+'){
+            source.unread(head);
+        }
 
         boolean hasAppended = false;
         boolean zeroStarted = false;    // 先頭は0か

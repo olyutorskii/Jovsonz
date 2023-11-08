@@ -354,12 +354,20 @@ class JsonAppender implements ValueVisitor {
             else                 putBefore1stElement();
         }
 
+        String txt;
         JsTypes type = value.getJsTypes();
         switch(type){
-        case OBJECT: append('{');              break;
-        case ARRAY:  append('[');              break;
-        default:     append(value.toString()); break;
+        case OBJECT:
+            txt = "{";
+            break;
+        case ARRAY:
+            txt = "[";
+            break;
+        default:
+            txt = value.toString();
+            break;
         }
+        append(txt);
         setChildDumped();
 
         if(type.isComposition()){
@@ -411,10 +419,17 @@ class JsonAppender implements ValueVisitor {
         else          putEmptyElement();
 
         char closeBrace;
-        switch(composition.getJsTypes()){
-        case OBJECT: closeBrace = '}'; break;
-        case ARRAY:  closeBrace = ']'; break;
-        default: assert false; throw new AssertionError();
+        JsTypes type = composition.getJsTypes();
+        switch(type){
+        case OBJECT:
+            closeBrace = '}';
+            break;
+        case ARRAY:
+            closeBrace = ']';
+            break;
+        default:
+            assert false;
+            throw new AssertionError();
         }
         append(closeBrace);
 

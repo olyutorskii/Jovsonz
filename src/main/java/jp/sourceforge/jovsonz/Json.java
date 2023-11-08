@@ -71,17 +71,22 @@ public final class Json {
         if( ! source.hasMore() ) return null;
 
         JsValue result;
-        result = JsObject .parseObject (source);
-        if(result != null) return result;
-        result = JsArray  .parseArray  (source);
-        if(result != null) return result;
-        result = JsString .parseString (source);
-        if(result != null) return result;
-        result = JsNull   .parseNull   (source);
-        if(result != null) return result;
-        result = JsBoolean.parseBoolean(source);
-        if(result != null) return result;
-        result = JsNumber .parseNumber (source);
+        result = JsObject.parseObject(source);
+        if(result == null){
+            result = JsArray.parseArray(source);
+        }
+        if(result == null){
+            result = JsString.parseString(source);
+        }
+        if(result == null){
+            result = JsNull.parseNull(source);
+        }
+        if(result == null){
+            result = JsBoolean.parseBoolean(source);
+        }
+        if(result == null){
+            result = JsNumber.parseNumber(source);
+        }
 
         if(result == null){
             throw new JsParseException(JsParseException.ERRMSG_INVALIDTOKEN,

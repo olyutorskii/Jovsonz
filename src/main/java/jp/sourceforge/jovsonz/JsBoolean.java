@@ -168,9 +168,13 @@ public final class JsBoolean
         if(value == null) throw new NullPointerException();
 
         int result;
-        if(this == value)     result =  0;
-        else if(this == TRUE) result = -1;
-        else                  result = +1;
+        if(this == value){
+            result =  0;
+        }else if(this == TRUE){
+            result = -1;
+        }else{
+            result = +1;
+        }
 
         return result;
     }
