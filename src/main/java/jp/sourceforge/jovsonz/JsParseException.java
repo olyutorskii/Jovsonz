@@ -15,10 +15,13 @@ package jp.sourceforge.jovsonz;
 @SuppressWarnings("serial")
 public class JsParseException extends Exception {
 
+    /** ERROR MESSAGE: invalid token. */
     static final String ERRMSG_INVALIDTOKEN =
             "invalid JSON token";
+    /** ERROR MESSAGE: invalid root. */
     static final String ERRMSG_INVALIDROOT =
             "top root JSON value must be OBJECT or ARRAY";
+    /** ERROR MESSAGE: no more data. */
     static final String ERRMSG_NODATA =
             "We need but no more JSON data";
 

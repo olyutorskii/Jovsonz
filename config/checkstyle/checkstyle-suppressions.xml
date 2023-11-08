@@ -19,14 +19,10 @@
     <!-- Annotations -->
     <suppress files="" checks="AnnotationOnSameLine" />
 
-    <!-- Class Design -->
-    <suppress files="" checks="DesignForExtension" />
-
     <!-- Coding -->
     <suppress files="" checks="AvoidNoArgumentSuperConstructorCall" />
     <suppress files="" checks="ExplicitInitialization" />
     <suppress files="" checks="FinalLocalVariable" />
-    <suppress files="" checks="MagicNumber" />
     <suppress files="" checks="NoArrayTrailingComma" />
     <suppress files="" checks="NoEnumTrailingComma" />
 
