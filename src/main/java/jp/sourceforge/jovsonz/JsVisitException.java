@@ -22,7 +22,7 @@ public class JsVisitException extends Exception {
     /**
      * コンストラクタ。
      */
-    public JsVisitException(){
+    public JsVisitException() {
         super();
         return;
     }
@@ -32,7 +32,7 @@ public class JsVisitException extends Exception {
      *
      * @param message 詳細メッセージ。不明な場合はnull
      */
-    public JsVisitException(String message){
+    public JsVisitException(String message) {
         super(message);
         return;
     }
@@ -43,7 +43,7 @@ public class JsVisitException extends Exception {
      * @param message 詳細メッセージ。不明な場合はnull
      * @param cause 原因となった例外。不明な場合はnull
      */
-    public JsVisitException(String message, Throwable cause){
+    public JsVisitException(String message, Throwable cause) {
         super(message, cause);
         return;
     }
@@ -53,7 +53,7 @@ public class JsVisitException extends Exception {
      *
      * @param cause 原因となった例外。不明な場合はnull
      */
-    public JsVisitException(Throwable cause){
+    public JsVisitException(Throwable cause) {
         super(cause);
         return;
     }

@@ -45,7 +45,7 @@ public final class JsBoolean
      *
      * <p>2回しか呼ばれないはず。
      */
-    private JsBoolean(){
+    private JsBoolean() {
         super();
         return;
     }
@@ -62,23 +62,23 @@ public final class JsBoolean
      * @throws JsParseException 不正トークンもしくは意図しない入力終了
      */
     static JsBoolean parseBoolean(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         JsBoolean result = null;
         boolean hasError = false;
 
         char charHead = source.readOrDie();
-        switch(charHead){
+        switch (charHead) {
         case 't':
-            if(source.matchOrDie("rue")){
+            if (source.matchOrDie("rue")) {
                 result = JsBoolean.TRUE;
-            }else{
+            } else {
                 hasError = true;
             }
             break;
         case 'f':
-            if(source.matchOrDie("alse")){
+            if (source.matchOrDie("alse")) {
                 result = JsBoolean.FALSE;
-            }else{
+            } else {
                 hasError = true;
             }
             break;
@@ -87,7 +87,7 @@ public final class JsBoolean
             break;
         }
 
-        if(hasError){
+        if (hasError) {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDTOKEN,
                                        source.getLineNumber() );
         }
@@ -103,7 +103,7 @@ public final class JsBoolean
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.BOOLEAN;
     }
 
@@ -117,7 +117,7 @@ public final class JsBoolean
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
@@ -131,10 +131,10 @@ public final class JsBoolean
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int result;
-        if(this == TRUE) result = HASH_TRUE;
-        else             result = HASH_FALSE;
+        if (this == TRUE) result = HASH_TRUE;
+        else              result = HASH_FALSE;
         return result;
     }
 
@@ -147,9 +147,9 @@ public final class JsBoolean
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if(obj instanceof JsBoolean) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj instanceof JsBoolean) return false;
         return false;
     }
 
@@ -164,15 +164,15 @@ public final class JsBoolean
      * @throws NullPointerException 引数がnull
      */
     @Override
-    public int compareTo(JsBoolean value) throws NullPointerException{
-        if(value == null) throw new NullPointerException();
+    public int compareTo(JsBoolean value) throws NullPointerException {
+        if (value == null) throw new NullPointerException();
 
         int result;
-        if(this == value){
+        if (this == value) {
             result =  0;
-        }else if(this == TRUE){
+        } else if (this == TRUE) {
             result = -1;
-        }else{
+        } else {
             result = +1;
         }
 
@@ -185,8 +185,8 @@ public final class JsBoolean
      * @param bool boolean値
      * @return BOOLEAN型Value
      */
-    public static JsBoolean valueOf(boolean bool){
-        if(bool) return TRUE;
+    public static JsBoolean valueOf(boolean bool) {
+        if (bool) return TRUE;
         return FALSE;
     }
 
@@ -195,8 +195,8 @@ public final class JsBoolean
      *
      * @return boolean値
      */
-    public boolean booleanValue(){
-        if(this == TRUE) return true;
+    public boolean booleanValue() {
+        if (this == TRUE) return true;
         return false;
     }
 
@@ -205,8 +205,8 @@ public final class JsBoolean
      *
      * @return 真ならtrue
      */
-    public boolean isTrue(){
-        if(this == TRUE) return true;
+    public boolean isTrue() {
+        if (this == TRUE) return true;
         return false;
     }
 
@@ -215,8 +215,8 @@ public final class JsBoolean
      *
      * @return 偽ならtrue
      */
-    public boolean isFalse(){
-        if(this != TRUE) return true;
+    public boolean isFalse() {
+        if (this != TRUE) return true;
         return false;
     }
 
@@ -228,8 +228,8 @@ public final class JsBoolean
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
-        if(this == TRUE) return TEXT_TRUE;
+    public String toString() {
+        if (this == TRUE) return TEXT_TRUE;
         return TEXT_FALSE;
     }
 

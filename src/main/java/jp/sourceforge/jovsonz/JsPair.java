@@ -35,10 +35,10 @@ public class JsPair {
      * @throws NullPointerException 引数のいずれかがnull
      */
     public JsPair(String name, JsValue value)
-            throws NullPointerException{
+            throws NullPointerException {
         super();
 
-        if(name  == null || value == null) throw new NullPointerException();
+        if (name  == null || value == null) throw new NullPointerException();
 
         this.name = name;
         this.value = value;
@@ -57,7 +57,7 @@ public class JsPair {
      * @throws NullPointerException 引数がnull
      */
     public JsPair(String name, CharSequence text)
-            throws NullPointerException{
+            throws NullPointerException {
         this(name, (JsValue) new JsString(text) );
         return;
     }
@@ -72,7 +72,7 @@ public class JsPair {
      * @throws NullPointerException PAIR名がnull
      */
     public JsPair(String name, boolean bool)
-            throws NullPointerException{
+            throws NullPointerException {
         this(name, JsBoolean.valueOf(bool));
         return;
     }
@@ -87,7 +87,7 @@ public class JsPair {
      * @throws NullPointerException PAIR名がnull
      */
     public JsPair(String name, long number)
-            throws NullPointerException{
+            throws NullPointerException {
         this(name, new JsNumber(number));
         return;
     }
@@ -102,7 +102,7 @@ public class JsPair {
      * @throws NullPointerException PAIR名がnull
      */
     public JsPair(String name, double number)
-            throws NullPointerException{
+            throws NullPointerException {
         this(name, new JsNumber(number));
         return;
     }
@@ -112,7 +112,7 @@ public class JsPair {
      *
      * @return PAIR名
      */
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -121,7 +121,7 @@ public class JsPair {
      *
      * @return Value
      */
-    public JsValue getValue(){
+    public JsValue getValue() {
         return this.value;
     }
 
@@ -135,7 +135,7 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int nameHash = this.name.hashCode();
         int valHash = this.value.hashCode();
         return nameHash ^ valHash;
@@ -152,14 +152,14 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
 
-        if( ! (obj instanceof JsPair) ) return false;
+        if ( !(obj instanceof JsPair) ) return false;
         JsPair target = (JsPair) obj;
 
-        if( ! this.name .equals(target.name)  ) return false;
-        if( ! this.value.equals(target.value) ) return false;
+        if ( !this.name .equals(target.name)  ) return false;
+        if ( !this.value.equals(target.value) ) return false;
 
         return true;
     }
@@ -172,11 +172,11 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             JsString.dumpString(result, this.name);
-        }catch(IOException e){
+        } catch (IOException e) {
             assert false;
             throw new AssertionError(e);
         }

@@ -53,7 +53,7 @@ public class JsObject
     /**
      * コンストラクタ。
      */
-    public JsObject(){
+    public JsObject() {
         super();
         return;
     }
@@ -72,24 +72,24 @@ public class JsObject
      * @throws JsParseException 不正な表記もしくは意図しない入力終了
      */
     static JsObject parseObject(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
-        if(charHead != '{'){
+        if (charHead != '{') {
             source.unread(charHead);
             return null;
         }
 
         JsObject result = new JsObject();
 
-        for(;;){
+        for (;;) {
             source.skipWhiteSpace();
             char chData = source.readOrDie();
-            if(chData == '}') break;
+            if (chData == '}') break;
 
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 source.unread(chData);
-            }else{
-                if(chData != ','){
+            } else {
+                if (chData != ',') {
                     throw new JsParseException(ERRMSG_NOOBJECTCOMMA,
                                                source.getLineNumber() );
                 }
@@ -97,20 +97,20 @@ public class JsObject
             }
 
             JsString name = JsString.parseString(source);
-            if(name == null){
+            if (name == null) {
                 throw new JsParseException(ERRMSG_NOHASHNAME,
                                            source.getLineNumber() );
             }
 
             source.skipWhiteSpace();
             chData = source.readOrDie();
-            if(chData != ':'){
+            if (chData != ':') {
                 throw new JsParseException(ERRMSG_NOHASHSEP,
                                            source.getLineNumber() );
             }
 
             JsValue value = Json.parseValue(source);
-            if(value == null){
+            if (value == null) {
                 throw new JsParseException(ERRMSG_NOHASHVAL,
                                            source.getLineNumber() );
             }
@@ -129,7 +129,7 @@ public class JsObject
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.OBJECT;
     }
 
@@ -143,14 +143,14 @@ public class JsObject
      * @return {@inheritDoc}
      */
     @Override
-    public boolean hasChanged(){
-        if(this.changed) return true;
+    public boolean hasChanged() {
+        if (this.changed) return true;
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             JsValue value = pair.getValue();
-            if( ! (value instanceof JsComposition) ) continue;
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
-            if(composition.hasChanged()) return true;
+            if (composition.hasChanged()) return true;
         }
 
         return false;
@@ -160,12 +160,12 @@ public class JsObject
      * このValueおよび子孫に変更がなかったことにする。
      */
     @Override
-    public void setUnchanged(){
+    public void setUnchanged() {
         this.changed = false;
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             JsValue value = pair.getValue();
-            if( ! (value instanceof JsComposition) ) continue;
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
@@ -185,10 +185,10 @@ public class JsObject
      * @throws JsVisitException {@inheritDoc}
      */
     @Override
-    public void traverse(ValueVisitor visitor) throws JsVisitException{
+    public void traverse(ValueVisitor visitor) throws JsVisitException {
         visitor.visitValue(this);
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             String name   = pair.getName();
             JsValue value = pair.getValue();
             visitor.visitPairName(name);
@@ -206,7 +206,7 @@ public class JsObject
      * @return PAIR総数
      */
     @Override
-    public int size(){
+    public int size() {
         return this.pairMap.size();
     }
 
@@ -216,7 +216,7 @@ public class JsObject
      * @return 空ならtrue
      */
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.pairMap.isEmpty();
     }
 
@@ -224,8 +224,8 @@ public class JsObject
      * PAIR集合を空にする。
      */
     @Override
-    public void clear(){
-        if(this.pairMap.size() > 0) this.changed = true;
+    public void clear() {
+        if (this.pairMap.size() > 0) this.changed = true;
         this.pairMap.clear();
         return;
     }
@@ -238,7 +238,7 @@ public class JsObject
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.pairMap.hashCode();
     }
 
@@ -253,10 +253,10 @@ public class JsObject
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
 
-        if( ! (obj instanceof JsObject) ) return false;
+        if ( !(obj instanceof JsObject) ) return false;
         JsObject composit = (JsObject) obj;
 
         return this.pairMap.equals(composit.pairMap);
@@ -271,15 +271,15 @@ public class JsObject
      * @throws NullPointerException 引数のいずれかがnull
      */
     public JsValue putValue(String name, JsValue value)
-            throws NullPointerException{
-        if(name  == null) throw new NullPointerException();
-        if(value == null) throw new NullPointerException();
+            throws NullPointerException {
+        if (name  == null) throw new NullPointerException();
+        if (value == null) throw new NullPointerException();
 
         JsValue oldValue = null;
         JsPair oldPair = this.pairMap.get(name);
-        if(oldPair != null){
+        if (oldPair != null) {
             oldValue = oldPair.getValue();
-            if(value.equals(oldValue)) return null;
+            if (value.equals(oldValue)) return null;
         }
 
         JsPair newPair = new JsPair(name, value);
@@ -295,9 +295,9 @@ public class JsObject
      * @param name PAIR名
      * @return 対応するValue。見つからなければnull
      */
-    public JsValue getValue(String name){
+    public JsValue getValue(String name) {
         JsPair pair = this.pairMap.get(name);
-        if(pair == null) return null;
+        if (pair == null) return null;
         JsValue value = pair.getValue();
         return value;
     }
@@ -309,7 +309,7 @@ public class JsObject
      *
      * @param pair PAIR
      */
-    public void putPair(JsPair pair){
+    public void putPair(JsPair pair) {
         this.pairMap.put(pair.getName(), pair);
         return;
     }
@@ -320,9 +320,9 @@ public class JsObject
      * @param name PAIR名
      * @return PAIR。見つからなければnull
      */
-    public JsPair getPair(String name){
+    public JsPair getPair(String name) {
         JsValue value = getValue(name);
-        if(value == null) return null;
+        if (value == null) return null;
 
         return new JsPair(name, value);
     }
@@ -333,9 +333,9 @@ public class JsObject
      * @param name PAIR名
      * @return 消されたPAIR。該当するPAIRがなければnull
      */
-    public JsPair remove(String name){
+    public JsPair remove(String name) {
         JsPair oldPair = this.pairMap.remove(name);
-        if(oldPair != null) this.changed = true;
+        if (oldPair != null) this.changed = true;
 
         return oldPair;
     }
@@ -345,7 +345,7 @@ public class JsObject
      *
      * @return すべての名前
      */
-    public Set<String> nameSet(){
+    public Set<String> nameSet() {
         return this.pairMap.keySet();
     }
 
@@ -356,10 +356,10 @@ public class JsObject
      *
      * @return PAIRリスト
      */
-    public List<JsPair> getPairList(){
+    public List<JsPair> getPairList() {
         List<JsPair> result = new ArrayList<>(this.pairMap.size());
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             result.add(pair);
         }
 
@@ -375,7 +375,7 @@ public class JsObject
      * @return 反復子イテレータ
      */
     @Override
-    public Iterator<JsPair> iterator(){
+    public Iterator<JsPair> iterator() {
         return UnmodIterator.unmodIterator(this.pairCollection);
     }
 
@@ -387,14 +387,14 @@ public class JsObject
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder text = new StringBuilder();
 
         text.append("{");
 
         boolean hasElem = false;
-        for(JsPair pair : this){
-            if(hasElem) text.append(',');
+        for (JsPair pair : this) {
+            if (hasElem) text.append(',');
             text.append(pair);
             hasElem = true;
         }

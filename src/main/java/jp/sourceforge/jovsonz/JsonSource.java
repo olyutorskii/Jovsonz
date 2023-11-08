@@ -35,7 +35,7 @@ class JsonSource implements Closeable {
     private static final String ERRMSG_CLOSED =
             "Stream closed";
 
-    static{
+    static {
         assert "\\uXXXX".length() < PUSHBACK_TOKENS;
     }
 
@@ -55,9 +55,9 @@ class JsonSource implements Closeable {
      * @param reader 文字入力リーダー
      * @throws NullPointerException 引数がnull
      */
-    public JsonSource(Reader reader) throws NullPointerException{
+    public JsonSource(Reader reader) throws NullPointerException {
         super();
-        if(reader == null) throw new NullPointerException();
+        if (reader == null) throw new NullPointerException();
         this.reader = reader;
         return;
     }
@@ -71,7 +71,7 @@ class JsonSource implements Closeable {
      *
      * @see java.io.StringReader
      */
-    public JsonSource(CharSequence text){
+    public JsonSource(CharSequence text) {
         this(new StringReader(text.toString()));
         return;
     }
@@ -82,8 +82,8 @@ class JsonSource implements Closeable {
      * @param ch 判定対象文字
      * @return whitespaceならtrue
      */
-    public static boolean isWhitespace(char ch){
-        switch(ch){
+    public static boolean isWhitespace(char ch) {
+        switch (ch) {
         case '\u0020':
         case '\t':
         case '\r':
@@ -102,10 +102,10 @@ class JsonSource implements Closeable {
      *     上位16bitがゼロでなければwhitespaceと判定されない。
      * @return whitespaceならtrue。引数が負の場合はfalse。
      */
-    public static boolean isWhitespace(int ch){
-        if((int)Character.MIN_VALUE > ch) return false;
-        if((int)Character.MAX_VALUE < ch) return false;
-        return isWhitespace((char)ch);
+    public static boolean isWhitespace(int ch) {
+        if ((int) Character.MIN_VALUE > ch) return false;
+        if ((int) Character.MAX_VALUE < ch) return false;
+        return isWhitespace((char) ch);
     }
 
     /**
@@ -113,7 +113,7 @@ class JsonSource implements Closeable {
      *
      * @return プッシュバック可能な残り文字数
      */
-    public int getPushBackSpared(){
+    public int getPushBackSpared() {
         return PUSHBACK_TOKENS - this.stackPt;
     }
 
@@ -122,7 +122,7 @@ class JsonSource implements Closeable {
      *
      * @return 1から始まる行番号
      */
-    public int getLineNumber(){
+    public int getLineNumber() {
         return this.lineNumber;
     }
 
@@ -134,17 +134,17 @@ class JsonSource implements Closeable {
      *
      * @see java.io.Reader#read()
      */
-    public int read() throws IOException{
-        if(this.closed) throw new IOException(ERRMSG_CLOSED);
+    public int read() throws IOException {
+        if (this.closed) throw new IOException(ERRMSG_CLOSED);
 
         int chData;
-        if(this.stackPt > 0){
+        if (this.stackPt > 0) {
             chData = (int) this.charStack[--this.stackPt];
-        }else{
+        } else {
             chData = this.reader.read();
         }
 
-        if(chData == (int)LINEFEED) this.lineNumber++;
+        if (chData == (int) LINEFEED) this.lineNumber++;
 
         return chData;
     }
@@ -156,13 +156,13 @@ class JsonSource implements Closeable {
      * @throws IOException 入力エラー
      * @throws JsParseException 入力が終わっている
      */
-    public char readOrDie() throws IOException, JsParseException{
+    public char readOrDie() throws IOException, JsParseException {
         int chData = read();
-        if(chData < 0){
+        if (chData < 0) {
             throw new JsParseException(JsParseException.ERRMSG_NODATA,
                                        this.lineNumber);
         }
-        return (char)chData;
+        return (char) chData;
     }
 
     /**
@@ -177,10 +177,10 @@ class JsonSource implements Closeable {
      * @throws JsParseException 入力が終わっている。
      */
     public boolean matchOrDie(CharSequence seq)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         int length = seq.length();
-        for(int pt = 0; pt < length; pt++){
-            if(readOrDie() != seq.charAt(pt)) return false;
+        for (int pt = 0; pt < length; pt++) {
+            if (readOrDie() != seq.charAt(pt)) return false;
         }
         return true;
     }
@@ -193,16 +193,16 @@ class JsonSource implements Closeable {
      * @param ch 読み戻す文字
      * @throws IOException バッファあふれもしくはクローズ済み
      */
-    public void unread(char ch) throws IOException{
-        if(this.closed) throw new IOException(ERRMSG_CLOSED);
+    public void unread(char ch) throws IOException {
+        if (this.closed) throw new IOException(ERRMSG_CLOSED);
 
-        if(this.stackPt >= PUSHBACK_TOKENS){
+        if (this.stackPt >= PUSHBACK_TOKENS) {
             throw new IOException(ERRMSG_OVERFLOW);
         }
 
         this.charStack[this.stackPt++] = ch;
 
-        if(ch == LINEFEED) this.lineNumber--;
+        if (ch == LINEFEED) this.lineNumber--;
 
         return;
     }
@@ -217,7 +217,7 @@ class JsonSource implements Closeable {
      * @param ch 読み戻す文字。負の符号を含む上位16bitは無視される。
      * @throws IOException バッファあふれもしくはクローズ済み
      */
-    public void unread(int ch) throws IOException{
+    public void unread(int ch) throws IOException {
         unread((char) ch);
         return;
     }
@@ -227,11 +227,11 @@ class JsonSource implements Closeable {
      *
      * @throws IOException 入力エラー
      */
-    public void skipWhiteSpace() throws IOException{
-        for(;;){
+    public void skipWhiteSpace() throws IOException {
+        for (;;) {
             int chData = read();
-            if(chData < 0) break;
-            if( ! isWhitespace(chData) ){
+            if (chData < 0) break;
+            if ( !isWhitespace(chData) ) {
                 unread(chData);
                 break;
             }
@@ -246,9 +246,9 @@ class JsonSource implements Closeable {
      * @return まだ読めるデータがあればtrue
      * @throws IOException IO入力エラー
      */
-    public boolean hasMore() throws IOException{
+    public boolean hasMore() throws IOException {
         int chData = read();
-        if(chData < 0) return false;
+        if (chData < 0) return false;
         unread(chData);
         return true;
     }
@@ -263,7 +263,7 @@ class JsonSource implements Closeable {
      * @see java.io.Closeable
      */
     @Override
-    public void close() throws IOException{
+    public void close() throws IOException {
         this.closed = true;
         this.stackPt = 0;
         this.reader.close();

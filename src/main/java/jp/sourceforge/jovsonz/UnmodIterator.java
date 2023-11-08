@@ -26,9 +26,9 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @param iterator ラップ元Iterator
      * @throws NullPointerException 引数がnull
      */
-    public UnmodIterator(Iterator<E> iterator) throws NullPointerException{
+    public UnmodIterator(Iterator<E> iterator) throws NullPointerException {
         super();
-        if(iterator == null) throw new NullPointerException();
+        if (iterator == null) throw new NullPointerException();
         this.rawIterator = iterator;
         return;
     }
@@ -42,8 +42,8 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @throws NullPointerException 引数がnull
      */
     public static <E> Iterator<E> wrapUnmod(Iterator<E> iterator)
-            throws NullPointerException{
-        if(iterator == null) throw new NullPointerException();
+            throws NullPointerException {
+        if (iterator == null) throw new NullPointerException();
         return new UnmodIterator<>(iterator);
     }
 
@@ -56,12 +56,12 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @throws NullPointerException 引数がnull
      */
     public static <E> Iterable<E> wrapUnmod(Iterable<E> iterable)
-            throws NullPointerException{
-        if(iterable == null) throw new NullPointerException();
+            throws NullPointerException {
+        if (iterable == null) throw new NullPointerException();
         final Iterable<E> innerArg = iterable;
-        return new Iterable<E>(){
+        return new Iterable<E>() {
             @Override
-            public Iterator<E> iterator(){
+            public Iterator<E> iterator() {
                 Iterator<E> iterator = innerArg.iterator();
                 return new UnmodIterator<>(iterator);
             }
@@ -77,8 +77,8 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @throws NullPointerException 引数がnull
      */
     public static <E> Iterator<E> unmodIterator(Iterable<E> iterable)
-            throws NullPointerException{
-        if(iterable == null) throw new NullPointerException();
+            throws NullPointerException {
+        if (iterable == null) throw new NullPointerException();
         Iterator<E> iterator = iterable.iterator();
         return new UnmodIterator<>(iterator);
     }
@@ -91,7 +91,7 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @return {@inheritDoc}
      */
     @Override
-    public boolean hasNext(){
+    public boolean hasNext() {
         return this.rawIterator.hasNext();
     }
 
@@ -104,7 +104,7 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @throws NoSuchElementException これ以上要素はない。
      */
     @Override
-    public E next() throws NoSuchElementException{
+    public E next() throws NoSuchElementException {
         return this.rawIterator.next();
     }
 
@@ -116,7 +116,7 @@ public class UnmodIterator<E> implements Iterator<E> {
      * @throws UnsupportedOperationException unsupported
      */
     @Override
-    public void remove() throws UnsupportedOperationException{
+    public void remove() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 

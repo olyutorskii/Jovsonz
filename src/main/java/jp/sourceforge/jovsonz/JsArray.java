@@ -41,7 +41,7 @@ public class JsArray
     /**
      * コンストラクタ。
      */
-    public JsArray(){
+    public JsArray() {
         super();
         return;
     }
@@ -61,29 +61,29 @@ public class JsArray
     static JsArray parseArray(JsonSource source)
             throws IOException, JsParseException {
         char charHead = source.readOrDie();
-        if(charHead != '['){
+        if (charHead != '[') {
             source.unread(charHead);
             return null;
         }
 
         JsArray result = new JsArray();
 
-        for(;;){
+        for (;;) {
             source.skipWhiteSpace();
             char chData = source.readOrDie();
-            if(chData == ']') break;
+            if (chData == ']') break;
 
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 source.unread(chData);
-            }else{
-                if(chData != ','){
+            } else {
+                if (chData != ',') {
                     throw new JsParseException(ERRMSG_NOARRAYCOMMA,
                                                source.getLineNumber() );
                 }
             }
 
             JsValue value = Json.parseValue(source);
-            if(value == null){
+            if (value == null) {
                 throw new JsParseException(ERRMSG_NOELEM,
                                            source.getLineNumber() );
             }
@@ -102,7 +102,7 @@ public class JsArray
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.ARRAY;
     }
 
@@ -116,13 +116,13 @@ public class JsArray
      * @return {@inheritDoc}
      */
     @Override
-    public boolean hasChanged(){
-        if(this.changed) return true;
+    public boolean hasChanged() {
+        if (this.changed) return true;
 
-        for(JsValue value : this.valueList){
-            if( ! (value instanceof JsComposition) ) continue;
+        for (JsValue value : this.valueList) {
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
-            if(composition.hasChanged()) return true;
+            if (composition.hasChanged()) return true;
         }
 
         return false;
@@ -132,11 +132,11 @@ public class JsArray
      * このValueおよび子孫に変更がなかったことにする。
      */
     @Override
-    public void setUnchanged(){
+    public void setUnchanged() {
         this.changed = false;
 
-        for(JsValue value : this.valueList){
-            if( ! (value instanceof JsComposition) ) continue;
+        for (JsValue value : this.valueList) {
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
@@ -153,10 +153,10 @@ public class JsArray
      * @throws JsVisitException {@inheritDoc}
      */
     @Override
-    public void traverse(ValueVisitor visitor) throws JsVisitException{
+    public void traverse(ValueVisitor visitor) throws JsVisitException {
         visitor.visitValue(this);
 
-        for(JsValue value : this.valueList){
+        for (JsValue value : this.valueList) {
             value.traverse(visitor);
         }
 
@@ -171,7 +171,7 @@ public class JsArray
      * @return {@inheritDoc}
      */
     @Override
-    public int size(){
+    public int size() {
         return this.valueList.size();
     }
 
@@ -181,7 +181,7 @@ public class JsArray
      * @return {@inheritDoc}
      */
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.valueList.isEmpty();
     }
 
@@ -189,8 +189,8 @@ public class JsArray
      * 配列を空にする。
      */
     @Override
-    public void clear(){
-        if(this.valueList.size() > 0) this.changed = true;
+    public void clear() {
+        if (this.valueList.size() > 0) this.changed = true;
         this.valueList.clear();
         return;
     }
@@ -204,7 +204,7 @@ public class JsArray
      * @see java.util.List#hashCode()
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.valueList.hashCode();
     }
 
@@ -220,10 +220,10 @@ public class JsArray
      * @see java.util.List#equals(Object)
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
 
-        if( ! (obj instanceof JsArray) ) return false;
+        if ( !(obj instanceof JsArray) ) return false;
         JsArray array = (JsArray) obj;
 
         return this.valueList.equals(array.valueList);
@@ -237,8 +237,8 @@ public class JsArray
      * @param value JSON Value
      * @throws NullPointerException 引数がnull
      */
-    public void add(JsValue value) throws NullPointerException{
-        if(value == null) throw new NullPointerException();
+    public void add(JsValue value) throws NullPointerException {
+        if (value == null) throw new NullPointerException();
         this.valueList.add(value);
         this.changed = true;
         return;
@@ -251,7 +251,7 @@ public class JsArray
      * @return Value JSON Value
      * @throws IndexOutOfBoundsException 不正な位置指定
      */
-    public JsValue get(int index) throws IndexOutOfBoundsException{
+    public JsValue get(int index) throws IndexOutOfBoundsException {
         return this.valueList.get(index);
     }
 
@@ -270,13 +270,13 @@ public class JsArray
      * @return 既存のValueが削除されたならtrue
      */
     // TODO 必要？
-    public boolean remove(JsValue value){
+    public boolean remove(JsValue value) {
         boolean removed = false;
 
         Iterator<JsValue> it = this.valueList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             JsValue elem = it.next();
-            if(elem == value){
+            if (elem == value) {
                 it.remove();
                 this.changed = true;
                 removed = true;
@@ -294,7 +294,7 @@ public class JsArray
      * @return 削除されたValue
      * @throws IndexOutOfBoundsException 不正なインデックス値
      */
-    public JsValue remove(int index) throws IndexOutOfBoundsException{
+    public JsValue remove(int index) throws IndexOutOfBoundsException {
         JsValue removed = this.valueList.remove(index);
         this.changed = true;
         return removed;
@@ -309,7 +309,7 @@ public class JsArray
      * @see UnmodIterator
      */
     @Override
-    public Iterator<JsValue> iterator(){
+    public Iterator<JsValue> iterator() {
         return UnmodIterator.unmodIterator(this.valueList);
     }
 
@@ -323,13 +323,13 @@ public class JsArray
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder text = new StringBuilder();
 
         text.append("[");
         boolean hasElem = false;
-        for(JsValue value : this.valueList){
-            if(hasElem) text.append(',');
+        for (JsValue value : this.valueList) {
+            if (hasElem) text.append(',');
             text.append(value);
             hasElem = true;
         }

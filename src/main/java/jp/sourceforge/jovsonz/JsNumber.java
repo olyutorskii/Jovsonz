@@ -53,7 +53,7 @@ public class JsNumber
      *
      * @param val 初期整数値
      */
-    public JsNumber(long val){
+    public JsNumber(long val) {
         this(BigDecimal.valueOf(val));
         return;
     }
@@ -71,7 +71,7 @@ public class JsNumber
      * @param val 初期実数値
      * @see java.math.BigDecimal#valueOf(double)
      */
-    public JsNumber(double val){
+    public JsNumber(double val) {
         this(BigDecimal.valueOf(val));
         return;
     }
@@ -83,7 +83,7 @@ public class JsNumber
      * @throws ArithmeticException 正確な結果を
      *     {@link java.math.BigDecimal}に納め切れない
      */
-    public JsNumber(BigInteger val) throws ArithmeticException{
+    public JsNumber(BigInteger val) throws ArithmeticException {
         this(new BigDecimal(val, DEF_MC));
         return;
     }
@@ -101,7 +101,7 @@ public class JsNumber
      * @see java.math.BigDecimal#BigDecimal(String)
      */
     public JsNumber(CharSequence val)
-            throws NumberFormatException, ArithmeticException{
+            throws NumberFormatException, ArithmeticException {
         this(new BigDecimal(val.toString(), DEF_MC));
         return;
     }
@@ -112,9 +112,9 @@ public class JsNumber
      * @param val 初期数値
      * @throws NullPointerException 引数がnull
      */
-    public JsNumber(BigDecimal val) throws NullPointerException{
+    public JsNumber(BigDecimal val) throws NullPointerException {
         super();
-        if(val == null) throw new NullPointerException();
+        if (val == null) throw new NullPointerException();
         this.decimal = val;
         return;
     }
@@ -127,8 +127,8 @@ public class JsNumber
      *
      * @see java.lang.Character#isDigit(char)
      */
-    public static boolean isLatinDigit(char ch){
-        if('0' <= ch && ch <= '9') return true;
+    public static boolean isLatinDigit(char ch) {
+        if ('0' <= ch && ch <= '9') return true;
         return false;
     }
 
@@ -150,23 +150,23 @@ public class JsNumber
     private static Appendable appendDigitText(JsonSource source,
                                               Appendable app,
                                               boolean allowZeroTrail)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char head = source.readOrDie();
-        if(head == '-'){
+        if (head == '-') {
             app.append('-');
-        }else if(head != '+'){
+        } else if (head != '+') {
             source.unread(head);
         }
 
         boolean hasAppended = false;
         boolean zeroStarted = false;    // 先頭は0か
-        for(;;){
-            if( ! source.hasMore() && hasAppended) break;
+        for (;;) {
+            if ( !source.hasMore() && hasAppended ) break;
 
             char readedCh = source.readOrDie();
 
-            if( ! isLatinDigit(readedCh) ){
-                if( ! hasAppended ){
+            if ( !isLatinDigit(readedCh) ) {
+                if ( !hasAppended ) {
                     throw new JsParseException(ERRMSG_NONUMBER,
                                                source.getLineNumber() );
                 }
@@ -174,13 +174,13 @@ public class JsNumber
                 break;
             }
 
-            if(hasAppended){
-                if(zeroStarted && ! allowZeroTrail){
+            if (hasAppended) {
+                if (zeroStarted && !allowZeroTrail) {
                     throw new JsParseException(ERRMSG_EXTRAZERO,
                                                source.getLineNumber() );
                 }
-            }else{                       // 1st char
-                if(readedCh == '0'){
+            } else {                       // 1st char
+                if (readedCh == '0') {
                     zeroStarted = true;
                 }
             }
@@ -205,13 +205,13 @@ public class JsNumber
      */
     private static Appendable appendFractionPart(JsonSource source,
                                                  Appendable app )
-            throws IOException, JsParseException{
-        if( ! source.hasMore() ) return app;
+            throws IOException, JsParseException {
+        if ( !source.hasMore() ) return app;
 
         char chData;
 
         chData = source.readOrDie();
-        if(chData != '.'){
+        if (chData != '.') {
             source.unread(chData);
             return app;
         }
@@ -219,13 +219,13 @@ public class JsNumber
         app.append(".");
 
         boolean hasAppended = false;
-        for(;;){
-            if( ! source.hasMore() && hasAppended) break;
+        for (;;) {
+            if ( !source.hasMore() && hasAppended ) break;
 
             chData = source.readOrDie();
 
-            if( ! isLatinDigit(chData) ){
-                if( ! hasAppended ){
+            if ( !isLatinDigit(chData) ) {
+                if ( !hasAppended ) {
                     throw new JsParseException(ERRMSG_INVFRAC,
                                                source.getLineNumber());
                 }
@@ -253,11 +253,11 @@ public class JsNumber
      */
     private static Appendable appendExpPart(JsonSource source,
                                             Appendable app )
-            throws IOException, JsParseException{
-        if( ! source.hasMore() ) return app;
+            throws IOException, JsParseException {
+        if ( !source.hasMore() ) return app;
 
         char chData = source.readOrDie();
-        if(chData != 'e' && chData != 'E'){
+        if (chData != 'e' && chData != 'E') {
             source.unread(chData);
             return app;
         }
@@ -281,18 +281,18 @@ public class JsNumber
      * @throws JsParseException 不正な表記もしくは意図しない入力終了
      */
     static JsNumber parseNumber(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
         source.unread(charHead);
-        if( charHead != '-' && ! JsNumber.isLatinDigit(charHead) ){
+        if ( charHead != '-' && !JsNumber.isLatinDigit(charHead) ) {
             return null;
         }
 
         StringBuilder numText = new StringBuilder();
 
-        appendDigitText   (source, numText, false);
-        appendFractionPart(source, numText);
-        appendExpPart     (source, numText);
+        appendDigitText(    source, numText, false);
+        appendFractionPart( source, numText );
+        appendExpPart(      source, numText );
 
         JsNumber result = new JsNumber(numText);
 
@@ -307,7 +307,7 @@ public class JsNumber
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.NUMBER;
     }
 
@@ -321,7 +321,7 @@ public class JsNumber
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
@@ -337,7 +337,7 @@ public class JsNumber
      * @see java.math.BigDecimal#hashCode()
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.decimal.hashCode();
     }
 
@@ -356,9 +356,9 @@ public class JsNumber
      * @see java.math.BigDecimal#equals(Object)
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if( ! (obj instanceof JsNumber) ) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if ( !(obj instanceof JsNumber) ) return false;
         JsNumber number = (JsNumber) obj;
         return this.decimal.equals(number.decimal);
     }
@@ -377,8 +377,8 @@ public class JsNumber
      * @see java.math.BigDecimal#compareTo(BigDecimal)
      */
     @Override
-    public int compareTo(JsNumber value){
-        if(this == value) return 0;
+    public int compareTo(JsNumber value) {
+        if (this == value) return 0;
         return this.decimal.compareTo(value.decimal);
     }
 
@@ -392,7 +392,7 @@ public class JsNumber
      * @see java.lang.Number#intValue()
      * @see java.math.BigDecimal#intValue()
      */
-    public int intValue(){
+    public int intValue() {
         return this.decimal.intValue();
     }
 
@@ -406,7 +406,7 @@ public class JsNumber
      * @see java.lang.Number#longValue()
      * @see java.math.BigDecimal#longValue()
      */
-    public long longValue(){
+    public long longValue() {
         return this.decimal.longValue();
     }
 
@@ -420,7 +420,7 @@ public class JsNumber
      * @see java.lang.Number#floatValue()
      * @see java.math.BigDecimal#floatValue()
      */
-    public float floatValue(){
+    public float floatValue() {
         return this.decimal.floatValue();
     }
 
@@ -434,7 +434,7 @@ public class JsNumber
      * @see java.lang.Number#doubleValue()
      * @see java.math.BigDecimal#doubleValue()
      */
-    public double doubleValue(){
+    public double doubleValue() {
         return this.decimal.doubleValue();
     }
 
@@ -443,7 +443,7 @@ public class JsNumber
      *
      * @return BigDecimal型数値
      */
-    public BigDecimal decimalValue(){
+    public BigDecimal decimalValue() {
         return this.decimal;
     }
 
@@ -465,7 +465,7 @@ public class JsNumber
      *
      * @see java.math.BigDecimal#scale()
      */
-    public int scale(){
+    public int scale() {
         return this.decimal.scale();
     }
 
@@ -478,7 +478,7 @@ public class JsNumber
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         return this.decimal.toString();
     }
 

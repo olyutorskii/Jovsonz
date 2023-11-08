@@ -22,7 +22,7 @@ public final class Json {
     /**
      * 隠しコンストラクタ。
      */
-    private Json(){
+    private Json() {
         assert false;
         throw new AssertionError();
     }
@@ -40,15 +40,15 @@ public final class Json {
             throws NullPointerException,
                    JsVisitException,
                    IOException {
-        if(appout == null || topValue == null){
+        if (appout == null || topValue == null) {
             throw new NullPointerException();
         }
 
         JsonAppender appender = new JsonAppender(appout);
 
-        try{
+        try {
             topValue.traverse(appender);
-        }catch(JsVisitException e){
+        } catch (JsVisitException e) {
             assert appender.hasIOException();
             throw appender.getIOException();
         }
@@ -66,29 +66,29 @@ public final class Json {
      * @throws JsParseException パースエラー
      */
     static JsValue parseValue(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         source.skipWhiteSpace();
-        if( ! source.hasMore() ) return null;
+        if ( !source.hasMore() ) return null;
 
         JsValue result;
         result = JsObject.parseObject(source);
-        if(result == null){
+        if (result == null) {
             result = JsArray.parseArray(source);
         }
-        if(result == null){
+        if (result == null) {
             result = JsString.parseString(source);
         }
-        if(result == null){
+        if (result == null) {
             result = JsNull.parseNull(source);
         }
-        if(result == null){
+        if (result == null) {
             result = JsBoolean.parseBoolean(source);
         }
-        if(result == null){
+        if (result == null) {
             result = JsNumber.parseNumber(source);
         }
 
-        if(result == null){
+        if (result == null) {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDTOKEN,
                                        source.getLineNumber() );
         }
@@ -106,11 +106,11 @@ public final class Json {
      * @throws JsParseException パースエラー
      */
     private static JsComposition<?> parseJson(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         JsValue topValue = parseValue(source);
-        if(topValue == null) return null;
+        if (topValue == null) return null;
 
-        if( ! (topValue instanceof JsComposition) ){
+        if ( !(topValue instanceof JsComposition) ) {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDROOT,
                                        source.getLineNumber() );
         }
@@ -129,7 +129,7 @@ public final class Json {
      * @throws JsParseException パースエラー
      */
     public static JsComposition<?> parseJson(Reader source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         JsonSource jsonSource = new JsonSource(source);
         return parseJson(jsonSource);
     }

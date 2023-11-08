@@ -13,17 +13,17 @@ package jp.sourceforge.jovsonz;
 public enum JsTypes {
 
     /** NUMBER型に対応。 */
-    NUMBER  (JsNumber .class),
+    NUMBER(  JsNumber .class ),
     /** STRING型に対応。 */
-    STRING  (JsString .class),
+    STRING(  JsString .class ),
     /** BOOLEAN型に対応。 */
-    BOOLEAN (JsBoolean.class),
+    BOOLEAN( JsBoolean.class ),
     /** ARRAY型に対応。 */
-    ARRAY   (JsArray  .class),
+    ARRAY(   JsArray  .class ),
     /** OBJECT型に対応。 */
-    OBJECT  (JsObject .class),
+    OBJECT(  JsObject .class ),
     /** NULL型に対応。 */
-    NULL    (JsNull   .class),
+    NULL(    JsNull   .class ),
     ;
 
     private static final JsTypes[] VALUE_ARRAY = values();
@@ -36,12 +36,12 @@ public enum JsTypes {
      *
      * @param klass {@link java.lang.Class}型
      */
-    private JsTypes(Class<? extends JsValue> klass){
+    private JsTypes(Class<? extends JsValue> klass) {
         this.klass = klass;
 
-        if(JsComposition.class.isAssignableFrom(this.klass)){
+        if (JsComposition.class.isAssignableFrom(this.klass)) {
             this.isComposition = true;
-        }else{
+        } else {
             this.isComposition = false;
         }
 
@@ -56,11 +56,11 @@ public enum JsTypes {
      * @throws NullPointerException 引数がnull
      */
     public static JsTypes getJsTypes(Class<?> carg)
-            throws NullPointerException{
-        if(carg == null) throw new NullPointerException();
+            throws NullPointerException {
+        if (carg == null) throw new NullPointerException();
 
-        for(JsTypes types : VALUE_ARRAY){
-            if(types.klass == carg) return types;
+        for (JsTypes types : VALUE_ARRAY) {
+            if (types.klass == carg) return types;
         }
 
         return null;
@@ -71,7 +71,7 @@ public enum JsTypes {
      *
      * @return java.lang.Class型
      */
-    public Class<? extends JsValue> getJsClass(){
+    public Class<? extends JsValue> getJsClass() {
         return this.klass;
     }
 
@@ -82,7 +82,7 @@ public enum JsTypes {
      *
      * @return 子要素を持ちうるならtrue
      */
-    public boolean isComposition(){
+    public boolean isComposition() {
         return this.isComposition;
     }
 

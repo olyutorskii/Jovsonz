@@ -41,7 +41,7 @@ public class JsString
      *
      * <p>長さ0の空文字が設定される。
      */
-    public JsString(){
+    public JsString() {
         this("");
         return;
     }
@@ -54,9 +54,9 @@ public class JsString
      * @param rawSeq 生文字列
      * @throws NullPointerException 引数がnull
      */
-    public JsString(CharSequence rawSeq) throws NullPointerException{
+    public JsString(CharSequence rawSeq) throws NullPointerException {
         super();
-        if(rawSeq == null) throw new NullPointerException();
+        if (rawSeq == null) throw new NullPointerException();
         this.rawText = rawSeq.toString();
         return;
     }
@@ -71,7 +71,7 @@ public class JsString
      * @throws JsParseException 不正表記もしくは意図しない入力終了
      */
     static char parseHexChar(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char hex1Ch = source.readOrDie();
         char hex2Ch = source.readOrDie();
         char hex3Ch = source.readOrDie();
@@ -82,10 +82,10 @@ public class JsString
         int digit3 = Character.digit(hex3Ch, HEX_BASE);
         int digit4 = Character.digit(hex4Ch, HEX_BASE);
 
-        if(    digit1 < 0
+        if (   digit1 < 0
             || digit2 < 0
             || digit3 < 0
-            || digit4 < 0 ){
+            || digit4 < 0 ) {
             throw new JsParseException(ERRMSG_INVESC, source.getLineNumber());
         }
 
@@ -113,11 +113,11 @@ public class JsString
      *     もしくは意図しない入力終了
      */
     private static void parseSpecial(JsonSource source, Appendable app)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char special;
 
         char chData = source.readOrDie();
-        switch(chData){
+        switch (chData) {
         case '"':
             special = '"';
             break;
@@ -166,25 +166,25 @@ public class JsString
      * @throws JsParseException 不正な表記もしくは意図しない入力終了
      */
     static JsString parseString(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
-        if(charHead != '"'){
+        if (charHead != '"') {
             source.unread(charHead);
             return null;
         }
 
         StringBuilder text = new StringBuilder();
 
-        for(;;){
+        for (;;) {
             char chData = source.readOrDie();
-            if(chData == '"') break;
+            if (chData == '"') break;
 
-            if(chData == '\\'){
+            if (chData == '\\') {
                 parseSpecial(source, text);
-            }else if(Character.isISOControl(chData)){
+            } else if (Character.isISOControl(chData)) {
                 throw new JsParseException(ERRMSG_INVCTR,
                                            source.getLineNumber());
-            }else{
+            } else {
                 text.append(chData);
             }
         }
@@ -204,9 +204,9 @@ public class JsString
      * @return エスケープ出力用シンボル。
      *     1文字エスケープの必要がない場合は'\0'
      */
-    private static char escapeSymbol(char ch){
+    private static char escapeSymbol(char ch) {
         char result;
-        switch(ch){
+        switch (ch) {
         case '"':
             result = '"';
             break;
@@ -249,17 +249,17 @@ public class JsString
      * @throws IOException 出力エラー
      */
     private static boolean dumpSpecialChar(Appendable appout, char ch)
-            throws IOException{
+            throws IOException {
         char esc1ch = escapeSymbol(ch);
 
-        if(esc1ch != '\0'){
+        if (esc1ch != '\0') {
             appout.append('\\').append(esc1ch);
-        }else if(Character.isISOControl(ch)){
+        } else if (Character.isISOControl(ch)) {
             // TODO さらなる高速化が必要
             String hex = "0000" + Integer.toHexString(ch);
             hex = hex.substring(hex.length() - NIBBLES_CHAR);
             appout.append("\\u").append(hex);
-        }else{
+        } else {
             return false;
         }
 
@@ -274,13 +274,13 @@ public class JsString
      * @throws IOException 出力エラー
      */
     public static void dumpString(Appendable appout, CharSequence seq)
-            throws IOException{
+            throws IOException {
         appout.append('"');
 
         int length = seq.length();
-        for(int pos = 0; pos < length; pos++){
+        for (int pos = 0; pos < length; pos++) {
             char ch = seq.charAt(pos);
-            if( ! dumpSpecialChar(appout, ch) ){
+            if ( !dumpSpecialChar(appout, ch) ) {
                 appout.append(ch);
             }
         }
@@ -297,11 +297,11 @@ public class JsString
      * @return STRING型表記に変換された文字列
      */
     // TODO いらない
-    public static StringBuilder escapeText(CharSequence seq){
+    public static StringBuilder escapeText(CharSequence seq) {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             dumpString(result, seq);
-        }catch(IOException e){
+        } catch (IOException e) {
             assert false;
             throw new AssertionError(e);
         }
@@ -316,7 +316,7 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.STRING;
     }
 
@@ -330,7 +330,7 @@ public class JsString
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
@@ -343,7 +343,7 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.rawText.hashCode();
     }
 
@@ -358,10 +358,10 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
 
-        if( ! (obj instanceof JsString) ) return false;
+        if ( !(obj instanceof JsString) ) return false;
         JsString string = (JsString) obj;
 
         return this.rawText.equals(string.rawText);
@@ -378,9 +378,9 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public int compareTo(JsString value){
-        if(this == value) return 0;
-        if(value == null) return +1;
+    public int compareTo(JsString value) {
+        if (this == value) return 0;
+        if (value == null) return +1;
         return this.rawText.compareTo(value.rawText);
     }
 
@@ -396,7 +396,7 @@ public class JsString
      */
     @Override
     public char charAt(int index)
-            throws IndexOutOfBoundsException{
+            throws IndexOutOfBoundsException {
         return this.rawText.charAt(index);
     }
 
@@ -408,7 +408,7 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public int length(){
+    public int length() {
         return this.rawText.length();
     }
 
@@ -427,7 +427,7 @@ public class JsString
      */
     @Override
     public CharSequence subSequence(int start, int end)
-            throws IndexOutOfBoundsException{
+            throws IndexOutOfBoundsException {
         return this.rawText.subSequence(start, end);
     }
 
@@ -436,7 +436,7 @@ public class JsString
      *
      * @return 生の文字列
      */
-    public String toRawString(){
+    public String toRawString() {
         return this.rawText;
     }
 
@@ -449,7 +449,7 @@ public class JsString
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder string = escapeText(this.rawText);
         return string.toString();
     }

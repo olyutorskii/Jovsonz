@@ -53,9 +53,9 @@ class JsonAppender implements ValueVisitor {
      * @throws NullPointerException 引数がnull
      */
     public JsonAppender(Appendable appout)
-            throws NullPointerException{
+            throws NullPointerException {
         super();
-        if(appout == null) throw new NullPointerException();
+        if (appout == null) throw new NullPointerException();
         this.appout = appout;
         return;
     }
@@ -65,7 +65,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @param composition 現在のコンテキスト
      */
-    protected void pushComposition(JsComposition<?> composition){
+    protected void pushComposition(JsComposition<?> composition) {
         DumpContext context = new DumpContext(composition);
         this.contextStack.push(context);
         return;
@@ -77,7 +77,7 @@ class JsonAppender implements ValueVisitor {
      * @return スタックトップのコンテキスト
      * @throws EmptyStackException スタック構造が空
      */
-    protected JsComposition<?> popComposition() throws EmptyStackException{
+    protected JsComposition<?> popComposition() throws EmptyStackException {
         DumpContext context = this.contextStack.pop();
         JsComposition<?> composition = context.getComposition();
         return composition;
@@ -88,7 +88,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @return 0から始まる深さ
      */
-    protected int nestDepth(){
+    protected int nestDepth() {
         return this.contextStack.size();
     }
 
@@ -97,7 +97,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @return 空ならtrue
      */
-    protected boolean isNestEmpty(){
+    protected boolean isNestEmpty() {
         return this.contextStack.isEmpty();
     }
 
@@ -106,8 +106,8 @@ class JsonAppender implements ValueVisitor {
      *
      * @return 子要素が出力されていればtrue
      */
-    protected boolean hasChildDumped(){
-        if(isNestEmpty()) return false;
+    protected boolean hasChildDumped() {
+        if (isNestEmpty()) return false;
         boolean result = this.contextStack.peek().hasChildDumped();
         return result;
     }
@@ -115,8 +115,8 @@ class JsonAppender implements ValueVisitor {
     /**
      * 現時点でのネストに対し、子要素が一つ以上出力済みであると設定する。
      */
-    protected void setChildDumped(){
-        if(isNestEmpty()) return;
+    protected void setChildDumped() {
+        if (isNestEmpty()) return;
         this.contextStack.peek().setChildDumped();
         return;
     }
@@ -126,13 +126,13 @@ class JsonAppender implements ValueVisitor {
      *
      * @return 現在のコンテキストがARRAY型配列要素出力中ならtrue
      */
-    protected boolean isArrayContext(){
-        if(isNestEmpty()) return false;
+    protected boolean isArrayContext() {
+        if (isNestEmpty()) return false;
 
         DumpContext context = this.contextStack.peek();
         JsComposition<?> composition = context.getComposition();
         JsTypes type = composition.getJsTypes();
-        if(type != JsTypes.ARRAY) return false;
+        if (type != JsTypes.ARRAY) return false;
 
         return true;
     }
@@ -145,10 +145,10 @@ class JsonAppender implements ValueVisitor {
      *
      * @see java.lang.Appendable#append(char)
      */
-    protected void append(char ch) throws JsVisitException{
-        try{
+    protected void append(char ch) throws JsVisitException {
+        try {
             this.appout.append(ch);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -163,10 +163,10 @@ class JsonAppender implements ValueVisitor {
      *
      * @see java.lang.Appendable#append(CharSequence)
      */
-    protected void append(CharSequence seq) throws JsVisitException{
-        try{
+    protected void append(CharSequence seq) throws JsVisitException {
+        try {
             this.appout.append(seq);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -180,12 +180,12 @@ class JsonAppender implements ValueVisitor {
      *
      * @see java.io.Flushable
      */
-    protected void flush() throws JsVisitException{
-        try{
-            if(this.appout instanceof Flushable){
-                ((Flushable)this.appout).flush();
+    protected void flush() throws JsVisitException {
+        try {
+            if (this.appout instanceof Flushable) {
+                ((Flushable) this.appout).flush();
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -197,7 +197,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @return トラバース中断の原因となったIOException。なければnull。
      */
-    public IOException getIOException(){
+    public IOException getIOException() {
         return this.ioException;
     }
 
@@ -206,8 +206,8 @@ class JsonAppender implements ValueVisitor {
      *
      * @return トラバース中断の原因となったIOExceptionがあればtrue
      */
-    public boolean hasIOException(){
-        if(this.ioException != null) return true;
+    public boolean hasIOException() {
+        if (this.ioException != null) return true;
         return false;
     }
 
@@ -217,10 +217,10 @@ class JsonAppender implements ValueVisitor {
      * @param name pair名
      * @throws JsVisitException 出力エラー
      */
-    protected void putPairName(String name) throws JsVisitException{
-        try{
+    protected void putPairName(String name) throws JsVisitException {
+        try {
             JsString.dumpString(this.appout, name);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -232,7 +232,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putPairSeparator() throws JsVisitException{
+    protected void putPairSeparator() throws JsVisitException {
         append(PAIR_SEPARATOR);
         return;
     }
@@ -244,7 +244,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putComma() throws JsVisitException{
+    protected void putComma() throws JsVisitException {
         append(COMMA);
         return;
     }
@@ -254,7 +254,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー。
      */
-    protected void putNewLine() throws JsVisitException{
+    protected void putNewLine() throws JsVisitException {
         append(NEWLINE);
         return;
     }
@@ -264,9 +264,9 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putIndent() throws JsVisitException{
+    protected void putIndent() throws JsVisitException {
         int level = nestDepth();
-        for(int ct = 1; ct <= level; ct++){
+        for (int ct = 1; ct <= level; ct++) {
             append(INDENT_UNIT);
         }
         return;
@@ -277,7 +277,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putBefore1stElement() throws JsVisitException{
+    protected void putBefore1stElement() throws JsVisitException {
         putNewLine();
         putIndent();
         return;
@@ -288,7 +288,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putBetweenElement() throws JsVisitException{
+    protected void putBetweenElement() throws JsVisitException {
         putComma();
         putNewLine();
         putIndent();
@@ -300,7 +300,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putAfterLastElement() throws JsVisitException{
+    protected void putAfterLastElement() throws JsVisitException {
         putNewLine();
         putIndent();
         return;
@@ -311,7 +311,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putEmptyElement() throws JsVisitException{
+    protected void putEmptyElement() throws JsVisitException {
         append(EMPTY);
         return;
     }
@@ -321,7 +321,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putBeforeParse() throws JsVisitException{
+    protected void putBeforeParse() throws JsVisitException {
         //NOTHING
         return;
     }
@@ -331,7 +331,7 @@ class JsonAppender implements ValueVisitor {
      *
      * @throws JsVisitException 出力エラー
      */
-    protected void putAfterParse() throws JsVisitException{
+    protected void putAfterParse() throws JsVisitException {
         putNewLine();
         return;
     }
@@ -346,17 +346,17 @@ class JsonAppender implements ValueVisitor {
      */
     @Override
     public void visitValue(JsValue value)
-            throws JsVisitException{
-        if(isNestEmpty()) putBeforeParse();
+            throws JsVisitException {
+        if (isNestEmpty()) putBeforeParse();
 
-        if(isArrayContext()){
-            if(hasChildDumped()) putBetweenElement();
-            else                 putBefore1stElement();
+        if (isArrayContext()) {
+            if (hasChildDumped()) putBetweenElement();
+            else                  putBefore1stElement();
         }
 
         String txt;
         JsTypes type = value.getJsTypes();
-        switch(type){
+        switch (type) {
         case OBJECT:
             txt = "{";
             break;
@@ -370,7 +370,7 @@ class JsonAppender implements ValueVisitor {
         append(txt);
         setChildDumped();
 
-        if(type.isComposition()){
+        if (type.isComposition()) {
             assert value instanceof JsComposition;
             JsComposition<?> composition = (JsComposition) value;
             pushComposition(composition);
@@ -389,9 +389,9 @@ class JsonAppender implements ValueVisitor {
      */
     @Override
     public void visitPairName(String pairName)
-            throws JsVisitException{
-        if(hasChildDumped()) putBetweenElement();
-        else                 putBefore1stElement();
+            throws JsVisitException {
+        if (hasChildDumped()) putBetweenElement();
+        else                  putBefore1stElement();
 
         putPairName(pairName);
         putPairSeparator();
@@ -411,16 +411,16 @@ class JsonAppender implements ValueVisitor {
      */
     @Override
     public void visitCompositionClose(JsComposition<?> closed)
-            throws JsVisitException{
+            throws JsVisitException {
         boolean hasDumped = hasChildDumped();
         JsComposition<?> composition = popComposition();
 
-        if(hasDumped) putAfterLastElement();
-        else          putEmptyElement();
+        if (hasDumped) putAfterLastElement();
+        else           putEmptyElement();
 
         char closeBrace;
         JsTypes type = composition.getJsTypes();
-        switch(type){
+        switch (type) {
         case OBJECT:
             closeBrace = '}';
             break;
@@ -433,7 +433,7 @@ class JsonAppender implements ValueVisitor {
         }
         append(closeBrace);
 
-        if(isNestEmpty()){
+        if (isNestEmpty()) {
             putAfterParse();
             flush();
         }
@@ -444,7 +444,7 @@ class JsonAppender implements ValueVisitor {
     /**
      * ネストされた各JSON集約型コンテキストの出力状況。
      */
-    private static class DumpContext{
+    private static class DumpContext {
         private final JsComposition<?> composition;
         private boolean childDumped;
 
@@ -455,7 +455,7 @@ class JsonAppender implements ValueVisitor {
          *
          * @param composition レベルに対応するOBJECTもしくはARRAY型Value
          */
-        DumpContext(JsComposition<?> composition){
+        DumpContext(JsComposition<?> composition) {
             this.composition = composition;
             this.childDumped = false;
             return;
@@ -466,7 +466,7 @@ class JsonAppender implements ValueVisitor {
          *
          * @return OBJECTもしくはARRAY型Value
          */
-        JsComposition<?> getComposition(){
+        JsComposition<?> getComposition() {
             return this.composition;
         }
 
@@ -475,14 +475,14 @@ class JsonAppender implements ValueVisitor {
          *
          * @return 子要素出力が行われていたならtrue
          */
-        boolean hasChildDumped(){
+        boolean hasChildDumped() {
             return this.childDumped;
         }
 
         /**
          * このレベルで子要素出力が行われた事実を設定する。
          */
-        void setChildDumped(){
+        void setChildDumped() {
             this.childDumped = true;
             return;
         }
