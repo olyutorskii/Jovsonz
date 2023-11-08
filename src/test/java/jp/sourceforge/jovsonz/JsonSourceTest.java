@@ -194,7 +194,7 @@ public class JsonSourceTest {
             assertEquals(2, e.getLineNumber());
             assertEquals("We need but no more JSON data [line:2]",
                          e.getMessage());
-        }catch(Throwable e){
+        }catch(IOException e){
             fail();
         }
 
@@ -206,7 +206,7 @@ public class JsonSourceTest {
             fail();
         }catch(IOException e){
             // GOOD!
-        }catch(Throwable e){
+        }catch(JsParseException e){
             fail();
         }
 

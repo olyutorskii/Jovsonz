@@ -148,16 +148,17 @@ public class JsBooleanTest {
     public void testEquals(){
         System.out.println("equals");
 
+        JsValue jsnull = JsNull.NULL;
         JsBoolean nullVal = null;
 
         assertTrue(JsBoolean.TRUE.equals(JsBoolean.TRUE));
         assertFalse(JsBoolean.TRUE.equals(JsBoolean.FALSE));
-        assertFalse(JsBoolean.TRUE.equals(JsNull.NULL));
+        assertFalse(JsBoolean.TRUE.equals(jsnull));
         assertFalse(JsBoolean.TRUE.equals(nullVal));
 
         assertFalse(JsBoolean.FALSE.equals(JsBoolean.TRUE));
         assertTrue(JsBoolean.FALSE.equals(JsBoolean.FALSE));
-        assertFalse(JsBoolean.TRUE.equals(JsNull.NULL));
+        assertFalse(JsBoolean.TRUE.equals(jsnull));
         assertFalse(JsBoolean.FALSE.equals(nullVal));
 
         return;

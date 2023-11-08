@@ -116,7 +116,8 @@ public class JsNullTest {
         JsNull nullVal = null;
         assertFalse(JsNull.NULL.equals(nullVal));
 
-        assertFalse(JsNull.NULL.equals(""));
+        Object obj = "";
+        assertFalse(JsNull.NULL.equals(obj));
 
         return;
     }

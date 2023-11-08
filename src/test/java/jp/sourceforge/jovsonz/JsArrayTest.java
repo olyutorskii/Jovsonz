@@ -350,7 +350,8 @@ public class JsArrayTest {
 
         assertFalse(array1.equals(nullVal));
 
-        assertFalse(array1.equals(""));
+        Object obj = "";
+        assertFalse(array1.equals(obj));
 
         return;
     }

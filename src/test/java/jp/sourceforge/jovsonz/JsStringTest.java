@@ -56,8 +56,8 @@ public class JsStringTest {
     }
 
     /**
-     * Test of pa
-     * @throws java.lang.ExceptionrseHexChar method, of class JsString.
+     * Test of parseHexChar method, of class JsString.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseHexChar() throws Exception{
@@ -407,7 +407,8 @@ public class JsStringTest {
         JsString nullVal = null;
         assertFalse(new JsString("A").equals(nullVal));
 
-        assertFalse(new JsString("A").equals(""));
+        Object obj = "";
+        assertFalse(new JsString("A").equals(obj));
 
         return;
     }

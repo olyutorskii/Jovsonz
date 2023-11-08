@@ -70,7 +70,7 @@ public class UnmodIteratorTest {
         list.add("C");
 
         it = list.iterator();
-        UnmodIterator<String> unmod = new UnmodIterator<String>(it);
+        UnmodIterator<String> unmod = new UnmodIterator<>(it);
 
         assert3ListAndIterator(list, unmod);
 

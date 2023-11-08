@@ -164,6 +164,7 @@ public class JsNumberTest {
 
     /**
      * Test of constructor, of class JsNumber.
+     * @throws java.lang.Exception
      */
     @Test
     public void testConstructors() throws Exception{
@@ -358,7 +359,8 @@ public class JsNumberTest {
         assertTrue(new JsNumber("1").equals(new JsNumber("1")));
         assertFalse(new JsNumber("1").equals(new JsNumber("2")));
         assertFalse(new JsNumber("1").equals(nullVal));
-        assertFalse(new JsNumber("1").equals(""));
+        Object obj = "";
+        assertFalse(new JsNumber("1").equals(obj));
 
         assertTrue(new JsNumber("1.23").equals(new JsNumber("123e-2")));
         assertFalse(new JsNumber("1.0").equals(new JsNumber("1.00")));

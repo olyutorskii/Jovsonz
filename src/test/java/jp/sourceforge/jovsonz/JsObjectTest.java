@@ -408,8 +408,9 @@ public class JsObjectTest {
         assertFalse(obj1.equals(obj2));
 
         JsObject nullVal = null;
+        Object obj = "";
         assertFalse(obj1.equals(nullVal));
-        assertFalse(obj1.equals(""));
+        assertFalse(obj1.equals(obj));
 
         return;
     }
@@ -439,6 +440,7 @@ public class JsObjectTest {
 
     /**
      * Test of traverse method, of class JsObject.
+     * @throws java.lang.Exception
      */
     @Test
     public void testTraverse() throws Exception{

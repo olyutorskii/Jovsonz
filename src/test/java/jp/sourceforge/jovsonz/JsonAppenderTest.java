@@ -141,6 +141,7 @@ public class JsonAppenderTest {
 
         Reader reader = new StringReader("[1,2,3,4,5]");
         JsComposition<?> root = Json.parseJson(reader);
+        assert root == root;
 
         Appendable app = new TroubleAppender(3);
         JsonAppender appender = new JsonAppender(app);
