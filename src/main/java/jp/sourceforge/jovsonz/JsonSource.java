@@ -36,7 +36,8 @@ class JsonSource implements Closeable {
             "Stream closed";
 
     static {
-        assert "\\uXXXX".length() < PUSHBACK_TOKENS;
+        boolean enoughPushBack = "\\uXXXX".length() < PUSHBACK_TOKENS;
+        assert enoughPushBack;
     }
 
     private final Reader reader;

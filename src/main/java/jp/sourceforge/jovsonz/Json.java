@@ -49,7 +49,6 @@ public final class Json {
         try {
             topValue.traverse(appender);
         } catch (JsVisitException e) {
-            assert appender.hasIOException();
             throw appender.getIOException();
         }
 
