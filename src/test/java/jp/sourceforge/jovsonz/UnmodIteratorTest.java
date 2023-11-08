@@ -64,7 +64,7 @@ public class UnmodIteratorTest {
         List<String> list;
         Iterator<String> it;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -75,8 +75,9 @@ public class UnmodIteratorTest {
         assert3ListAndIterator(list, unmod);
 
         try{
-            unmod = new UnmodIterator<String>(null);
+            unmod = new UnmodIterator<>(null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -94,7 +95,7 @@ public class UnmodIteratorTest {
         List<String> list;
         Iterator<String> it;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -107,6 +108,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.wrapUnmod((Iterator<String>)null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -123,7 +125,7 @@ public class UnmodIteratorTest {
 
         List<String> list;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -135,6 +137,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.wrapUnmod((Iterable<String>)null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -151,7 +154,7 @@ public class UnmodIteratorTest {
 
         List<String> list;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -163,6 +166,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.unmodIterator(null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }

@@ -27,6 +27,7 @@ public class TroubleAppender implements Appendable, Flushable {
         return;
     }
 
+    @Override
     public Appendable append(CharSequence csq)
             throws IOException{
         this.content.append(csq);
@@ -34,6 +35,7 @@ public class TroubleAppender implements Appendable, Flushable {
         return this;
     }
 
+    @Override
     public Appendable append(CharSequence csq, int start, int end)
             throws IOException{
         this.content.append(csq, start, end);
@@ -41,6 +43,7 @@ public class TroubleAppender implements Appendable, Flushable {
         return this;
     }
 
+    @Override
     public Appendable append(char c)
             throws IOException{
         this.content.append(c);
@@ -48,6 +51,7 @@ public class TroubleAppender implements Appendable, Flushable {
         return this;
     }
 
+    @Override
     public void flush() throws IOException{
         throw new IOException();
     }

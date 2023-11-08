@@ -25,6 +25,7 @@ public class JsObjectTest {
 
     /**
      * Test of parseObject method, of class JsObject.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseObject() throws Exception{
@@ -62,6 +63,7 @@ public class JsObjectTest {
             source = new JsonSource("{,}");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -70,6 +72,7 @@ public class JsObjectTest {
             source = new JsonSource("{true,}");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -78,6 +81,7 @@ public class JsObjectTest {
             source = new JsonSource("{true");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -86,6 +90,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\",");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -94,6 +99,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\":");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -102,6 +108,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\":#");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -110,6 +117,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\":true#");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -118,6 +126,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\":true,");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -126,6 +135,7 @@ public class JsObjectTest {
             source = new JsonSource("{\"A\":true,#");
             object = JsObject.parseObject(source);
             fail();
+            assert object == object;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -440,22 +450,25 @@ public class JsObjectTest {
         obj.putValue("x", val1);
         obj.putValue("y", val2);
 
-        final List<Object> visited = new LinkedList<Object>();
+        final List<Object> visited = new LinkedList<>();
 
         try{
             obj.traverse(new ValueVisitor(){
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     visited.add(value);
                     return;
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     visited.add(name);
                     return;
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     visited.add(composite);
