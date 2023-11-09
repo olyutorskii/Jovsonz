@@ -32,7 +32,7 @@ public final class JsNull
     public static final String TEXT = "null";
 
     /** 唯一のハッシュ値。 */
-    public static final int ONLYHASH = 982451653; // 大きな素数;
+    public static final int ONLYHASH = 982_451_653; // 大きな素数;
 
     /**
      * 隠しコンストラクタ。

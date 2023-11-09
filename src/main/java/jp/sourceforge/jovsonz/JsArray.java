@@ -328,14 +328,14 @@ public class JsArray
     public String toString() {
         StringBuilder text = new StringBuilder();
 
-        text.append("[");
+        text.append('[');
         boolean hasElem = false;
         for (JsValue value : this.valueList) {
             if (hasElem) text.append(',');
             text.append(value);
             hasElem = true;
         }
-        text.append("]");
+        text.append(']');
 
         return text.toString();
     }

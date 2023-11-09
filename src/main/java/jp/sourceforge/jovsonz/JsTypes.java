@@ -31,7 +31,7 @@ public enum JsTypes {
     private static final JsTypes[] VALUE_ARRAY = values();
 
     private final Class<? extends JsValue> klass;
-    private final boolean isComposition;
+    private final boolean isJsComposition;
 
     /**
      * コンストラクタ。
@@ -42,9 +42,9 @@ public enum JsTypes {
         this.klass = klass;
 
         if (JsComposition.class.isAssignableFrom(this.klass)) {
-            this.isComposition = true;
+            this.isJsComposition = true;
         } else {
-            this.isComposition = false;
+            this.isJsComposition = false;
         }
 
         return;
@@ -84,7 +84,7 @@ public enum JsTypes {
      * @return 子要素を持ちうるならtrue
      */
     public boolean isComposition() {
-        return this.isComposition;
+        return this.isJsComposition;
     }
 
 }

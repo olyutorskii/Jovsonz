@@ -32,6 +32,7 @@ import java.util.TreeMap;
  * }
  * </pre>
  */
+@SuppressWarnings("PMD.UseConcurrentHashMap")
 public class JsObject
         implements JsComposition<JsPair> {
 
@@ -226,7 +227,7 @@ public class JsObject
      */
     @Override
     public void clear() {
-        if (this.pairMap.size() > 0) this.changed = true;
+        if (!this.pairMap.isEmpty()) this.changed = true;
         this.pairMap.clear();
         return;
     }
@@ -390,7 +391,7 @@ public class JsObject
     public String toString() {
         StringBuilder text = new StringBuilder();
 
-        text.append("{");
+        text.append('{');
 
         boolean hasElem = false;
         for (JsPair pair : this) {
@@ -399,7 +400,7 @@ public class JsObject
             hasElem = true;
         }
 
-        text.append("}");
+        text.append('}');
 
         return text.toString();
     }
