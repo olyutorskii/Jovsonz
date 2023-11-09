@@ -371,6 +371,7 @@ public class JsNumber
      *
      * @see java.math.BigDecimal#compareTo(BigDecimal)
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @Override
     public int compareTo(JsNumber value) {
         if (this == value) return 0;

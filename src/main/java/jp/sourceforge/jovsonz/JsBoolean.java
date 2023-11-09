@@ -164,6 +164,7 @@ public final class JsBoolean
      * @return {@inheritDoc}
      * @throws NullPointerException 引数がnull
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @Override
     public int compareTo(JsBoolean value) {
         Objects.requireNonNull(value);

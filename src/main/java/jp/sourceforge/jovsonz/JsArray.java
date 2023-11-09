@@ -191,7 +191,7 @@ public class JsArray
      */
     @Override
     public void clear() {
-        if (this.valueList.size() > 0) this.changed = true;
+        if (!this.valueList.isEmpty()) this.changed = true;
         this.valueList.clear();
         return;
     }
@@ -271,6 +271,7 @@ public class JsArray
      * @return 既存のValueが削除されたならtrue
      */
     // TODO 必要？
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     public boolean remove(JsValue value) {
         boolean removed = false;
 

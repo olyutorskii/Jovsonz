@@ -378,6 +378,7 @@ public class JsString
      * @param value {@inheritDoc}
      * @return {@inheritDoc}
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @Override
     public int compareTo(JsString value) {
         if (this == value) return 0;
