@@ -8,6 +8,7 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JSON STRING型Valueを表す。
@@ -54,9 +55,9 @@ public class JsString
      * @param rawSeq 生文字列
      * @throws NullPointerException 引数がnull
      */
-    public JsString(CharSequence rawSeq) throws NullPointerException {
+    public JsString(CharSequence rawSeq) {
         super();
-        if (rawSeq == null) throw new NullPointerException();
+        Objects.requireNonNull(rawSeq);
         this.rawText = rawSeq.toString();
         return;
     }
@@ -395,8 +396,7 @@ public class JsString
      *     or not less than the length of this string.
      */
     @Override
-    public char charAt(int index)
-            throws IndexOutOfBoundsException {
+    public char charAt(int index) {
         return this.rawText.charAt(index);
     }
 
@@ -426,8 +426,7 @@ public class JsString
      *     or if {@code start} is greater than {@code end}
      */
     @Override
-    public CharSequence subSequence(int start, int end)
-            throws IndexOutOfBoundsException {
+    public CharSequence subSequence(int start, int end) {
         return this.rawText.subSequence(start, end);
     }
 

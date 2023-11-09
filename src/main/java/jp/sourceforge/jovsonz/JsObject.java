@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -270,10 +271,9 @@ public class JsObject
      * @return 旧Value。同じ内容のPAIRがすでに存在していたらnull
      * @throws NullPointerException 引数のいずれかがnull
      */
-    public JsValue putValue(String name, JsValue value)
-            throws NullPointerException {
-        if (name  == null) throw new NullPointerException();
-        if (value == null) throw new NullPointerException();
+    public JsValue putValue(String name, JsValue value) {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(value);
 
         JsValue oldValue = null;
         JsPair oldPair = this.pairMap.get(name);

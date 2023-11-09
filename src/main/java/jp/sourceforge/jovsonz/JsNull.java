@@ -8,6 +8,7 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JSON NULL型Valueを表す。
@@ -138,8 +139,8 @@ public final class JsNull
      * @throws NullPointerException 引数がnull
      */
     @Override
-    public int compareTo(JsNull value) throws NullPointerException {
-        if (value == null) throw new NullPointerException();
+    public int compareTo(JsNull value) {
+        Objects.requireNonNull(value);
         return 0;
     }
 

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * JSON ARRAY型Valueを表す。
@@ -237,8 +238,8 @@ public class JsArray
      * @param value JSON Value
      * @throws NullPointerException 引数がnull
      */
-    public void add(JsValue value) throws NullPointerException {
-        if (value == null) throw new NullPointerException();
+    public void add(JsValue value) {
+        Objects.requireNonNull(value);
         this.valueList.add(value);
         this.changed = true;
         return;
@@ -251,7 +252,7 @@ public class JsArray
      * @return Value JSON Value
      * @throws IndexOutOfBoundsException 不正な位置指定
      */
-    public JsValue get(int index) throws IndexOutOfBoundsException {
+    public JsValue get(int index) {
         return this.valueList.get(index);
     }
 
@@ -294,7 +295,7 @@ public class JsArray
      * @return 削除されたValue
      * @throws IndexOutOfBoundsException 不正なインデックス値
      */
-    public JsValue remove(int index) throws IndexOutOfBoundsException {
+    public JsValue remove(int index) {
         JsValue removed = this.valueList.remove(index);
         this.changed = true;
         return removed;

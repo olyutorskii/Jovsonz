@@ -7,6 +7,8 @@
 
 package jp.sourceforge.jovsonz;
 
+import java.util.Objects;
+
 /**
  * JSON 各種型列挙。
  */
@@ -55,9 +57,8 @@ public enum JsTypes {
      * @return 型列挙。JSON型に由来しないクラスが指定されたときはnull
      * @throws NullPointerException 引数がnull
      */
-    public static JsTypes getJsTypes(Class<?> carg)
-            throws NullPointerException {
-        if (carg == null) throw new NullPointerException();
+    public static JsTypes getJsTypes(Class<?> carg) {
+        Objects.requireNonNull(carg);
 
         for (JsTypes types : VALUE_ARRAY) {
             if (types.klass == carg) return types;

@@ -10,6 +10,7 @@ package jp.sourceforge.jovsonz;
 import java.io.Flushable;
 import java.io.IOException;
 import java.util.EmptyStackException;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
@@ -52,11 +53,9 @@ class JsonAppender implements ValueVisitor {
      * @param appout 出力先
      * @throws NullPointerException 引数がnull
      */
-    public JsonAppender(Appendable appout)
-            throws NullPointerException {
+    public JsonAppender(Appendable appout) {
         super();
-        if (appout == null) throw new NullPointerException();
-        this.appout = appout;
+        this.appout = Objects.requireNonNull(appout);
         return;
     }
 
@@ -77,7 +76,7 @@ class JsonAppender implements ValueVisitor {
      * @return スタックトップのコンテキスト
      * @throws EmptyStackException スタック構造が空
      */
-    protected JsComposition<?> popComposition() throws EmptyStackException {
+    protected JsComposition<?> popComposition() {
         DumpContext context = this.contextStack.pop();
         JsComposition<?> composition = context.getComposition();
         return composition;

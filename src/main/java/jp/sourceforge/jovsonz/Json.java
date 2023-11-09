@@ -9,6 +9,7 @@ package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Objects;
 
 /**
  * JSON各種共通ユーティリティ。
@@ -37,12 +38,9 @@ public final class Json {
      * @throws IOException 出力エラー
      */
     public static void dumpJson(Appendable appout, JsComposition<?> topValue)
-            throws NullPointerException,
-                   JsVisitException,
-                   IOException {
-        if (appout == null || topValue == null) {
-            throw new NullPointerException();
-        }
+            throws JsVisitException, IOException {
+        Objects.requireNonNull(appout);
+        Objects.requireNonNull(topValue);
 
         JsonAppender appender = new JsonAppender(appout);
 

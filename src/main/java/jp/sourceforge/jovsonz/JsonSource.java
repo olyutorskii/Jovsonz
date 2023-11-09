@@ -11,6 +11,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Objects;
 
 /**
  * JSONデータ用入力ソース。
@@ -56,10 +57,9 @@ class JsonSource implements Closeable {
      * @param reader 文字入力リーダー
      * @throws NullPointerException 引数がnull
      */
-    public JsonSource(Reader reader) throws NullPointerException {
+    public JsonSource(Reader reader) {
         super();
-        if (reader == null) throw new NullPointerException();
-        this.reader = reader;
+        this.reader = Objects.requireNonNull(reader);
         return;
     }
 

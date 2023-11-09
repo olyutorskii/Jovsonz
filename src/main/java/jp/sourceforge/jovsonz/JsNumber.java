@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * JSON NUMBER型Valueを表す。
@@ -80,10 +81,8 @@ public class JsNumber
      * コンストラクタ。
      *
      * @param val 初期整数値
-     * @throws ArithmeticException 正確な結果を
-     *     {@link java.math.BigDecimal}に納め切れない
      */
-    public JsNumber(BigInteger val) throws ArithmeticException {
+    public JsNumber(BigInteger val) {
         this(new BigDecimal(val, DEF_MC));
         return;
     }
@@ -95,13 +94,10 @@ public class JsNumber
      *
      * @param val 初期数値の文字列表記
      * @throws NumberFormatException 不正な数値表記
-     * @throws ArithmeticException 正確な結果を
-     *     {@link java.math.BigDecimal}に納め切れない
      *
      * @see java.math.BigDecimal#BigDecimal(String)
      */
-    public JsNumber(CharSequence val)
-            throws NumberFormatException, ArithmeticException {
+    public JsNumber(CharSequence val) {
         this(new BigDecimal(val.toString(), DEF_MC));
         return;
     }
@@ -112,10 +108,9 @@ public class JsNumber
      * @param val 初期数値
      * @throws NullPointerException 引数がnull
      */
-    public JsNumber(BigDecimal val) throws NullPointerException {
+    public JsNumber(BigDecimal val) {
         super();
-        if (val == null) throw new NullPointerException();
-        this.decimal = val;
+        this.decimal = Objects.requireNonNull(val);
         return;
     }
 

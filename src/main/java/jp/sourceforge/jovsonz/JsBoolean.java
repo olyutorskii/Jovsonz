@@ -8,6 +8,7 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JSON BOOLEAN型Valueを表す。
@@ -164,8 +165,8 @@ public final class JsBoolean
      * @throws NullPointerException 引数がnull
      */
     @Override
-    public int compareTo(JsBoolean value) throws NullPointerException {
-        if (value == null) throw new NullPointerException();
+    public int compareTo(JsBoolean value) {
+        Objects.requireNonNull(value);
 
         int result;
         if (this == value) {
