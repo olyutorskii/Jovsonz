@@ -123,8 +123,9 @@ public class JsNumber
      * @see java.lang.Character#isDigit(char)
      */
     public static boolean isLatinDigit(char ch) {
-        if ('0' <= ch && ch <= '9') return true;
-        return false;
+        boolean result;
+        result = '0' <= ch && ch <= '9';
+        return result;
     }
 
     /**

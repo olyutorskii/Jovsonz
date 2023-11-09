@@ -124,8 +124,8 @@ public final class JsNull
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof JsNull) return true;  // シングルトンには冗長
-        return false;
+        boolean result = obj instanceof JsNull;
+        return result;
     }
 
     /**

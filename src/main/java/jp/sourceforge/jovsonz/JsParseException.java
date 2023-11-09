@@ -77,8 +77,8 @@ public class JsParseException extends Exception {
      * @return 有効な行番号(1以上)を保持していればtrue
      */
     public boolean hasValidLineNumber() {
-        if (this.lineNumber > 0) return true;
-        return false;
+        boolean result = this.lineNumber > 0;
+        return result;
     }
 
     /**

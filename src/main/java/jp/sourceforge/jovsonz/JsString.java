@@ -253,15 +253,16 @@ public class JsString
             throws IOException {
         char esc1ch = escapeSymbol(ch);
 
-        if (esc1ch != '\0') {
-            appout.append('\\').append(esc1ch);
-        } else if (Character.isISOControl(ch)) {
+        if (esc1ch == '\0') {
+            if (!Character.isISOControl(ch)) {
+                return false;
+            }
             // TODO さらなる高速化が必要
             String hex = "0000" + Integer.toHexString(ch);
             hex = hex.substring(hex.length() - NIBBLES_CHAR);
             appout.append("\\u").append(hex);
         } else {
-            return false;
+            appout.append('\\').append(esc1ch);
         }
 
         return true;

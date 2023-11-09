@@ -206,8 +206,8 @@ class JsonAppender implements ValueVisitor {
      * @return トラバース中断の原因となったIOExceptionがあればtrue
      */
     public boolean hasIOException() {
-        if (this.ioException != null) return true;
-        return false;
+        boolean result = this.ioException != null;
+        return result;
     }
 
     /**

@@ -149,9 +149,13 @@ public final class JsBoolean
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj instanceof JsBoolean) return false;
-        return false;
+        boolean result;
+        if (obj instanceof JsBoolean) {
+            result = this == obj;
+        } else {
+            result = false;
+        }
+        return result;
     }
 
     /**
@@ -198,8 +202,9 @@ public final class JsBoolean
      * @return boolean値
      */
     public boolean booleanValue() {
-        if (this == TRUE) return true;
-        return false;
+        boolean result;
+        result = this == TRUE;
+        return result;
     }
 
     /**
@@ -208,8 +213,9 @@ public final class JsBoolean
      * @return 真ならtrue
      */
     public boolean isTrue() {
-        if (this == TRUE) return true;
-        return false;
+        boolean result;
+        result = this == TRUE;
+        return result;
     }
 
     /**
@@ -218,8 +224,9 @@ public final class JsBoolean
      * @return 偽ならtrue
      */
     public boolean isFalse() {
-        if (this != TRUE) return true;
-        return false;
+        boolean result;
+        result = this != TRUE;
+        return result;
     }
 
     /**

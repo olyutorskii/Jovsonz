@@ -150,10 +150,14 @@ public class JsPair {
         if ( !(obj instanceof JsPair) ) return false;
         JsPair target = (JsPair) obj;
 
-        if ( !this.name .equals(target.name)  ) return false;
-        if ( !this.value.equals(target.value) ) return false;
+        boolean result;
+        if (this.name.equals(target.name)) {
+            result = this.value.equals(target.value);
+        } else {
+            result = false;
+        }
 
-        return true;
+        return result;
     }
 
     /**
