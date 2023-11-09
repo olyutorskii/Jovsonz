@@ -131,9 +131,9 @@ class JsonAppender implements ValueVisitor {
         DumpContext context = this.contextStack.peek();
         JsComposition<?> composition = context.getComposition();
         JsTypes type = composition.getJsTypes();
-        if (type != JsTypes.ARRAY) return false;
 
-        return true;
+        boolean result = type == JsTypes.ARRAY;
+        return result;
     }
 
     /**

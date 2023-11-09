@@ -40,13 +40,7 @@ public enum JsTypes {
      */
     private JsTypes(Class<? extends JsValue> klass) {
         this.klass = klass;
-
-        if (JsComposition.class.isAssignableFrom(this.klass)) {
-            this.isJsComposition = true;
-        } else {
-            this.isJsComposition = false;
-        }
-
+        this.isJsComposition = JsComposition.class.isAssignableFrom(this.klass);
         return;
     }
 
