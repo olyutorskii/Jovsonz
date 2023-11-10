@@ -15,10 +15,13 @@ package jp.sourceforge.jovsonz;
 @SuppressWarnings("serial")
 public class JsParseException extends Exception {
 
+    /** ERROR MESSAGE: invalid token. */
     static final String ERRMSG_INVALIDTOKEN =
             "invalid JSON token";
+    /** ERROR MESSAGE: invalid root. */
     static final String ERRMSG_INVALIDROOT =
             "top root JSON value must be OBJECT or ARRAY";
+    /** ERROR MESSAGE: no more data. */
     static final String ERRMSG_NODATA =
             "We need but no more JSON data";
 
@@ -30,7 +33,7 @@ public class JsParseException extends Exception {
     /**
      * コンストラクタ。
      */
-    public JsParseException(){
+    public JsParseException() {
         this(null, LINE_UNKNOWN);
         return;
     }
@@ -41,7 +44,7 @@ public class JsParseException extends Exception {
      * @param message 詳細メッセージ。不明な場合はnull
      * @param lineNumber 行番号。不明な場合は0以下の値
      */
-    public JsParseException(String message, int lineNumber){
+    public JsParseException(String message, int lineNumber) {
         this(message, (Throwable) null, lineNumber);
         return;
     }
@@ -53,7 +56,7 @@ public class JsParseException extends Exception {
      * @param cause 原因となった例外。不明な場合はnull
      * @param lineNumber 行番号。不明な場合は0以下の値
      */
-    public JsParseException(String message, Throwable cause, int lineNumber){
+    public JsParseException(String message, Throwable cause, int lineNumber) {
         super(message, cause);
         this.lineNumber = lineNumber;
         return;
@@ -64,7 +67,7 @@ public class JsParseException extends Exception {
      *
      * @return 行番号。不明な場合は0以下の値。
      */
-    public int getLineNumber(){
+    public int getLineNumber() {
         return this.lineNumber;
     }
 
@@ -73,9 +76,9 @@ public class JsParseException extends Exception {
      *
      * @return 有効な行番号(1以上)を保持していればtrue
      */
-    public boolean hasValidLineNumber(){
-        if(this.lineNumber > 0) return true;
-        return false;
+    public boolean hasValidLineNumber() {
+        boolean result = this.lineNumber > 0;
+        return result;
     }
 
     /**
@@ -86,20 +89,20 @@ public class JsParseException extends Exception {
      * @return {@inheritDoc}
      */
     @Override
-    public String getMessage(){
+    public String getMessage() {
         StringBuilder message = new StringBuilder();
 
         String superMessage = super.getMessage();
-        if(superMessage != null){
+        if (superMessage != null) {
             message.append(superMessage);
         }
 
-        if(hasValidLineNumber()){
-            if(message.length() > 0) message.append(' ');
+        if (hasValidLineNumber()) {
+            if (message.length() > 0) message.append(' ');
             message.append("[line:").append(this.lineNumber).append(']');
         }
 
-        if(message.length() <= 0) return null;
+        if (message.length() <= 0) return null;
         return message.toString();
     }
 

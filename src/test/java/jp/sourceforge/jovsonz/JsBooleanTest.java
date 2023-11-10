@@ -32,17 +32,20 @@ public class JsBooleanTest {
             JsBoolean.TRUE.traverse(new ValueVisitor(){
                 int ct = 0;
 
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     assertEquals(JsBoolean.TRUE, value);
                     assertTrue(this.ct++ <= 0);
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
@@ -56,17 +59,20 @@ public class JsBooleanTest {
             JsBoolean.FALSE.traverse(new ValueVisitor(){
                 int ct = 0;
 
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     assertEquals(JsBoolean.FALSE, value);
                     assertTrue(this.ct++ <= 0);
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
@@ -142,16 +148,17 @@ public class JsBooleanTest {
     public void testEquals(){
         System.out.println("equals");
 
+        JsValue jsnull = JsNull.NULL;
         JsBoolean nullVal = null;
 
         assertTrue(JsBoolean.TRUE.equals(JsBoolean.TRUE));
         assertFalse(JsBoolean.TRUE.equals(JsBoolean.FALSE));
-        assertFalse(JsBoolean.TRUE.equals(JsNull.NULL));
+        assertFalse(JsBoolean.TRUE.equals(jsnull));
         assertFalse(JsBoolean.TRUE.equals(nullVal));
 
         assertFalse(JsBoolean.FALSE.equals(JsBoolean.TRUE));
         assertTrue(JsBoolean.FALSE.equals(JsBoolean.FALSE));
-        assertFalse(JsBoolean.TRUE.equals(JsNull.NULL));
+        assertFalse(JsBoolean.TRUE.equals(jsnull));
         assertFalse(JsBoolean.FALSE.equals(nullVal));
 
         return;
@@ -182,7 +189,7 @@ public class JsBooleanTest {
             // NOTHING
         }
 
-        SortedSet<JsBoolean> set = new TreeSet<JsBoolean>();
+        SortedSet<JsBoolean> set = new TreeSet<>();
 
         set.clear();
         set.add(JsBoolean.TRUE);
@@ -236,6 +243,8 @@ public class JsBooleanTest {
 
     /**
      * Test of parseBoolean method, of class JsBoolean.
+     *
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseBoolean() throws Exception{
@@ -260,6 +269,7 @@ public class JsBooleanTest {
             source = new JsonSource("tX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -268,6 +278,7 @@ public class JsBooleanTest {
             source = new JsonSource("trX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -276,6 +287,7 @@ public class JsBooleanTest {
             source = new JsonSource("truX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -284,6 +296,7 @@ public class JsBooleanTest {
             source = new JsonSource("fX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -292,6 +305,7 @@ public class JsBooleanTest {
             source = new JsonSource("faX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -300,6 +314,7 @@ public class JsBooleanTest {
             source = new JsonSource("falX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -308,6 +323,7 @@ public class JsBooleanTest {
             source = new JsonSource("falsX");
             result = JsBoolean.parseBoolean(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }

@@ -8,6 +8,7 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * JSON NULL型Valueを表す。
@@ -31,14 +32,14 @@ public final class JsNull
     public static final String TEXT = "null";
 
     /** 唯一のハッシュ値。 */
-    public static final int ONLYHASH = 982451653; // 大きな素数;
+    public static final int ONLYHASH = 982_451_653; // 大きな素数;
 
     /**
      * 隠しコンストラクタ。
      *
      * <p>1回しか呼ばれないはず
      */
-    private JsNull(){
+    private JsNull() {
         super();
         return;
     }
@@ -55,15 +56,15 @@ public final class JsNull
      * @throws JsParseException 不正トークンもしくは意図しない入力終了
      */
     static JsNull parseNull(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
 
-        if(charHead != 'n'){
+        if (charHead != 'n') {
             source.unread(charHead);
             return null;
         }
 
-        if( ! source.matchOrDie("ull") ){
+        if ( !source.matchOrDie("ull") ) {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDTOKEN,
                                        source.getLineNumber() );
         }
@@ -79,7 +80,7 @@ public final class JsNull
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.NULL;
     }
 
@@ -93,7 +94,7 @@ public final class JsNull
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
@@ -107,7 +108,7 @@ public final class JsNull
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return ONLYHASH;
     }
 
@@ -121,10 +122,10 @@ public final class JsNull
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if(obj instanceof JsNull) return true;  // シングルトンには冗長
-        return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        boolean result = obj instanceof JsNull;
+        return result;
     }
 
     /**
@@ -138,8 +139,8 @@ public final class JsNull
      * @throws NullPointerException 引数がnull
      */
     @Override
-    public int compareTo(JsNull value) throws NullPointerException{
-        if(value == null) throw new NullPointerException();
+    public int compareTo(JsNull value) {
+        Objects.requireNonNull(value);
         return 0;
     }
 
@@ -153,7 +154,7 @@ public final class JsNull
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         return TEXT;
     }
 

@@ -34,6 +34,7 @@ public class JsonAppenderTest {
         try{
             appender = new JsonAppender(null);
             fail();
+            assert appender == appender;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -132,6 +133,7 @@ public class JsonAppenderTest {
 
     /**
      * Test of getIOException method, of class JsonAppender.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetIOException() throws Exception{
@@ -139,6 +141,7 @@ public class JsonAppenderTest {
 
         Reader reader = new StringReader("[1,2,3,4,5]");
         JsComposition<?> root = Json.parseJson(reader);
+        assert root == root;
 
         Appendable app = new TroubleAppender(3);
         JsonAppender appender = new JsonAppender(app);
@@ -159,6 +162,7 @@ public class JsonAppenderTest {
 
     /**
      * Test of putPairName method, of class JsonAppender.
+     * @throws java.lang.Exception
      */
     @Test
     public void testPutPairName() throws Exception{
@@ -182,6 +186,7 @@ public class JsonAppenderTest {
 
     /**
      * Test of append method, of class JsonAppender.
+     * @throws java.lang.Exception
      */
     @Test
     public void testAppend() throws Exception{
@@ -216,6 +221,7 @@ public class JsonAppenderTest {
 
     /**
      * Test of flush method, of class JsonAppender.
+     * @throws java.lang.Exception
      */
     @Test
     public void testFlush() throws Exception{

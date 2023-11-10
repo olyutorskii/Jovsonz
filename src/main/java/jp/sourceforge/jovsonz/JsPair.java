@@ -8,6 +8,7 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * OBJECT型Value内に列挙される、名前の付いたValueとの組(PAIR)。
@@ -34,15 +35,10 @@ public class JsPair {
      * @param value PAIR名に対応付けられるValue
      * @throws NullPointerException 引数のいずれかがnull
      */
-    public JsPair(String name, JsValue value)
-            throws NullPointerException{
+    public JsPair(String name, JsValue value) {
         super();
-
-        if(name  == null || value == null) throw new NullPointerException();
-
-        this.name = name;
-        this.value = value;
-
+        this.name  = Objects.requireNonNull(name);
+        this.value = Objects.requireNonNull(value);
         return;
     }
 
@@ -56,9 +52,8 @@ public class JsPair {
      *     エスケープされる前段階の表記。
      * @throws NullPointerException 引数がnull
      */
-    public JsPair(String name, CharSequence text)
-            throws NullPointerException{
-        this(name, (JsValue) new JsString(text) );
+    public JsPair(String name, CharSequence text) {
+        this(name, (JsValue) new JsString(text));
         return;
     }
 
@@ -71,8 +66,7 @@ public class JsPair {
      * @param bool PAIR名に対応付けられる真偽値
      * @throws NullPointerException PAIR名がnull
      */
-    public JsPair(String name, boolean bool)
-            throws NullPointerException{
+    public JsPair(String name, boolean bool) {
         this(name, JsBoolean.valueOf(bool));
         return;
     }
@@ -86,8 +80,7 @@ public class JsPair {
      * @param number PAIR名に対応付けられる整数値
      * @throws NullPointerException PAIR名がnull
      */
-    public JsPair(String name, long number)
-            throws NullPointerException{
+    public JsPair(String name, long number) {
         this(name, new JsNumber(number));
         return;
     }
@@ -101,8 +94,7 @@ public class JsPair {
      * @param number PAIR名に対応付けられる実数値
      * @throws NullPointerException PAIR名がnull
      */
-    public JsPair(String name, double number)
-            throws NullPointerException{
+    public JsPair(String name, double number) {
         this(name, new JsNumber(number));
         return;
     }
@@ -112,7 +104,7 @@ public class JsPair {
      *
      * @return PAIR名
      */
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
@@ -121,7 +113,7 @@ public class JsPair {
      *
      * @return Value
      */
-    public JsValue getValue(){
+    public JsValue getValue() {
         return this.value;
     }
 
@@ -135,7 +127,7 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         int nameHash = this.name.hashCode();
         int valHash = this.value.hashCode();
         return nameHash ^ valHash;
@@ -152,16 +144,20 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
 
-        if( ! (obj instanceof JsPair) ) return false;
+        if ( !(obj instanceof JsPair) ) return false;
         JsPair target = (JsPair) obj;
 
-        if( ! this.name .equals(target.name)  ) return false;
-        if( ! this.value.equals(target.value) ) return false;
+        boolean result;
+        if (this.name.equals(target.name)) {
+            result = this.value.equals(target.value);
+        } else {
+            result = false;
+        }
 
-        return true;
+        return result;
     }
 
     /**
@@ -172,11 +168,11 @@ public class JsPair {
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             JsString.dumpString(result, this.name);
-        }catch(IOException e){
+        } catch (IOException e) {
             assert false;
             throw new AssertionError(e);
         }
