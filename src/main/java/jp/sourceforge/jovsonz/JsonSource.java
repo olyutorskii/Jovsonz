@@ -14,19 +14,19 @@ import java.io.StringReader;
 import java.util.Objects;
 
 /**
- * JSONデータ用入力ソース。
+ * Input source for JSON data stream.
  *
- * <p>先読みした文字のプッシュバック機能と行番号のカウント機能を有する。
+ * <p>Push-back function for the character read ahead and line number counting function.
  *
- * <p>行番号は1から始まる。
- * 行と行はLF('\n')で区切られるものとする。(※CRは無視)
+ * <p>Line numbers begin with 1.
+ * LF('\n') shall be used to separate lines. (※CR is ignored)
  *
  * @see java.io.PushbackReader
  * @see java.io.LineNumberReader
  */
 class JsonSource implements Closeable {
 
-    /** プッシュバック可能な文字数。 */
+    /** chars max for push-back. */
     private static final int PUSHBACK_TOKENS = 10;
 
     private static final char LINEFEED = '\n';  // LF(0x0a)
@@ -41,9 +41,10 @@ class JsonSource implements Closeable {
         assert enoughPushBack;
     }
 
+
     private final Reader reader;
 
-    // プッシュバック用文字スタック構造。
+    // stack for push-back
     private final char[] charStack = new char[PUSHBACK_TOKENS];
     private int stackPt = 0;
 
@@ -51,11 +52,12 @@ class JsonSource implements Closeable {
 
     private boolean closed = false;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param reader 文字入力リーダー
-     * @throws NullPointerException 引数がnull
+     * @param reader character reader
+     * @throws NullPointerException argument is null
      */
     public JsonSource(Reader reader) {
         super();
@@ -64,12 +66,12 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>任意の文字列を入力ソースとする。
+     * <p>Text as input source.
      *
-     * @param text 文字列
-     *
+     * @param text text
+     * @throws NullPointerException argument is null
      * @see java.io.StringReader
      */
     public JsonSource(CharSequence text) {
@@ -78,10 +80,10 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * JSON規格のwhitespace文字を判定する。
+     * Determine the whitespace character in the JSON standard.
      *
-     * @param ch 判定対象文字
-     * @return whitespaceならtrue
+     * @param ch target char
+     * @return true if whitespace
      */
     public static boolean isWhitespace(char ch) {
         switch (ch) {
@@ -97,11 +99,10 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * JSON規格のwhitespace文字を判定する。
+     * Determine the whitespace character in the JSON standard.
      *
-     * @param ch 判定対象文字。
-     *     上位16bitがゼロでなければwhitespaceと判定されない。
-     * @return whitespaceならtrue。引数が負の場合はfalse。
+     * @param ch target
+     * @return true if whitespace
      */
     public static boolean isWhitespace(int ch) {
         if ((int) Character.MIN_VALUE > ch) return false;
@@ -110,28 +111,31 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * プッシュバック可能な残り文字数を返す。
+     * Returns the number of remaining characters that can be push-back.
      *
-     * @return プッシュバック可能な残り文字数
+     * @return number of remaining characters that can be push-back
      */
     public int getPushBackSpared() {
         return PUSHBACK_TOKENS - this.stackPt;
     }
 
     /**
-     * 現時点での行番号を返す。
+     * Return current line-number.
      *
-     * @return 1から始まる行番号
+     * @return line-number starting from 1
      */
     public int getLineNumber() {
         return this.lineNumber;
     }
 
     /**
-     * 1文字読み込む。
+     * Read 1char.
      *
-     * @return 読み込んだ文字。入力が終わっている場合は負の値。
-     * @throws IOException 入力エラー
+     * <p>Line numbers will be updated depending on the situation.
+     *
+     * @return Lower 16 bits are 1char data loaded.
+     *     Or negative value if the end of the stream has been reached.
+     * @throws IOException I/O error
      *
      * @see java.io.Reader#read()
      */
@@ -151,11 +155,11 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * 入力末端ではないと仮定して1文字読み込む。
+     * Assuming that it is a grammatical violation to end the input here, read one character.
      *
-     * @return 読み込んだ文字。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 入力が終わっている
+     * @return char readed
+     * @throws IOException I/O error
+     * @throws JsParseException Grammar violation due to terminated input
      */
     public char readOrDie() throws IOException, JsParseException {
         int chData = read();
@@ -167,15 +171,16 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * 入力が文字列とマッチするか判定する。
+     * Assuming that it is a grammatical violation to end the input here, matching text sequence.
      *
-     * <p>失敗しても読み戻しは行われない。
-     * 長さ0の文字列は必ずマッチに成功する。
+     * <p>No push-back is performed even if there is no match.
+     * A zero-length string is always matched.
      *
-     * @param seq マッチ対象文字列
-     * @return マッチすればtrue
-     * @throws IOException 入力エラー
-     * @throws JsParseException 入力が終わっている。
+     * @param seq target text
+     * @return true if matched
+     * @throws NullPointerException argument is null
+     * @throws IOException I/O error
+     * @throws JsParseException Input terminated without waiting for a match.
      */
     public boolean matchOrDie(CharSequence seq)
             throws IOException, JsParseException {
@@ -187,12 +192,12 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * 1文字読み戻す。
+     * Push-back 1 char.
      *
-     * <p>行数カウントへも反映される。
+     * <p>This is also reflected in the line count.
      *
-     * @param ch 読み戻す文字
-     * @throws IOException バッファあふれもしくはクローズ済み
+     * @param ch char
+     * @throws IOException Buffer overflow or already closed.
      */
     public void unread(char ch) throws IOException {
         if (this.closed) throw new IOException(ERRMSG_CLOSED);
@@ -209,14 +214,12 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * 1文字読み戻す。
+     * Push-back 1 char.
      *
-     * <p>char型にキャストした引数が次回読み込まれる。
+     * <p>This is also reflected in the line count.
      *
-     * <p>行数カウントへも反映される。
-     *
-     * @param ch 読み戻す文字。負の符号を含む上位16bitは無視される。
-     * @throws IOException バッファあふれもしくはクローズ済み
+     * @param ch char. Higher 16bits are ignored.
+     * @throws IOException Buffer overflow or already closed.
      */
     public void unread(int ch) throws IOException {
         unread((char) ch);
@@ -224,9 +227,9 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * whitespace文字を読み飛ばす。
+     * Skip over whitespaces.
      *
-     * @throws IOException 入力エラー
+     * @throws IOException I/O error
      */
     public void skipWhiteSpace() throws IOException {
         for (;;) {
@@ -242,10 +245,10 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * まだ読み込めるデータがあるか判定する。
+     * Determine if there is still data to be read.
      *
-     * @return まだ読めるデータがあればtrue
-     * @throws IOException IO入力エラー
+     * @return true if there is still data to be read
+     * @throws IOException I/O error
      */
     public boolean hasMore() throws IOException {
         int chData = read();
@@ -255,12 +258,11 @@ class JsonSource implements Closeable {
     }
 
     /**
-     * コンストラクタで指定されたReaderを閉じる。
+     * Close {@link java.io.Reader}.
      *
-     * <p>クローズ後の読み込みおよび読み戻し動作は全て例外を投げる。
+     * <p>All read and push-back operations after close throw an exception.
      *
-     * @throws IOException 入出力エラー
-     *
+     * @throws IOException I/O error
      * @see java.io.Closeable
      */
     @Override

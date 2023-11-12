@@ -10,33 +10,36 @@ package jp.sourceforge.jovsonz;
 import java.util.Objects;
 
 /**
- * JSON 各種型列挙。
+ * JSON types.
  */
 public enum JsTypes {
 
-    /** NUMBER型に対応。 */
+    /** NUMBER. */
     NUMBER(  JsNumber .class ),
-    /** STRING型に対応。 */
+    /** STRING. */
     STRING(  JsString .class ),
-    /** BOOLEAN型に対応。 */
+    /** BOOLEAN. */
     BOOLEAN( JsBoolean.class ),
-    /** ARRAY型に対応。 */
+    /** ARRAY. */
     ARRAY(   JsArray  .class ),
-    /** OBJECT型に対応。 */
+    /** OBJECT. */
     OBJECT(  JsObject .class ),
-    /** NULL型に対応。 */
+    /** NULL. */
     NULL(    JsNull   .class ),
     ;
 
-    private static final JsTypes[] VALUE_ARRAY = values();
+
+    private static final JsTypes[] VALUES = values();
+
 
     private final Class<? extends JsValue> klass;
     private final boolean isJsComposition;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param klass {@link java.lang.Class}型
+     * @param klass matched {@link java.lang.Class}
      */
     private JsTypes(Class<? extends JsValue> klass) {
         this.klass = klass;
@@ -44,17 +47,18 @@ public enum JsTypes {
         return;
     }
 
+
     /**
-     * {@link java.lang.Class}型から対応する型列挙を返す。
+     * Returns associated enum by {@link java.lang.Class}.
      *
-     * @param carg 任意のjava.lang.Class型変数
-     * @return 型列挙。JSON型に由来しないクラスが指定されたときはnull
-     * @throws NullPointerException 引数がnull
+     * @param carg instance of {@code java.lang.Class}
+     * @return enum value. null if not associated argument.
+     * @throws NullPointerException argument is null
      */
     public static JsTypes getJsTypes(Class<?> carg) {
         Objects.requireNonNull(carg);
 
-        for (JsTypes types : VALUE_ARRAY) {
+        for (JsTypes types : VALUES) {
             if (types.klass == carg) return types;
         }
 
@@ -62,20 +66,20 @@ public enum JsTypes {
     }
 
     /**
-     * 対応する{@link java.lang.Class}型を返す。
+     * Returns associated {@link java.lang.Class} instance.
      *
-     * @return java.lang.Class型
+     * @return instance of {@code java.lang.Class}
      */
     public Class<? extends JsValue> getJsClass() {
         return this.klass;
     }
 
     /**
-     * このJSON型が子要素を持ちうるか判定する。
+     * Determine if this JSON type can have children.
      *
-     * <p>子要素を持ちうるJSON型はOBJECT型かARRAY型のみ。
+     * <p>Only OBJECT and ARRAY can have children.
      *
-     * @return 子要素を持ちうるならtrue
+     * @return true if it is possible to have children
      */
     public boolean isComposition() {
         return this.isJsComposition;

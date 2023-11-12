@@ -12,20 +12,20 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
- * 既存の{@link java.util.Iterator}および{@link java.lang.Iterable}に対し、
- * 削除のできない変更操作不可なIteratorラッパを提供する。
+ * Make imuutable wrapper to {@link java.util.Iterator} and {@link java.lang.Iterable}.
  *
- * @param <E> コレクション内の要素型
+ * @param <E> generics type of collection
  */
 public class UnmodIterator<E> implements Iterator<E> {
 
     private final Iterator<E> rawIterator;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param iterator ラップ元Iterator
-     * @throws NullPointerException 引数がnull
+     * @param iterator Iterator
+     * @throws NullPointerException argument is null
      */
     public UnmodIterator(Iterator<E> iterator) {
         super();
@@ -33,13 +33,14 @@ public class UnmodIterator<E> implements Iterator<E> {
         return;
     }
 
+
     /**
-     * 削除操作不可なラップIteratorを生成する。
+     * Wrapping {@link java.util.Iterator} to immutable Iterator.
      *
-     * @param <E> コレクション内の要素型
-     * @param iterator ラップ元Iterator
-     * @return 変更操作不可なIterator
-     * @throws NullPointerException 引数がnull
+     * @param <E> generics type of collection
+     * @param iterator Iterator
+     * @return immutable Iterator
+     * @throws NullPointerException argument is null
      */
     public static <E> Iterator<E> wrapUnmod(Iterator<E> iterator) {
         Objects.requireNonNull(iterator);
@@ -47,31 +48,28 @@ public class UnmodIterator<E> implements Iterator<E> {
     }
 
     /**
-     * 削除操作不可なラップIterableを生成する。
+     * Wrapping {@link java.lang.Iterable} to immutable Iterable.
      *
-     * @param <E> コレクション内の要素型
-     * @param iterable ラップ元Iterable
-     * @return 変更操作不可なIteratorを生成するIterable
-     * @throws NullPointerException 引数がnull
+     * @param <E> generics type of collection
+     * @param iterable Iterable
+     * @return immutable Iterable
+     * @throws NullPointerException argument is null
      */
     public static <E> Iterable<E> wrapUnmod(Iterable<E> iterable) {
-        final Iterable<E> innerArg = Objects.requireNonNull(iterable);
-        return new Iterable<E>() {
-            @Override
-            public Iterator<E> iterator() {
-                Iterator<E> iterator = innerArg.iterator();
-                return new UnmodIterator<>(iterator);
-            }
+        Objects.requireNonNull(iterable);
+        Iterator<E> iterator = iterable.iterator();
+        return () -> {
+            return new UnmodIterator<>(iterator);
         };
     }
 
     /**
-     * Iterableに由来する削除操作不可なラップIteratorを生成する。
+     * Make immutable {@link java.util.Iterator} from {@link java.lang.Iterable}.
      *
-     * @param <E> コレクション内の要素型
+     * @param <E> generics type of collection
      * @param iterable Iterable
-     * @return 変更操作不可なIterator
-     * @throws NullPointerException 引数がnull
+     * @return immutable Iterator
+     * @throws NullPointerException argument is null
      */
     public static <E> Iterator<E> unmodIterator(Iterable<E> iterable) {
         Objects.requireNonNull(iterable);
@@ -79,12 +77,13 @@ public class UnmodIterator<E> implements Iterator<E> {
         return new UnmodIterator<>(iterator);
     }
 
+
     /**
-     * {@inheritDoc}
+     * Returns {@code true} if the iteration has more elements.
+     * (In other words, returns {@code true} if {@link #next} would
+     * return an element rather than throwing an exception.)
      *
-     * <p>反復子に次の要素があるか判定する。
-     *
-     * @return {@inheritDoc}
+     * @return {@code true} if the iteration has more elements
      */
     @Override
     public boolean hasNext() {
@@ -92,12 +91,10 @@ public class UnmodIterator<E> implements Iterator<E> {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the next element in the iteration.
      *
-     * <p>反復子の次の要素を取得する。
-     *
-     * @return {@inheritDoc}
-     * @throws NoSuchElementException これ以上要素はない。
+     * @return the next element in the iteration
+     * @throws NoSuchElementException if the iteration has no more elements
      */
     @Override
     public E next() {
@@ -105,9 +102,9 @@ public class UnmodIterator<E> implements Iterator<E> {
     }
 
     /**
-     * {@inheritDoc}
+     * Attempts to delete, and fails.
      *
-     * <p>必ず失敗し例外を投げる。
+     * <p>It will always fail.
      *
      * @throws UnsupportedOperationException unsupported
      */
