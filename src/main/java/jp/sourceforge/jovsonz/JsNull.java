@@ -11,33 +11,32 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * JSON NULL型Valueを表す。
+ * JSON null Value.
  *
- * <p>Javaのnullとは一切無関係。
- * その実体はシングルトン。
+ * <p>Not related to null in Java language.
  *
- * <p>表記例
+ * <p>Provided as a singleton.
+ *
+ * <p>example of notation
  *
  * <pre>
- * null
+ * {@code null}
  * </pre>
  */
 public final class JsNull
         implements JsValue, Comparable<JsNull> {
 
-    /** ただ唯一のインスタンス。 */
+    /** Singleton. */
     public static final JsNull NULL = new JsNull();
 
-    /** 唯一の文字列表現。 */
+    /** notation. */
     public static final String TEXT = "null";
 
-    /** 唯一のハッシュ値。 */
-    public static final int ONLYHASH = 982_451_653; // 大きな素数;
+    /** hash only one. */
+    public static final int ONLYHASH = 982_451_653;   // large prime
 
     /**
-     * 隠しコンストラクタ。
-     *
-     * <p>1回しか呼ばれないはず
+     * Hidden constructor.
      */
     private JsNull() {
         super();
@@ -45,15 +44,15 @@ public final class JsNull
     }
 
     /**
-     * JSON文字列ソースからNULL型Valueを読み込む。
+     * Try parsing NULL value from JSON source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * @param source 文字列ソース
-     * @return NULL型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正トークンもしくは意図しない入力終了
+     * @param source input source
+     * @return NULL typed value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
      */
     static JsNull parseNull(JsonSource source)
             throws IOException, JsParseException {
@@ -75,7 +74,7 @@ public final class JsNull
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#NULL}を返す。
+     * <p>Always return {@link JsTypes#NULL}.
      *
      * @return {@inheritDoc}
      */
@@ -85,12 +84,13 @@ public final class JsNull
     }
 
     /**
-     * 各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>この実装ではthisの出現のみを通知する。
+     * <p>This implementation only notifies this-object.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void traverse(ValueVisitor visitor)
@@ -100,12 +100,9 @@ public final class JsNull
     }
 
     /**
-     * {@inheritDoc}
+     * Always return {@value ONLYHASH}.
      *
-     * <p>ハッシュ値を返す。
-     * 常に{@value ONLYHASH}を返す。
-     *
-     * @return {@inheritDoc}
+     * @return {@value ONLYHASH}
      */
     @Override
     public int hashCode() {
@@ -113,30 +110,26 @@ public final class JsNull
     }
 
     /**
-     * {@inheritDoc}
+     * Return true only when {@link #NULL} is passed.
      *
-     * <p>等価判定を行う。
-     * {@link #NULL}が渡された時のみtrueを返す。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param obj the reference object with which to compare
+     * @return true if this object is {@link #NULL}; false otherwise.
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        boolean result = obj instanceof JsNull;
+        boolean result = obj == NULL;
+        assert (obj instanceof JsNull) == result;
         return result;
     }
 
     /**
-     * {@inheritDoc}
+     * Compare between NULL typed Value.
      *
-     * <p>NULL型Valueを順序付ける。シングルトン相手にほぼ無意味。
-     * null以外の引数には必ず0を返す。
+     * <p>Returns 0 if argument is not null.
      *
-     * @param value {@inheritDoc}
-     * @return {@inheritDoc}
-     * @throws NullPointerException 引数がnull
+     * @param value the object to be compared
+     * @return always 0
+     * @throws NullPointerException argument is null
      */
     @Override
     public int compareTo(JsNull value) {
@@ -145,13 +138,11 @@ public final class JsNull
     }
 
     /**
-     * {@inheritDoc}
+     * Returns JSON notation {@value TEXT}.
      *
-     * <p>文字列表現を返す。
-     * 常に文字列 {@value TEXT} を返す。
-     * JSON表記の一部としての利用も可能。
+     * <p>It's not null in Java language.
      *
-     * @return {@inheritDoc}
+     * @return JSON notation {@value TEXT}
      */
     @Override
     public String toString() {

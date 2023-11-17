@@ -18,6 +18,7 @@ public interface ValueVisitor {
      * @param value JSON Value
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *     投げられる。
+     * @throws NullPointerException argument is null
      */
     public abstract void visitValue(JsValue value) throws JsVisitException;
 
@@ -29,6 +30,7 @@ public interface ValueVisitor {
      * @param pairName PAIR名
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *     投げられる。
+     * @throws NullPointerException argument is null
      */
     public abstract void visitPairName(String pairName) throws JsVisitException;
 
@@ -40,6 +42,7 @@ public interface ValueVisitor {
      * @param composition OBJECT型かARRAY型のいずれかのValue
      * @throws JsVisitException ビジターがトラバース中止を判断した際に
      *     投げられる。
+     * @throws NullPointerException argument is null
      */
     public abstract void visitCompositionClose(JsComposition<?> composition)
             throws JsVisitException;

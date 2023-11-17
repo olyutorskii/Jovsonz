@@ -230,7 +230,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.12.4</version>
+                            <version>10.12.5</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -646,6 +646,7 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar-no-fork</goal>
                                 </goals>
@@ -668,6 +669,7 @@
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>

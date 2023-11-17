@@ -342,10 +342,13 @@ class JsonAppender implements ValueVisitor {
      *
      * @param value {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitValue(JsValue value)
             throws JsVisitException {
+        Objects.requireNonNull(value);
+
         if (isNestEmpty()) putBeforeParse();
 
         if (isArrayContext()) {
@@ -385,10 +388,13 @@ class JsonAppender implements ValueVisitor {
      *
      * @param pairName {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitPairName(String pairName)
             throws JsVisitException {
+        Objects.requireNonNull(pairName);
+
         if (hasChildDumped()) putBetweenElement();
         else                  putBefore1stElement();
 
@@ -407,10 +413,13 @@ class JsonAppender implements ValueVisitor {
      *
      * @param closed {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitCompositionClose(JsComposition<?> closed)
             throws JsVisitException {
+        Objects.requireNonNull(closed);
+
         boolean hasDumped = hasChildDumped();
         JsComposition<?> composition = popComposition();
 

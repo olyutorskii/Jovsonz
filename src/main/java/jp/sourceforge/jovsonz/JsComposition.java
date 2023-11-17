@@ -8,55 +8,55 @@
 package jp.sourceforge.jovsonz;
 
 /**
- * 子要素を持つJSON型の抽象インタフェース。
+ * JSON value which includes childs interface.
  *
- * <p>JSON最上位構造であるための必要条件。
+ * <p>JSON root structure must be implement it.
  *
- * <p>子要素を持ちうるJSON型はOBJECT型かARRAY型のみ。
+ * <p>JSON types which includes childs are OBJECT type or ARRAY type only.
  *
- * @param <E> 反復子の要素型
+ * @param <E> type of childs
  */
 public interface JsComposition<E> extends JsValue, Iterable<E> {
 
     /**
-     * 要素数を返す。
+     * Return number of childs.
      *
-     * <p>OBJECT型の場合は直下のPAIR総数。</p>
+     * <ul>
+     * <li>For OBJECT type, the total number of JsPair directly below.
+     * <li>For ARRAY type, the total number of JsValue directly below.
+     * </ul>
      *
-     * <p>ARRAY型の場合は直下の子要素総数。</p>
-     *
-     * @return 要素数
+     * @return number of childs
      */
     public abstract int size();
 
     /**
-     * 子要素が空か否か判定する。
+     * Determine whether or not a child is present.
      *
-     * @return 要素がなければtrue
+     * @return true if no childs
      */
     public abstract boolean isEmpty();
 
     /**
-     * 子要素を空にする。
+     * Clear childs.
      */
     public abstract void clear();
 
     /**
-     * このValueおよび子孫に変更があったか判定する。
+     * Determine if this Value and its descendants have changed.
      *
-     * <p>Value生成直後はfalseでなければならない。
+     * <p>Must be false(no change) immediately after generation.
      *
-     * <p>ロードしたデータに対し
-     * 再セーブの必要があるかどうかの判定などを目的とする。
+     * <p>The purpose is to determine whether the loaded data needs to be resaved or not.
      *
-     * <p>変更が可能なValueはOBJECT型かARRAY型のみ。
+     * <p>Only OBJECT or ARRAY types can be changed.
      *
-     * @return 変更があればtrue
+     * @return true if has changed
      */
     public abstract boolean hasChanged();
 
     /**
-     * このValueおよび子孫に変更がなかったことにする。
+     * Assume no changes were made to this Value and its descendants.
      */
     public abstract void setUnchanged();
 

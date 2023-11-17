@@ -26,6 +26,8 @@ We plan to provide information in English at some point.
 
 ## API document ##
 * [API docs](https://olyutorskii.github.io/Jovsonz/apidocs/index.html)
+* [Coding Samples](https://github.com/olyutorskii/Jovsonz/wiki/Coding-Samples)
+* [UML diagram](https://github.com/olyutorskii/Jovsonz/wiki/Class-diagram)
 * [Maven report](https://olyutorskii.github.io/Jovsonz/)
 
 
@@ -51,13 +53,14 @@ if you don't use Maven nor JUnit nor resource-access.
 
 ## Key technology ##
 
-- [JavaScript Object Notation (Wikipedia)](http://en.wikipedia.org/wiki/JavaScript_Object_Notation)
+- [JSON (Wikipedia)](https://en.wikipedia.org/wiki/JSON)
 - [RFC4627](http://www.ietf.org/rfc/rfc4627.txt)
+- [RFC8259](http://www.ietf.org/rfc/rfc8259.txt)
 
 
 [JSON]: https://www.json.org/
 [OSDN]: https://ja.osdn.net/projects/jovsonz/
-[JINDOLF]: http://jindolf.sourceforge.jp/
+[JINDOLF]: https://github.com/olyutorskii/Jindolf
 [MIT]: https://opensource.org/licenses/MIT
 
 

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Update Maven plugins
+- Update GitHub workflows
+- Modify javadocs to english
+
+### Fixed
+- Remove assert statement with side-effect
+- Workaround Checkstyle warnings
+- Workaround PMD warnings
+- introducing requireNonNull()
+
 
 ## [1.101.108] - 2023-10-08
 
