@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * OBJECT型Value内に列挙される、名前の付いたValueとの組(PAIR)。
+ * PAIR with a named Value enumerated within an OBJECT typed Value.
  *
- * <p>PAIRはValueではない。
+ * <p>PAIR is not Value.
+ *
+ * <p>example of notation
  *
  * <pre>
  * {
@@ -28,12 +30,15 @@ public class JsPair {
     private final String name;
     private final JsValue value;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param name PAIR名
-     * @param value PAIR名に対応付けられるValue
-     * @throws NullPointerException 引数のいずれかがnull
+     * <p>A PAIR associated with Value is generated.
+     *
+     * @param name name of PAIR
+     * @param value associated Value
+     * @throws NullPointerException argument is null
      */
     public JsPair(String name, JsValue value) {
         super();
@@ -43,14 +48,13 @@ public class JsPair {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>STRING型をValueに持つPAIRが生成される。
+     * <p>A PAIR associated with STRING typed Value is generated.
      *
-     * @param name PAIR名
-     * @param text PAIR名に対応付けられる文字列データ。
-     *     エスケープされる前段階の表記。
-     * @throws NullPointerException 引数がnull
+     * @param name name of PAIR
+     * @param text associated text
+     * @throws NullPointerException name is null
      */
     public JsPair(String name, CharSequence text) {
         this(name, (JsValue) new JsString(text));
@@ -58,13 +62,13 @@ public class JsPair {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>BOOLEAN型をValueに持つPAIRが生成される。
+     * <p>A PAIR associated with BOOLEAN typed Value is generated.
      *
-     * @param name PAIR名
-     * @param bool PAIR名に対応付けられる真偽値
-     * @throws NullPointerException PAIR名がnull
+     * @param name name of PAIR
+     * @param bool associated boolean
+     * @throws NullPointerException name is null
      */
     public JsPair(String name, boolean bool) {
         this(name, JsBoolean.valueOf(bool));
@@ -72,13 +76,13 @@ public class JsPair {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>NUMBER型をValueに持つPAIRが生成される。
+     * <p>A PAIR associated with NUMBER typed Value is generated.
      *
-     * @param name PAIR名
-     * @param number PAIR名に対応付けられる整数値
-     * @throws NullPointerException PAIR名がnull
+     * @param name name of PAIR
+     * @param number associated number
+     * @throws NullPointerException name is null
      */
     public JsPair(String name, long number) {
         this(name, new JsNumber(number));
@@ -86,30 +90,31 @@ public class JsPair {
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>NUMBER型をValueに持つPAIRが生成される。
+     * <p>A PAIR associated with NUMBER typed Value is generated.
      *
-     * @param name PAIR名
-     * @param number PAIR名に対応付けられる実数値
-     * @throws NullPointerException PAIR名がnull
+     * @param name name of PAIR
+     * @param number associated number
+     * @throws NullPointerException name is null
      */
     public JsPair(String name, double number) {
         this(name, new JsNumber(number));
         return;
     }
 
+
     /**
-     * PAIR名を返す。
+     * Return name of PAIR.
      *
-     * @return PAIR名
+     * @return name
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Valueを返す。
+     * Return associated Value.
      *
      * @return Value
      */
@@ -118,13 +123,11 @@ public class JsPair {
     }
 
     /**
-     * {@inheritDoc}
+     * Return hash code.
      *
-     * <p>ハッシュ値を返す。
+     * <p>Synthesized from hash values of both PAIR name and Value.
      *
-     * <p>PAIR名とValue双方のハッシュ値から合成される。
-     *
-     * @return {@inheritDoc}
+     * @return a hash code value for this object
      */
     @Override
     public int hashCode() {
@@ -134,14 +137,12 @@ public class JsPair {
     }
 
     /**
-     * {@inheritDoc}
+     * Indicates whether some other PAIR is "equal to" this PAIR Value.
      *
-     * <p>等価判定を行う。
+     * <p>True only if both PAIR name and Value equivalent.
      *
-     * <p>PAIR名とValue双方が一致する場合のみ真となる。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -161,9 +162,7 @@ public class JsPair {
     }
 
     /**
-     * 文字列表現を返す。
-     *
-     * <p>JSON表記の一部としての利用も可能。
+     * Returns JSON notation.
      *
      * @return {@inheritDoc}
      */

@@ -53,6 +53,7 @@ public final class JsNull
      * @return NULL typed value. null if another possible type.
      * @throws IOException I/O error
      * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsNull parseNull(JsonSource source)
             throws IOException, JsParseException {

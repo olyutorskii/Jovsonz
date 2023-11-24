@@ -18,12 +18,12 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * JSON OBJECT型Valueを表す。
+ * JSON OBJECT Value.
  *
- * <p>PAIR名と子要素の組(PAIR)の集合を反映する。
- * PAIR名の並び順に関しては未定義とする。
+ * <p>Reflects the set of pairs of name and child element({@link JsPair}).
+ * The order of pair names is undefined.
  *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * {
@@ -53,25 +53,27 @@ public class JsObject
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      */
     public JsObject() {
         super();
         return;
     }
 
+
     /**
-     * JSON文字列ソースからOBJECT型Valueを読み込む。
+     * Try parsing OBJECT Value from JSON source.
      *
-     * <p>さらに子Valueへとパース解析が進む可能性がある。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>In addition, the parsing process may proceed recursively to PAIRs.
      *
-     * @param source 文字列ソース
-     * @return OBJECT型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正な表記もしくは意図しない入力終了
+     * @param source input source
+     * @return OBJECT typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsObject parseObject(JsonSource source)
             throws IOException, JsParseException {
@@ -123,10 +125,11 @@ public class JsObject
         return result;
     }
 
+
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#OBJECT}を返す。
+     * <p>Always return {@link JsTypes#OBJECT}.
      *
      * @return {@inheritDoc}
      */
@@ -136,11 +139,11 @@ public class JsObject
     }
 
     /**
-     * このValueおよび子孫に変更があったか判定する。
+     * Determine if this Value and its descendants have changed.
      *
-     * <p>PAIRの追加・削除が行われたか、
-     * もしくはPAIRのValue値いずれかに変更が認められれば、
-     * このOBJECT型Valueに変更があったとみなされる。
+     * <p>A change is considered to have occurred to this OBJECT Value
+     * if a PAIR is added or deleted,
+     * or if a change is recognized in any of the PAIR.
      *
      * @return {@inheritDoc}
      */
@@ -159,7 +162,7 @@ public class JsObject
     }
 
     /**
-     * このValueおよび子孫に変更がなかったことにする。
+     * {@inheritDoc}
      */
     @Override
     public void setUnchanged() {
