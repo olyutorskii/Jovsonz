@@ -11,11 +11,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * JSON STRING型Valueを表す。
+ * JSON STRING Value.
  *
- * <p>Unicode文字列データを反映する。
- *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * "xyz"
@@ -35,12 +33,14 @@ public class JsString
     private static final String ERRMSG_INVESC = "invalid escape character";
     private static final String ERRMSG_INVCTR = "invalid control character";
 
+
     private final String rawText;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>長さ0の空文字が設定される。
+     * <p>init with empty text.
      */
     public JsString() {
         this("");
@@ -48,12 +48,12 @@ public class JsString
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>引数はJSON書式ではない生文字列。
+     * <p>Argument text is RAW text. (not escaped)
      *
-     * @param rawSeq 生文字列
-     * @throws NullPointerException 引数がnull
+     * @param rawSeq raw text
+     * @throws NullPointerException argument is null
      */
     public JsString(CharSequence rawSeq) {
         super();
@@ -269,11 +269,11 @@ public class JsString
     }
 
     /**
-     * JSON STRING型Value形式で文字列を出力する。
+     * Dump JSON STRING Value.
      *
-     * @param appout 文字出力
-     * @param seq 文字列
-     * @throws IOException 出力エラー
+     * @param appout target output
+     * @param seq raw text
+     * @throws IOException I/O error
      */
     public static void dumpString(Appendable appout, CharSequence seq)
             throws IOException {
@@ -293,10 +293,10 @@ public class JsString
     }
 
     /**
-     * JSON STRING型Value形式の文字列を返す。
+     * Return JSON STRING Value from raw text.
      *
-     * @param seq 生文字列
-     * @return STRING型表記に変換された文字列
+     * @param seq raw text
+     * @return JSON STRING text
      */
     // TODO いらない
     public static StringBuilder escapeText(CharSequence seq) {
@@ -313,7 +313,7 @@ public class JsString
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#STRING}を返す。
+     * <p>Always return {@link JsTypes#STRING}.
      *
      * @return {@inheritDoc}
      */
@@ -323,12 +323,13 @@ public class JsString
     }
 
     /**
-     * 各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>この実装ではthisの出現のみを通知する。
+     * <p>This implementation only notifies this-object.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void traverse(ValueVisitor visitor)
@@ -338,9 +339,9 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Return a hash code.
      *
-     * <p>ハッシュ値を返す。
+     * <p>Equivalent to {@link java.lang.String#hashCode()}.
      *
      * @return {@inheritDoc}
      */
@@ -350,14 +351,12 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Indicates whether some other STRING Value is "equal to" this STRING Value.
      *
-     * <p>等価判定を行う。
+     * <p>The same decision is made as for {@link java.lang.String#equals(Object)}.
      *
-     * <p>{@link java.lang.String#equals(Object)}に準ずる。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
      */
     @Override
     public boolean equals(Object obj) {
@@ -370,14 +369,13 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Compare between STRING typed Value.
      *
-     * <p>STRING型Valueを昇順に順序付ける。
+     * <p>Same as specification {@link java.lang.String#compareTo(String)}.
      *
-     * <p>{@link java.lang.String#compareTo(String)}に準ずる。
-     *
-     * @param value {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param value the object to be compared
+     * @return a negative integer, zero, or a positive integer
+     *     as this object is less than, equal to, or greater than the specified object.
      */
     @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @Override
@@ -388,12 +386,10 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the char value at the specified index.
      *
-     * <p>指定位置の文字を返す。
-     *
-     * @param index {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param index char position index start with 0
+     * @return char value
      * @throws IndexOutOfBoundsException if the {@code index} argument is negative
      *     or not less than the length of this string.
      */
@@ -403,11 +399,9 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Returns STRING length.
      *
-     * <p>文字列長(char値総数)を返す。
-     *
-     * @return {@inheritDoc}
+     * @return length of char value in text
      */
     @Override
     public int length() {
@@ -415,37 +409,38 @@ public class JsString
     }
 
     /**
-     * {@inheritDoc}
+     * Return subsequence of text.
      *
-     * <p>部分文字列を返す。
-     *
-     * @param start {@inheritDoc}
-     * @param end {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param start the begin index, inclusive
+     * @param end the end index, exclusive
+     * @return the specified subsequence
      * @throws IndexOutOfBoundsException
      *     if {@code start} or {@code end} is negative,
      *     if {@code end} is greater than {@code length()},
      *     or if {@code start} is greater than {@code end}
      */
     @Override
-    public CharSequence subSequence(int start, int end) {
+    public CharSequence subSequence(int start, int end) throws IndexOutOfBoundsException {
         return this.rawText.subSequence(start, end);
     }
 
     /**
-     * クォーテーションやエスケープ処理の施されていない生の文字列を返す。
+     * Return raw text.
      *
-     * @return 生の文字列
+     * <p>Special chars are not escaped.
+     *
+     * @return raw text
      */
     public String toRawString() {
         return this.rawText;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns JSON notation.
      *
-     * <p>クォーテーションとエスケープ処理の施された文字列表記を生成する。
-     * JSON表記の一部としての利用も可能。
+     * <p>Special chars are escaped.
+     *
+     * <p>Text is quoted.
      *
      * @return {@inheritDoc}
      */

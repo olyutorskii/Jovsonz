@@ -179,12 +179,12 @@ public class JsObject
     }
 
     /**
-     * 深さ優先探索を行い各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>thisを通知した後、PAIRの各名前およびValueを順に訪問し、
-     * 最後に閉じ括弧を通知する。
+     * <p>After notifying this object, the PAIRs name and Value are visited in sequence,
+     * and finally the closing bracket is notified.
      *
-     * <p>PAIRの訪問順に関しては未定義。
+     * <p>The order of PAIRs visits has not yet been determined.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
@@ -206,9 +206,9 @@ public class JsObject
     }
 
     /**
-     * PAIR総数を返す。
+     * Return number of PAIRs.
      *
-     * @return PAIR総数
+     * @return number of PAIRs
      */
     @Override
     public int size() {
@@ -216,9 +216,9 @@ public class JsObject
     }
 
     /**
-     * PAIR集合が空か判定する。
+     * Determine whether or not a PAIR is present.
      *
-     * @return 空ならtrue
+     * @return true if no PAIRs
      */
     @Override
     public boolean isEmpty() {
@@ -226,7 +226,7 @@ public class JsObject
     }
 
     /**
-     * PAIR集合を空にする。
+     * Clear PAIRs.
      */
     @Override
     public void clear() {
@@ -236,44 +236,12 @@ public class JsObject
     }
 
     /**
-     * ハッシュ値を返す。
+     * Associates the specified Value with the specified name in this OBJECT.
      *
-     * <p>全てのPAIRのハッシュ値からその都度合成される。高コスト注意！。
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return this.pairMap.hashCode();
-    }
-
-    /**
-     * 等価判定を行う。
-     *
-     * <p>双方のPAIR数が一致し、
-     * 全てのPAIR名およびそれに対応付けられたValueが一致した場合のみ
-     * 等価と判断される。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-
-        if ( !(obj instanceof JsObject) ) return false;
-        JsObject composit = (JsObject) obj;
-
-        return this.pairMap.equals(composit.pairMap);
-    }
-
-    /**
-     * 名前とValueからPAIRを登録する。
-     *
-     * @param name 名前
+     * @param name name of PAIR
      * @param value Value
-     * @return 旧Value。同じ内容のPAIRがすでに存在していたらnull
-     * @throws NullPointerException 引数のいずれかがnull
+     * @return old Value, or null if there was same Value for the name.
+     * @throws NullPointerException argument is null
      */
     public JsValue putValue(String name, JsValue value) {
         Objects.requireNonNull(name);
@@ -294,10 +262,11 @@ public class JsObject
     }
 
     /**
-     * PAIR名からValueを取得する。
+     * Returns the Value to which the specified name is mapped,
+     * or null if this OBJECT contains no mapping for the name.
      *
-     * @param name PAIR名
-     * @return 対応するValue。見つからなければnull
+     * @param name name of PAIR
+     * @return associated Value, or null if this OBJECT contains no mapping for the name
      */
     public JsValue getValue(String name) {
         JsPair pair = this.pairMap.get(name);
@@ -307,9 +276,10 @@ public class JsObject
     }
 
     /**
-     * PAIRを追加する。
+     * Associates the specified PAIR with the name in this OBJECT.
      *
-     * <p>同じPAIR名を持つPAIRは無条件に上書きされる。
+     * <p>If the OBJECT previously contained a mapping for
+     * the name, the old PAIR is replaced by the specified PAIR.
      *
      * @param pair PAIR
      */
@@ -319,10 +289,11 @@ public class JsObject
     }
 
     /**
-     * PAIR名からPAIRを返す。
+     * Returns the PAIR to which the specified name is mapped,
+     * or null if this OBJECT contains no mapping for the name.
      *
-     * @param name PAIR名
-     * @return PAIR。見つからなければnull
+     * @param name name
+     * @return PAIR, or null if there was no mapping for name.
      */
     public JsPair getPair(String name) {
         JsValue value = getValue(name);
@@ -332,10 +303,11 @@ public class JsObject
     }
 
     /**
-     * 指定した名前のPAIRを削除する。
+     * Removes the mapping for a name from this PAIRs if it is present.
      *
-     * @param name PAIR名
-     * @return 消されたPAIR。該当するPAIRがなければnull
+     * @param name name
+     * @return removed PAIR.
+     *     or null if there was no mapping for name.
      */
     public JsPair remove(String name) {
         JsPair oldPair = this.pairMap.remove(name);
@@ -345,20 +317,22 @@ public class JsObject
     }
 
     /**
-     * 保持する全PAIRのPAIR名の集合を返す。
+     * Returns a Set view of the PAIR names contained in this map.
      *
-     * @return すべての名前
+     * @return set of names
      */
     public Set<String> nameSet() {
         return this.pairMap.keySet();
     }
 
     /**
-     * PAIRのリストを返す。
+     * Return list of PAIRs.
      *
-     * <p>このリストを上書き操作しても影響はない。
+     * <p>PAIR appearance order is undefined.
      *
-     * @return PAIRリスト
+     * <p>Overwriting this list has no effect.
+     *
+     * @return list of PAIRs
      */
     public List<JsPair> getPairList() {
         List<JsPair> result = new ArrayList<>(this.pairMap.size());
@@ -371,12 +345,13 @@ public class JsObject
     }
 
     /**
-     * PAIRにアクセスするための反復子を提供する。
+     * Returns an iterator over PAIRs.
      *
-     * <p>この反復子での削除作業はできない。
-     * PAIR出現順序は未定義。
+     * <p>Remove operation is not possible with this iterator.
      *
-     * @return 反復子イテレータ
+     * <p>PAIR appearance order is undefined.
+     *
+     * @return iterator
      */
     @Override
     public Iterator<JsPair> iterator() {
@@ -384,9 +359,42 @@ public class JsObject
     }
 
     /**
-     * 文字列表現を返す。
+     * Return hash code.
      *
-     * <p>JSON表記の全体もしくは一部としての利用も可能。
+     * <p>It is synthesized each time from the hash values of all descendant names and Values.
+     * It is a high cost process.
+     *
+     * @return a hash code value for this object
+     * @see java.util.Map#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return this.pairMap.hashCode();
+    }
+
+    /**
+     * Indicates whether some other OBJECT Value is "equal to" this OBJECT Value.
+     *
+     * <p>Equivalence is determined
+     * only when the number of PAIRs on both sides matches
+     * and all PAIR names and their associated Values match.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
+     * @see java.util.Map#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if ( !(obj instanceof JsObject) ) return false;
+        JsObject composit = (JsObject) obj;
+
+        return this.pairMap.equals(composit.pairMap);
+    }
+
+    /**
+     * Returns JSON notation.
      *
      * @return {@inheritDoc}
      */
