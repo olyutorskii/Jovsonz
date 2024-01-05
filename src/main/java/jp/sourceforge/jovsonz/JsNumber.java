@@ -20,7 +20,7 @@ import java.util.Objects;
  * <p>Reflects numeric types, including integers and decimals.
  *
  * <p>{@link java.math.BigDecimal} as the base of the implementation.
- * ※ Not IEEE754 floating point number.
+ * * Not IEEE754 floating point number.
  *
  * <p>{@code (1)} and {@code (1.0)} are distinguished by scale parameter.
  *

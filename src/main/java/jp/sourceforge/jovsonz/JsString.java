@@ -62,14 +62,16 @@ public class JsString
         return;
     }
 
+
     /**
-     * FFFF形式4桁で16進エスケープされた文字列を読み、
-     * char1文字にデコードする。
+     * Read unicode escape following '\' + 'u'.
      *
-     * @param source 文字列ソース
-     * @return 文字
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正表記もしくは意図しない入力終了
+     * <p>'\' + 'u221e' represents '∞'
+     *
+     * @param source Input source
+     * @return decoded character
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
      */
     static char parseHexChar(JsonSource source)
             throws IOException, JsParseException {
@@ -105,13 +107,13 @@ public class JsString
     }
 
     /**
-     * '\'に続くスペシャルキャラの読み込みを行う。
+     * Read special character following '\'.
      *
-     * @param source 文字列ソース
-     * @param app スペシャルキャラ格納文字列
-     * @throws IOException 入出力エラー
-     * @throws JsParseException "\z"などの不正なスペシャルキャラ
-     *     もしくは意図しない入力終了
+     * @param source input source
+     * @param app target output
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     private static void parseSpecial(JsonSource source, Appendable app)
             throws IOException, JsParseException {
@@ -156,15 +158,16 @@ public class JsString
     }
 
     /**
-     * JSON文字列ソースからSTRING型Valueを読み込む。
+     * Try parsing STRING Value from JSON source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * @param source 文字列ソース
-     * @return STRING型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正な表記もしくは意図しない入力終了
+     * @param source input source
+     * @return STRING typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsString parseString(JsonSource source)
             throws IOException, JsParseException {
@@ -196,14 +199,14 @@ public class JsString
     }
 
     /**
-     * 任意の文字からエスケープ出力用シンボルを得る。
+     * Return postfix character for escape.
      *
-     * <p>このシンボルは'\'に続けて用いられる1文字である。
-     * 'u'を返す事はありえない。
+     * <p>This symbol following '\'.
+     * 'u' is never returned.
      *
-     * @param ch 任意の文字
-     * @return エスケープ出力用シンボル。
-     *     1文字エスケープの必要がない場合は'\0'
+     * @param ch character
+     * @return escape postfix.
+     *     Return '\0' when no escape is needed.
      */
     private static char escapeSymbol(char ch) {
         char result;
@@ -240,14 +243,14 @@ public class JsString
     }
 
     /**
-     * 特殊文字をエスケープ出力する。
+     * Dump JSON STRING special character with escape.
      *
-     * <p>特殊文字でなければなにもしない。
+     * <p>If not special character, dump nothing.
      *
-     * @param appout 出力先
-     * @param ch 文字
-     * @return 特殊文字出力がエスケープされた時にtrue
-     * @throws IOException 出力エラー
+     * @param appout target output
+     * @param ch character
+     * @return true if special character escaped
+     * @throws IOException I/O error
      */
     private static boolean dumpSpecialChar(Appendable appout, char ch)
             throws IOException {
@@ -257,7 +260,7 @@ public class JsString
             if (!Character.isISOControl(ch)) {
                 return false;
             }
-            // TODO さらなる高速化が必要
+            // TODO speed up
             String hex = "0000" + Integer.toHexString(ch);
             hex = hex.substring(hex.length() - NIBBLES_CHAR);
             appout.append("\\u").append(hex);
@@ -298,7 +301,7 @@ public class JsString
      * @param seq raw text
      * @return JSON STRING text
      */
-    // TODO いらない
+    // TODO necessary or not
     public static StringBuilder escapeText(CharSequence seq) {
         StringBuilder result = new StringBuilder();
         try {
@@ -309,6 +312,7 @@ public class JsString
         }
         return result;
     }
+
 
     /**
      * {@inheritDoc}
@@ -420,7 +424,7 @@ public class JsString
      *     or if {@code start} is greater than {@code end}
      */
     @Override
-    public CharSequence subSequence(int start, int end) throws IndexOutOfBoundsException {
+    public CharSequence subSequence(int start, int end) {
         return this.rawText.subSequence(start, end);
     }
 

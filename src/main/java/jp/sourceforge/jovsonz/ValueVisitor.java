@@ -8,40 +8,38 @@
 package jp.sourceforge.jovsonz;
 
 /**
- * JSONツリー上の各Valueへの深さ優先ビジター共通インタフェース。
+ * JSON visitor interface.
+ *
+ * <p>Depth-first search is performed
+ * and the appearance of various JSON Value is notified.
  */
 public interface ValueVisitor {
 
     /**
-     * Value登場の通知を受け取る。
+     * Receive notification of the appearance of Value.
      *
      * @param value JSON Value
-     * @throws JsVisitException ビジターがトラバース中止を判断した際に
-     *     投げられる。
+     * @throws JsVisitException Traversing is suspended at the discretion of the visitor.
      * @throws NullPointerException argument is null
      */
     public abstract void visitValue(JsValue value) throws JsVisitException;
 
     /**
-     * OBJECT型内部のPAIR名登場の通知を受け取る。
+     * Receive notification of the appearance of PAIR in OBJECT.
      *
-     * <p>PAIRの示すValueの出現する直前に通知が行われる。
-     *
-     * @param pairName PAIR名
-     * @throws JsVisitException ビジターがトラバース中止を判断した際に
-     *     投げられる。
+     * @param pairName name of PAIR
+     * @throws JsVisitException Traversing is suspended at the discretion of the visitor.
      * @throws NullPointerException argument is null
      */
     public abstract void visitPairName(String pairName) throws JsVisitException;
 
     /**
-     * 括弧構造終了の通知を受け取る。
+     * Receive notification of the appearance of bracket closing Composition.
      *
-     * <p>括弧構造を持つJSON型は、OBJECT型かARRAY型のみ。
+     * <p>OBJECT or ARRAY
      *
-     * @param composition OBJECT型かARRAY型のいずれかのValue
-     * @throws JsVisitException ビジターがトラバース中止を判断した際に
-     *     投げられる。
+     * @param composition OBJECT or ARRAY Value
+     * @throws JsVisitException Traversing is suspended at the discretion of the visitor.
      * @throws NullPointerException argument is null
      */
     public abstract void visitCompositionClose(JsComposition<?> composition)

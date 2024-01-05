@@ -19,7 +19,7 @@ import java.util.Objects;
  * <p>Push-back function for the character read ahead and line number counting function.
  *
  * <p>Line numbers begin with 1.
- * LF('\n') shall be used to separate lines. (※CR is ignored)
+ * LF('\n') shall be used to separate lines. (* CR is ignored)
  *
  * @see java.io.PushbackReader
  * @see java.io.LineNumberReader

@@ -10,8 +10,7 @@ import java.io.StringReader;
 import java.nio.CharBuffer;
 
 /**
- * limit文字まで正常に読み込め、
- * 以降の読み出しで自動的にIOExceptionを投げるStringReader。
+ * StringReader that causes an I/O error after a certain amount of reading.
  */
 public class TroubleReader extends StringReader{
 

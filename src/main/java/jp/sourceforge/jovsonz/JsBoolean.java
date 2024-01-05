@@ -128,7 +128,7 @@ public final class JsBoolean
     /**
      * Returns a BOOLEAN instance representing the specified boolean value.
      *
-     * @param bool boolean値
+     * @param bool boolean Value
      * @return BOOLEAN instance
      */
     public static JsBoolean valueOf(boolean bool) {
@@ -208,7 +208,7 @@ public final class JsBoolean
      *
      * <p>Order is ( {@link #TRUE} &lt; {@link #FALSE} ).
      *
-     * <p>※ Warning : The order is the reverse of
+     * <p>* Warning : The order is the reverse of
      * {@link java.lang.Boolean#compareTo(java.lang.Boolean)}
      *
      * @param value the object to be compared

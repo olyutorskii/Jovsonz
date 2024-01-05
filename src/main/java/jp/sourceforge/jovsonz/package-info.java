@@ -43,32 +43,26 @@
  *
  * <hr>
  *
- * <p>JSON基本型
+ * <p>JSON types
  *
  * <dl>
- * <dt>OBJECT型</dt>
+ * <dt>OBJECT type</dt>
  * <dd>{  "Name" : "Joe",  "Age" : 88  }</dd>
- * <dt>ARRAY型</dt>
+ * <dt>ARRAY type</dt>
  * <dd>[ true, "ABC", 23 ]</dd>
- * <dt>STRING型</dt>
+ * <dt>STRING type</dt>
  * <dd>"ABC"</dd>
- * <dt>NUMBER型</dt>
+ * <dt>NUMBER type</dt>
  * <dd>-12.34</dd>
- * <dt>BOOLEAN型</dt>
+ * <dt>BOOLEAN type</dt>
  * <dd>true</dd>
- * <dt>NULL型</dt>
+ * <dt>NULL type</dt>
  * <dd>null</dd>
  * </dl>
  *
- * @see <a href="http://json.org/">Introducing JSON</a>
- * @see <a href="http://json.org/json-ja.html">JSONの紹介</a>
- * @see <a href="http://www.ietf.org/rfc/rfc4627.txt">RFC4627</a>
- * @see <a href=
- * "http://ja.wikipedia.org/wiki/JavaScript_Object_Notation">
- * Wikipedia(ja)解説</a>
- * @see <a href=
- * "http://en.wikipedia.org/wiki/JavaScript_Object_Notation">
- * Wikipedia(en)</a>
+ * @see <a href="https://www.json.org/">Introducing JSON</a>
+ * @see <a href="https://www.ietf.org/rfc/rfc8259.txt">RFC8259</a>
+ * @see <a href="https://en.wikipedia.org/wiki/JSON">JSON (Wikipedia)</a>
  */
 
 package jp.sourceforge.jovsonz;
