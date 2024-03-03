@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.101.110] - 2024-03-03
+
 ### Changed
-- Update Maven plugins
-- Update GitHub workflows
 - Modify javadocs to english
+- Update GitHub workflows
+- Update Maven plugins
 
 ### Fixed
 - Remove assert statement with side-effect
@@ -51,7 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Release
 
 
-[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.108...HEAD
+[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.110...HEAD
+[1.101.110]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.108...v1.101.110
 [1.101.108]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.106...v1.101.108
 [1.101.106]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.104...v1.101.106
 [1.101.104]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.2...release-1.101.104
