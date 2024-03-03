@@ -5,6 +5,10 @@
 
 package jp.sourceforge.jovsonz;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +22,22 @@ public class JsParseExceptionTest {
     public JsParseExceptionTest() {
     }
 
+    @BeforeAll
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterAll
+    public static void tearDownClass() throws Exception {
+    }
+
+    @BeforeEach
+    public void setUp() throws Exception {
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+    }
+
     /**
      * Test of getLineNumber method, of class JsParseException.
      */
@@ -29,15 +49,42 @@ public class JsParseExceptionTest {
 
         ex = new JsParseException();
         assertTrue(1 > ex.getLineNumber());
-        assertFalse(ex.hasValidLineNumber());
 
         ex = new JsParseException("abc", 99);
         assertEquals(99, ex.getLineNumber());
-        assertTrue(ex.hasValidLineNumber());
 
         ex = new JsParseException("abc", new Throwable(), 99);
         assertEquals(99, ex.getLineNumber());
+
+        return;
+    }
+
+    /**
+     * Test of hasValidLineNumber method, of class JsParseException.
+     */
+    @Test
+    public void testHasValidLineNumber() {
+        System.out.println("hasValidLineNumber");
+
+        JsParseException ex;
+
+        ex = new JsParseException();
+        assertFalse(ex.hasValidLineNumber());
+
+        ex = new JsParseException("abc", 99);
         assertTrue(ex.hasValidLineNumber());
+
+        ex = new JsParseException("abc", new Throwable(), 99);
+        assertTrue(ex.hasValidLineNumber());
+
+        ex = new JsParseException("abc", 1);
+        assertTrue(ex.hasValidLineNumber());
+
+        ex = new JsParseException("abc", 0);
+        assertFalse(ex.hasValidLineNumber());
+
+        ex = new JsParseException("abc", -1);
+        assertFalse(ex.hasValidLineNumber());
 
         return;
     }
@@ -69,6 +116,9 @@ public class JsParseExceptionTest {
         ex = new JsParseException("abc", new Throwable(), 0);
         assertEquals("abc", ex.getMessage());
 
+        ex = new JsParseException("abc", new Throwable("xyz"), 0);
+        assertEquals("abc", ex.getMessage());
+
         return;
     }
 
@@ -89,7 +139,7 @@ public class JsParseExceptionTest {
 
         Throwable cause = new Throwable();
         ex = new JsParseException("abc", cause, 99);
-        assertTrue(cause == ex.getCause());
+        assertSame(cause, ex.getCause());
 
         return;
     }

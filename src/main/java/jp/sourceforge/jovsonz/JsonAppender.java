@@ -10,31 +10,32 @@ package jp.sourceforge.jovsonz;
 import java.io.Flushable;
 import java.io.IOException;
 import java.util.EmptyStackException;
+import java.util.Objects;
 import java.util.Stack;
 
 /**
- * JSON文字出力用ビジター。
+ * Visitor for JSON text output.
  *
- * <p>JSON Valueのトラバース時にこのビジターを指定すると、
- * 事前に用意した文字出力先にJSONフォーマットで出力される。
+ * <p>If this visitor is specified when traversing JSON Value,
+ * output will be in JSON format to the specified text output.
  *
- * <p>出力に伴う{@link java.io.IOException}は
- * {@link JsVisitException}のチェーン例外となる。
+ * <p>{@link java.io.IOException} at output
+ * becomes a chained exception for {@link JsVisitException}.
  *
- * <p>前回パースの成功／失敗に関わらず、
- * インスタンスの再利用時の挙動は保証されない。
+ * <p>Regardless of the success/failure of the previous parse,
+ * Behavior is not guaranteed when reusing instances
  */
 class JsonAppender implements ValueVisitor {
 
-    /** 改行。 */
+    /** New line. */
     public static final String NEWLINE = "\n";
-    /** インデント単位。 */
+    /** Indent unit. */
     public static final String INDENT_UNIT = "\u0020\u0020";
-    /** Pair区切り。 */
+    /** PAIR separator. */
     public static final String PAIR_SEPARATOR = "\u0020:\u0020";
-    /** コンマ区切り。 */
+    /** Comma separator. */
     public static final String COMMA = "\u0020,";
-    /** 空要素。 */
+    /** White space. */
     public static final String EMPTY = "\u0020";
 
 
@@ -47,108 +48,112 @@ class JsonAppender implements ValueVisitor {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param appout 出力先
-     * @throws NullPointerException 引数がnull
+     * @param appout output
+     * @throws NullPointerException argument is null
      */
-    public JsonAppender(Appendable appout)
-            throws NullPointerException{
+    public JsonAppender(Appendable appout) {
         super();
-        if(appout == null) throw new NullPointerException();
-        this.appout = appout;
+        this.appout = Objects.requireNonNull(appout);
         return;
     }
 
+
     /**
-     * コンテキストをプッシュ退避する。
+     * Push current context.
      *
-     * @param composition 現在のコンテキスト
+     * <p>Context must be parent Value. (OBJECT or ARRAY)
+     *
+     * @param composition current context (parent Value)
      */
-    protected void pushComposition(JsComposition<?> composition){
+    protected void pushComposition(JsComposition<?> composition) {
         DumpContext context = new DumpContext(composition);
         this.contextStack.push(context);
         return;
     }
 
     /**
-     * コンテキストをポップ復帰する。
+     * Pop last context.
      *
-     * @return スタックトップのコンテキスト
-     * @throws EmptyStackException スタック構造が空
+     * <p>Context must be parent Value. (OBJECT or ARRAY)
+     *
+     * @return top of context stack
+     * @throws EmptyStackException stack is empty
      */
-    protected JsComposition<?> popComposition() throws EmptyStackException{
+    protected JsComposition<?> popComposition() {
         DumpContext context = this.contextStack.pop();
         JsComposition<?> composition = context.getComposition();
         return composition;
     }
 
     /**
-     * ネスト構造の深さを返す。
+     * Return depth of context stack.
      *
-     * @return 0から始まる深さ
+     * @return depth of nest starts with 0
      */
-    protected int nestDepth(){
+    protected int nestDepth() {
         return this.contextStack.size();
     }
 
     /**
-     * ネスト構造が空(深さ0)か判定する。
+     * Determin if the context stack is empty or not.
      *
-     * @return 空ならtrue
+     * @return true if empty
      */
-    protected boolean isNestEmpty(){
+    protected boolean isNestEmpty() {
         return this.contextStack.isEmpty();
     }
 
     /**
-     * ネスト後、一つでも子要素が出力されたか判定する。
+     * Determin if child Value has already been appended
+     * after last stack context.
      *
-     * @return 子要素が出力されていればtrue
+     * @return true if child Value has already been appended
      */
-    protected boolean hasChildDumped(){
-        if(isNestEmpty()) return false;
+    protected boolean hasChildDumped() {
+        if (isNestEmpty()) return false;
         boolean result = this.contextStack.peek().hasChildDumped();
         return result;
     }
 
     /**
-     * 現時点でのネストに対し、子要素が一つ以上出力済みであると設定する。
+     * State that child Value has already been appended
+     * in the current context.
      */
-    protected void setChildDumped(){
-        if(isNestEmpty()) return;
+    protected void setChildDumped() {
+        if (isNestEmpty()) return;
         this.contextStack.peek().setChildDumped();
         return;
     }
 
     /**
-     * 現在のコンテキストがARRAY型配列要素出力中の状態か否か判定する。
+     * Determin if the current context is appending ARRAY or not.
      *
-     * @return 現在のコンテキストがARRAY型配列要素出力中ならtrue
+     * @return true if the current context is appending ARRAY
      */
-    protected boolean isArrayContext(){
-        if(isNestEmpty()) return false;
+    protected boolean isArrayContext() {
+        if (isNestEmpty()) return false;
 
         DumpContext context = this.contextStack.peek();
         JsComposition<?> composition = context.getComposition();
         JsTypes type = composition.getJsTypes();
-        if(type != JsTypes.ARRAY) return false;
 
-        return true;
+        boolean result = type == JsTypes.ARRAY;
+        return result;
     }
 
     /**
-     * 1文字出力。
+     * Append 1 char.
      *
-     * @param ch 文字
-     * @throws JsVisitException 出力エラー。
-     *
+     * @param ch char
+     * @throws JsVisitException output error
      * @see java.lang.Appendable#append(char)
      */
-    protected void append(char ch) throws JsVisitException{
-        try{
+    protected void append(char ch) throws JsVisitException {
+        try {
             this.appout.append(ch);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -156,17 +161,16 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * 文字列出力。
+     * Append text.
      *
-     * @param seq 文字列
-     * @throws JsVisitException 出力エラー。
-     *
+     * @param seq text
+     * @throws JsVisitException output error
      * @see java.lang.Appendable#append(CharSequence)
      */
-    protected void append(CharSequence seq) throws JsVisitException{
-        try{
+    protected void append(CharSequence seq) throws JsVisitException {
+        try {
             this.appout.append(seq);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -174,18 +178,17 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * 可能であれば出力先をフラッシュする。
+     * Flush output.
      *
-     * @throws JsVisitException 出力エラー
-     *
+     * @throws JsVisitException output error
      * @see java.io.Flushable
      */
-    protected void flush() throws JsVisitException{
-        try{
-            if(this.appout instanceof Flushable){
-                ((Flushable)this.appout).flush();
+    protected void flush() throws JsVisitException {
+        try {
+            if (this.appout instanceof Flushable) {
+                ((Flushable) this.appout).flush();
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -193,34 +196,37 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * トラバース中断の原因となったIOExceptionを返す。
+     * Return {@link IOException} that caused the traverse interruption.
      *
-     * @return トラバース中断の原因となったIOException。なければnull。
+     * @return IOException that caused the traverse interruption.
+     *     Return null if no IOException.
      */
-    public IOException getIOException(){
+    public IOException getIOException() {
         return this.ioException;
     }
 
     /**
-     * トラバース中断の原因となったIOExceptionがあるか判定する。
+     * Determine if there is an IOException
+     * that caused the traverse interruption.
      *
-     * @return トラバース中断の原因となったIOExceptionがあればtrue
+     * @return true if there is an IOException
+     *     that caused the traverse interruption
      */
-    public boolean hasIOException(){
-        if(this.ioException != null) return true;
-        return false;
+    public boolean hasIOException() {
+        boolean result = this.ioException != null;
+        return result;
     }
 
     /**
-     * pairの名前を出力する。
+     * Append name of PAIR.
      *
-     * @param name pair名
-     * @throws JsVisitException 出力エラー
+     * @param name name of PAIR
+     * @throws JsVisitException output error
      */
-    protected void putPairName(String name) throws JsVisitException{
-        try{
+    protected void putPairName(String name) throws JsVisitException {
+        try {
             JsString.dumpString(this.appout, name);
-        }catch(IOException e){
+        } catch (IOException e) {
             this.ioException = e;
             throw new JsVisitException(e);
         }
@@ -228,67 +234,65 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * pair区切りコロンを出力する。
+     * append PAIR sepatartor colon. (:)
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putPairSeparator() throws JsVisitException{
+    protected void putPairSeparator() throws JsVisitException {
         append(PAIR_SEPARATOR);
         return;
     }
 
     /**
-     * 要素間区切りコンマを出力する。
+     * append OBJECT separator commma. (,)
      *
-     * <p>JSONでは最後の要素の後にコンマを出力してはいけない。
-     *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putComma() throws JsVisitException{
+    protected void putComma() throws JsVisitException {
         append(COMMA);
         return;
     }
 
     /**
-     * 改行を出力する。
+     * append newline.
      *
-     * @throws JsVisitException 出力エラー。
+     * @throws JsVisitException output error
      */
-    protected void putNewLine() throws JsVisitException{
+    protected void putNewLine() throws JsVisitException {
         append(NEWLINE);
         return;
     }
 
     /**
-     * インデントを出力する。
+     * append indent spaces.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putIndent() throws JsVisitException{
+    protected void putIndent() throws JsVisitException {
         int level = nestDepth();
-        for(int ct = 1; ct <= level; ct++){
+        for (int ct = 1; ct <= level; ct++) {
             append(INDENT_UNIT);
         }
         return;
     }
 
     /**
-     * OBJECT及びARRAY型の最初の要素の前部分を出力する。
+     * append before 1st element of OBJECT or ARRAY.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putBefore1stElement() throws JsVisitException{
+    protected void putBefore1stElement() throws JsVisitException {
         putNewLine();
         putIndent();
         return;
     }
 
     /**
-     * OBJECT及びARRAY型の要素間区切りを出力する。
+     * append delimiter between elements of OBJECT or ARRAY.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putBetweenElement() throws JsVisitException{
+    protected void putBetweenElement() throws JsVisitException {
         putComma();
         putNewLine();
         putIndent();
@@ -296,42 +300,42 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * OBJECT及びARRAY型の最後の要素の後部分を出力する。
+     * append after last element of OBJECT or ARRAY.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putAfterLastElement() throws JsVisitException{
+    protected void putAfterLastElement() throws JsVisitException {
         putNewLine();
         putIndent();
         return;
     }
 
     /**
-     * OBJECT及びARRAY型の空要素を出力する。
+     * append empty element of OBJECT or ARRAY.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putEmptyElement() throws JsVisitException{
+    protected void putEmptyElement() throws JsVisitException {
         append(EMPTY);
         return;
     }
 
     /**
-     * パース前の出力を行う。
+     * append something before JSON.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putBeforeParse() throws JsVisitException{
+    protected void putBeforeParse() throws JsVisitException {
         //NOTHING
         return;
     }
 
     /**
-     * パース後の出力を行う。
+     * append something after JSON.
      *
-     * @throws JsVisitException 出力エラー
+     * @throws JsVisitException output error
      */
-    protected void putAfterParse() throws JsVisitException{
+    protected void putAfterParse() throws JsVisitException {
         putNewLine();
         return;
     }
@@ -339,30 +343,41 @@ class JsonAppender implements ValueVisitor {
     /**
      * {@inheritDoc}
      *
-     * <p>Valueの出力を行う。
+     * <p>append Value.
      *
      * @param value {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitValue(JsValue value)
-            throws JsVisitException{
-        if(isNestEmpty()) putBeforeParse();
+            throws JsVisitException {
+        Objects.requireNonNull(value);
 
-        if(isArrayContext()){
-            if(hasChildDumped()) putBetweenElement();
-            else                 putBefore1stElement();
+        if (isNestEmpty()) putBeforeParse();
+
+        if (isArrayContext()) {
+            if (hasChildDumped()) putBetweenElement();
+            else                  putBefore1stElement();
         }
 
+        String txt;
         JsTypes type = value.getJsTypes();
-        switch(type){
-        case OBJECT: append('{');              break;
-        case ARRAY:  append('[');              break;
-        default:     append(value.toString()); break;
+        switch (type) {
+        case OBJECT:
+            txt = "{";
+            break;
+        case ARRAY:
+            txt = "[";
+            break;
+        default:
+            txt = value.toString();
+            break;
         }
+        append(txt);
         setChildDumped();
 
-        if(type.isComposition()){
+        if (type.isComposition()) {
             assert value instanceof JsComposition;
             JsComposition<?> composition = (JsComposition) value;
             pushComposition(composition);
@@ -374,16 +389,19 @@ class JsonAppender implements ValueVisitor {
     /**
      * {@inheritDoc}
      *
-     * <p>OBJECT内の各pairの名前を出力する。
+     * <p>append PAIR name in OBJECT.
      *
      * @param pairName {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitPairName(String pairName)
-            throws JsVisitException{
-        if(hasChildDumped()) putBetweenElement();
-        else                 putBefore1stElement();
+            throws JsVisitException {
+        Objects.requireNonNull(pairName);
+
+        if (hasChildDumped()) putBetweenElement();
+        else                  putBefore1stElement();
 
         putPairName(pairName);
         putPairSeparator();
@@ -396,29 +414,39 @@ class JsonAppender implements ValueVisitor {
     /**
      * {@inheritDoc}
      *
-     * <p>閉じ括弧を出力する。
+     * <p>append close bracket.
      *
      * @param closed {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void visitCompositionClose(JsComposition<?> closed)
-            throws JsVisitException{
+            throws JsVisitException {
+        Objects.requireNonNull(closed);
+
         boolean hasDumped = hasChildDumped();
         JsComposition<?> composition = popComposition();
 
-        if(hasDumped) putAfterLastElement();
-        else          putEmptyElement();
+        if (hasDumped) putAfterLastElement();
+        else           putEmptyElement();
 
         char closeBrace;
-        switch(composition.getJsTypes()){
-        case OBJECT: closeBrace = '}'; break;
-        case ARRAY:  closeBrace = ']'; break;
-        default: assert false; throw new AssertionError();
+        JsTypes type = composition.getJsTypes();
+        switch (type) {
+        case OBJECT:
+            closeBrace = '}';
+            break;
+        case ARRAY:
+            closeBrace = ']';
+            break;
+        default:
+            assert false;
+            throw new AssertionError();
         }
         append(closeBrace);
 
-        if(isNestEmpty()){
+        if (isNestEmpty()) {
             putAfterParse();
             flush();
         }
@@ -427,47 +455,47 @@ class JsonAppender implements ValueVisitor {
     }
 
     /**
-     * ネストされた各JSON集約型コンテキストの出力状況。
+     * Output status of each nested JSON aggregate type context.
      */
-    private static class DumpContext{
+    private static class DumpContext {
         private final JsComposition<?> composition;
         private boolean childDumped;
 
         /**
-         * コンストラクタ。
+         * Constructor.
          *
-         * <p>子要素が出力された事実は無い状態で始まる。
+         * <p>Starts with no fact that the child element was output.
          *
-         * @param composition レベルに対応するOBJECTもしくはARRAY型Value
+         * @param composition OBJECT or ARRAY
          */
-        DumpContext(JsComposition<?> composition){
+        DumpContext(JsComposition<?> composition) {
             this.composition = composition;
             this.childDumped = false;
             return;
         }
 
         /**
-         * このレベルに対応するJSON集約型を返す。
+         * Return composition Value.
          *
-         * @return OBJECTもしくはARRAY型Value
+         * @return OBJECT or ARRAY
          */
-        JsComposition<?> getComposition(){
+        JsComposition<?> getComposition() {
             return this.composition;
         }
 
         /**
-         * このレベルで子要素出力が行われたか判定する。
+         * Determine if child element output has been performed.
          *
-         * @return 子要素出力が行われていたならtrue
+         * @return true if child element output has been performed
          */
-        boolean hasChildDumped(){
+        boolean hasChildDumped() {
             return this.childDumped;
         }
 
         /**
-         * このレベルで子要素出力が行われた事実を設定する。
+         * Set the fact that the child element output was.
          */
-        void setChildDumped(){
+        void setChildDumped() {
             this.childDumped = true;
             return;
         }

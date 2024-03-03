@@ -23,6 +23,7 @@ public class JsStringTest {
 
     /**
      * Test of Constructor, of class JsString.
+     * @throws java.lang.Exception
      */
     @Test
     public void testConstructor() throws Exception{
@@ -46,6 +47,7 @@ public class JsStringTest {
         try{
             string = new JsString(null);
             fail();
+            assert string == string;
         }catch(NullPointerException e){
             //NOTHING
         }
@@ -55,6 +57,7 @@ public class JsStringTest {
 
     /**
      * Test of parseHexChar method, of class JsString.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseHexChar() throws Exception{
@@ -87,6 +90,7 @@ public class JsStringTest {
             source = new JsonSource("000,");
             ch = JsString.parseHexChar(source);
             fail();
+            assert ch == ch;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -96,6 +100,7 @@ public class JsStringTest {
 
     /**
      * Test of parseString method, of class JsString.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseString() throws Exception{
@@ -132,6 +137,7 @@ public class JsStringTest {
             source = new JsonSource("\"abc");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -140,6 +146,7 @@ public class JsStringTest {
             source = new JsonSource("\"\\#\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -148,6 +155,7 @@ public class JsStringTest {
             source = new JsonSource("\"\\u#999\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -156,6 +164,7 @@ public class JsStringTest {
             source = new JsonSource("\"\\u9#99\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -164,6 +173,7 @@ public class JsStringTest {
             source = new JsonSource("\"\\u99#9\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -172,6 +182,7 @@ public class JsStringTest {
             source = new JsonSource("\"\\u999#\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -180,6 +191,7 @@ public class JsStringTest {
             source = new JsonSource("\"abc\nxyz\"");
             string = JsString.parseString(source);
             fail();
+            assert string == string;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -189,6 +201,7 @@ public class JsStringTest {
 
     /**
      * Test of dumpString method, of class JsString.
+     * @throws java.lang.Exception
      */
     @Test
     public void testDumpString() throws Exception{
@@ -285,17 +298,20 @@ public class JsStringTest {
             string.traverse(new ValueVisitor(){
                 int ct = 0;
 
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     assertEquals(new JsString("A"), value);
                     assertTrue(this.ct++ <= 0);
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
@@ -391,7 +407,8 @@ public class JsStringTest {
         JsString nullVal = null;
         assertFalse(new JsString("A").equals(nullVal));
 
-        assertFalse(new JsString("A").equals(""));
+        Object obj = "";
+        assertFalse(new JsString("A").equals(obj));
 
         return;
     }
@@ -408,7 +425,7 @@ public class JsStringTest {
         assertTrue(0 < new JsString("a").compareTo(new JsString("A")));
         assertTrue(0 < new JsString("A").compareTo(null));
 
-        SortedSet<JsString> set = new TreeSet<JsString>();
+        SortedSet<JsString> set = new TreeSet<>();
 
         set.clear();
         set.add(new JsString("A"));

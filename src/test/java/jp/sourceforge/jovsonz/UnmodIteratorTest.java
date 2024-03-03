@@ -10,6 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,6 +25,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UnmodIteratorTest {
 
     public UnmodIteratorTest() {
+    }
+
+    @BeforeAll
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterAll
+    public static void tearDownClass() throws Exception {
+    }
+
+    @BeforeEach
+    public void setUp() throws Exception {
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
     }
 
     private void assert3ListAndIterator(List<?> list, Iterator<?> unmod){
@@ -64,19 +84,20 @@ public class UnmodIteratorTest {
         List<String> list;
         Iterator<String> it;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
 
         it = list.iterator();
-        UnmodIterator<String> unmod = new UnmodIterator<String>(it);
+        UnmodIterator<String> unmod = new UnmodIterator<>(it);
 
         assert3ListAndIterator(list, unmod);
 
         try{
-            unmod = new UnmodIterator<String>(null);
+            unmod = new UnmodIterator<>(null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -94,7 +115,7 @@ public class UnmodIteratorTest {
         List<String> list;
         Iterator<String> it;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -107,6 +128,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.wrapUnmod((Iterator<String>)null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -123,7 +145,7 @@ public class UnmodIteratorTest {
 
         List<String> list;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -135,6 +157,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.wrapUnmod((Iterable<String>)null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -151,7 +174,7 @@ public class UnmodIteratorTest {
 
         List<String> list;
 
-        list = new LinkedList<String>();
+        list = new LinkedList<>();
         list.add("A");
         list.add("B");
         list.add("C");
@@ -163,6 +186,7 @@ public class UnmodIteratorTest {
         try{
             unmod = UnmodIterator.unmodIterator(null);
             fail();
+            assert unmod == unmod;
         }catch(NullPointerException e){
             //GOOD
         }

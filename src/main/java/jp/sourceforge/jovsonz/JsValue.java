@@ -8,23 +8,24 @@
 package jp.sourceforge.jovsonz;
 
 /**
- * JSON各種Value共通インタフェース。
+ * JSON Value common interface.
  */
 public interface JsValue {
 
     /**
-     * 対応するJSON型列挙を返す。
+     * Return enumeration of JSON types.
      *
-     * @return JSON型列挙
+     * @return enumeration of JSON type
      */
     public abstract JsTypes getJsTypes();
 
     /**
-     * 深さ優先探索を行い各種構造の出現をビジターに通知する。
+     * Depth-first traversing is performed
+     * to notify visitor of the appearance of various structures.
      *
-     * @param visitor ビジター
-     * @throws JsVisitException ビジターにより
-     *     トラバース中断が判断された時に投げられる。
+     * @param visitor visitor
+     * @throws JsVisitException Traverse aborted by visitor implementation
+     * @throws NullPointerException argument is null
      */
     public abstract void traverse(ValueVisitor visitor) throws JsVisitException;
 

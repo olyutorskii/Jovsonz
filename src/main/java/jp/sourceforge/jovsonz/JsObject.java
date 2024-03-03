@@ -13,16 +13,17 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * JSON OBJECT型Valueを表す。
+ * JSON OBJECT Value.
  *
- * <p>PAIR名と子要素の組(PAIR)の集合を反映する。
- * PAIR名の並び順に関しては未定義とする。
+ * <p>Reflects the set of pairs of name and child element({@link JsPair}).
+ * The order of pair names is undefined.
  *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * {
@@ -31,6 +32,7 @@ import java.util.TreeMap;
  * }
  * </pre>
  */
+@SuppressWarnings("PMD.UseConcurrentHashMap")
 public class JsObject
         implements JsComposition<JsPair> {
 
@@ -51,45 +53,47 @@ public class JsObject
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      */
-    public JsObject(){
+    public JsObject() {
         super();
         return;
     }
 
+
     /**
-     * JSON文字列ソースからOBJECT型Valueを読み込む。
+     * Try parsing OBJECT Value from JSON source.
      *
-     * <p>さらに子Valueへとパース解析が進む可能性がある。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>In addition, the parsing process may proceed recursively to PAIRs.
      *
-     * @param source 文字列ソース
-     * @return OBJECT型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正な表記もしくは意図しない入力終了
+     * @param source input source
+     * @return OBJECT typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsObject parseObject(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
-        if(charHead != '{'){
+        if (charHead != '{') {
             source.unread(charHead);
             return null;
         }
 
         JsObject result = new JsObject();
 
-        for(;;){
+        for (;;) {
             source.skipWhiteSpace();
             char chData = source.readOrDie();
-            if(chData == '}') break;
+            if (chData == '}') break;
 
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 source.unread(chData);
-            }else{
-                if(chData != ','){
+            } else {
+                if (chData != ',') {
                     throw new JsParseException(ERRMSG_NOOBJECTCOMMA,
                                                source.getLineNumber() );
                 }
@@ -97,20 +101,20 @@ public class JsObject
             }
 
             JsString name = JsString.parseString(source);
-            if(name == null){
+            if (name == null) {
                 throw new JsParseException(ERRMSG_NOHASHNAME,
                                            source.getLineNumber() );
             }
 
             source.skipWhiteSpace();
             chData = source.readOrDie();
-            if(chData != ':'){
+            if (chData != ':') {
                 throw new JsParseException(ERRMSG_NOHASHSEP,
                                            source.getLineNumber() );
             }
 
             JsValue value = Json.parseValue(source);
-            if(value == null){
+            if (value == null) {
                 throw new JsParseException(ERRMSG_NOHASHVAL,
                                            source.getLineNumber() );
             }
@@ -121,51 +125,52 @@ public class JsObject
         return result;
     }
 
+
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#OBJECT}を返す。
+     * <p>Always return {@link JsTypes#OBJECT}.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.OBJECT;
     }
 
     /**
-     * このValueおよび子孫に変更があったか判定する。
+     * Determine if this Value and its descendants have changed.
      *
-     * <p>PAIRの追加・削除が行われたか、
-     * もしくはPAIRのValue値いずれかに変更が認められれば、
-     * このOBJECT型Valueに変更があったとみなされる。
+     * <p>A change is considered to have occurred to this OBJECT Value
+     * if a PAIR is added or deleted,
+     * or if a change is recognized in any of the PAIR.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public boolean hasChanged(){
-        if(this.changed) return true;
+    public boolean hasChanged() {
+        if (this.changed) return true;
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             JsValue value = pair.getValue();
-            if( ! (value instanceof JsComposition) ) continue;
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
-            if(composition.hasChanged()) return true;
+            if (composition.hasChanged()) return true;
         }
 
         return false;
     }
 
     /**
-     * このValueおよび子孫に変更がなかったことにする。
+     * {@inheritDoc}
      */
     @Override
-    public void setUnchanged(){
+    public void setUnchanged() {
         this.changed = false;
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             JsValue value = pair.getValue();
-            if( ! (value instanceof JsComposition) ) continue;
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
@@ -174,21 +179,21 @@ public class JsObject
     }
 
     /**
-     * 深さ優先探索を行い各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>thisを通知した後、PAIRの各名前およびValueを順に訪問し、
-     * 最後に閉じ括弧を通知する。
+     * <p>After notifying this object, the PAIRs name and Value are visited in sequence,
+     * and finally the closing bracket is notified.
      *
-     * <p>PAIRの訪問順に関しては未定義。
+     * <p>The order of PAIRs visits has not yet been determined.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
     @Override
-    public void traverse(ValueVisitor visitor) throws JsVisitException{
+    public void traverse(ValueVisitor visitor) throws JsVisitException {
         visitor.visitValue(this);
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             String name   = pair.getName();
             JsValue value = pair.getValue();
             visitor.visitPairName(name);
@@ -201,85 +206,52 @@ public class JsObject
     }
 
     /**
-     * PAIR総数を返す。
+     * Return number of PAIRs.
      *
-     * @return PAIR総数
+     * @return number of PAIRs
      */
     @Override
-    public int size(){
+    public int size() {
         return this.pairMap.size();
     }
 
     /**
-     * PAIR集合が空か判定する。
+     * Determine whether or not a PAIR is present.
      *
-     * @return 空ならtrue
+     * @return true if no PAIRs
      */
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.pairMap.isEmpty();
     }
 
     /**
-     * PAIR集合を空にする。
+     * Clear PAIRs.
      */
     @Override
-    public void clear(){
-        if(this.pairMap.size() > 0) this.changed = true;
+    public void clear() {
+        if (!this.pairMap.isEmpty()) this.changed = true;
         this.pairMap.clear();
         return;
     }
 
     /**
-     * ハッシュ値を返す。
+     * Associates the specified Value with the specified name in this OBJECT.
      *
-     * <p>全てのPAIRのハッシュ値からその都度合成される。高コスト注意！。
-     *
-     * @return {@inheritDoc}
-     */
-    @Override
-    public int hashCode(){
-        return this.pairMap.hashCode();
-    }
-
-    /**
-     * 等価判定を行う。
-     *
-     * <p>双方のPAIR数が一致し、
-     * 全てのPAIR名およびそれに対応付けられたValueが一致した場合のみ
-     * 等価と判断される。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-
-        if( ! (obj instanceof JsObject) ) return false;
-        JsObject composit = (JsObject) obj;
-
-        return this.pairMap.equals(composit.pairMap);
-    }
-
-    /**
-     * 名前とValueからPAIRを登録する。
-     *
-     * @param name 名前
+     * @param name name of PAIR
      * @param value Value
-     * @return 旧Value。同じ内容のPAIRがすでに存在していたらnull
-     * @throws NullPointerException 引数のいずれかがnull
+     * @return old Value, or null if there was same Value for the name.
+     * @throws NullPointerException argument is null
      */
-    public JsValue putValue(String name, JsValue value)
-            throws NullPointerException{
-        if(name  == null) throw new NullPointerException();
-        if(value == null) throw new NullPointerException();
+    public JsValue putValue(String name, JsValue value) {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(value);
 
         JsValue oldValue = null;
         JsPair oldPair = this.pairMap.get(name);
-        if(oldPair != null){
+        if (oldPair != null) {
             oldValue = oldPair.getValue();
-            if(value.equals(oldValue)) return null;
+            if (value.equals(oldValue)) return null;
         }
 
         JsPair newPair = new JsPair(name, value);
@@ -290,76 +262,82 @@ public class JsObject
     }
 
     /**
-     * PAIR名からValueを取得する。
+     * Returns the Value to which the specified name is mapped,
+     * or null if this OBJECT contains no mapping for the name.
      *
-     * @param name PAIR名
-     * @return 対応するValue。見つからなければnull
+     * @param name name of PAIR
+     * @return associated Value, or null if this OBJECT contains no mapping for the name
      */
-    public JsValue getValue(String name){
+    public JsValue getValue(String name) {
         JsPair pair = this.pairMap.get(name);
-        if(pair == null) return null;
+        if (pair == null) return null;
         JsValue value = pair.getValue();
         return value;
     }
 
     /**
-     * PAIRを追加する。
+     * Associates the specified PAIR with the name in this OBJECT.
      *
-     * <p>同じPAIR名を持つPAIRは無条件に上書きされる。
+     * <p>If the OBJECT previously contained a mapping for
+     * the name, the old PAIR is replaced by the specified PAIR.
      *
      * @param pair PAIR
      */
-    public void putPair(JsPair pair){
+    public void putPair(JsPair pair) {
         this.pairMap.put(pair.getName(), pair);
         return;
     }
 
     /**
-     * PAIR名からPAIRを返す。
+     * Returns the PAIR to which the specified name is mapped,
+     * or null if this OBJECT contains no mapping for the name.
      *
-     * @param name PAIR名
-     * @return PAIR。見つからなければnull
+     * @param name name
+     * @return PAIR, or null if there was no mapping for name.
      */
-    public JsPair getPair(String name){
+    public JsPair getPair(String name) {
         JsValue value = getValue(name);
-        if(value == null) return null;
+        if (value == null) return null;
 
         return new JsPair(name, value);
     }
 
     /**
-     * 指定した名前のPAIRを削除する。
+     * Removes the mapping for a name from this PAIRs if it is present.
      *
-     * @param name PAIR名
-     * @return 消されたPAIR。該当するPAIRがなければnull
+     * @param name name
+     * @return removed PAIR.
+     *     or null if there was no mapping for name.
      */
-    public JsPair remove(String name){
+    public JsPair remove(String name) {
         JsPair oldPair = this.pairMap.remove(name);
-        if(oldPair != null) this.changed = true;
+        if (oldPair != null) this.changed = true;
 
         return oldPair;
     }
 
     /**
-     * 保持する全PAIRのPAIR名の集合を返す。
+     * Returns a Set view of the PAIR names contained in this map.
      *
-     * @return すべての名前
+     * @return set of names
      */
-    public Set<String> nameSet(){
+    public Set<String> nameSet() {
         return this.pairMap.keySet();
     }
 
     /**
-     * PAIRのリストを返す。
+     * Return list of PAIRs.
      *
-     * <p>このリストを上書き操作しても影響はない。
+     * <p>PAIR appearance order is undefined.
      *
-     * @return PAIRリスト
+     * <p>Overwriting this list has no effect.
+     *
+     * @return list of PAIRs
      */
-    public List<JsPair> getPairList(){
+    public List<JsPair> getPairList() {
         List<JsPair> result = new ArrayList<>(this.pairMap.size());
 
-        for(JsPair pair : this){
+        for (JsPair pair : this) {
             result.add(pair);
         }
 
@@ -367,39 +345,73 @@ public class JsObject
     }
 
     /**
-     * PAIRにアクセスするための反復子を提供する。
+     * Returns an iterator over PAIRs.
      *
-     * <p>この反復子での削除作業はできない。
-     * PAIR出現順序は未定義。
+     * <p>Remove operation is not possible with this iterator.
      *
-     * @return 反復子イテレータ
+     * <p>PAIR appearance order is undefined.
+     *
+     * @return iterator
      */
     @Override
-    public Iterator<JsPair> iterator(){
+    public Iterator<JsPair> iterator() {
         return UnmodIterator.unmodIterator(this.pairCollection);
     }
 
     /**
-     * 文字列表現を返す。
+     * Return hash code.
      *
-     * <p>JSON表記の全体もしくは一部としての利用も可能。
+     * <p>It is synthesized each time from the hash values of all descendant names and Values.
+     * It is a high cost process.
+     *
+     * @return a hash code value for this object
+     * @see java.util.Map#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return this.pairMap.hashCode();
+    }
+
+    /**
+     * Indicates whether some other OBJECT Value is "equal to" this OBJECT Value.
+     *
+     * <p>Equivalence is determined
+     * only when the number of PAIRs on both sides matches
+     * and all PAIR names and their associated Values match.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
+     * @see java.util.Map#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if ( !(obj instanceof JsObject) ) return false;
+        JsObject composit = (JsObject) obj;
+
+        return this.pairMap.equals(composit.pairMap);
+    }
+
+    /**
+     * Returns JSON notation.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder text = new StringBuilder();
 
-        text.append("{");
+        text.append('{');
 
         boolean hasElem = false;
-        for(JsPair pair : this){
-            if(hasElem) text.append(',');
+        for (JsPair pair : this) {
+            if (hasElem) text.append(',');
             text.append(pair);
             hasElem = true;
         }
 
-        text.append("}");
+        text.append('}');
 
         return text.toString();
     }

@@ -23,6 +23,7 @@ public class JsNumberTest {
 
     /**
      * Test of parseNumber method, of class JsNumber.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseNumber() throws Exception{
@@ -55,6 +56,7 @@ public class JsNumberTest {
             source = new JsonSource("12.");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -63,6 +65,7 @@ public class JsNumberTest {
             source = new JsonSource("12.@");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -91,6 +94,7 @@ public class JsNumberTest {
             source = new JsonSource("09");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -119,6 +123,7 @@ public class JsNumberTest {
             source = new JsonSource("12e");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -127,6 +132,7 @@ public class JsNumberTest {
             source = new JsonSource("12e+");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -135,6 +141,7 @@ public class JsNumberTest {
             source = new JsonSource("12e-");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -143,6 +150,7 @@ public class JsNumberTest {
             source = new JsonSource("12e#");
             number = JsNumber.parseNumber(source);
             fail();
+            assert number == number;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -156,6 +164,7 @@ public class JsNumberTest {
 
     /**
      * Test of constructor, of class JsNumber.
+     * @throws java.lang.Exception
      */
     @Test
     public void testConstructors() throws Exception{
@@ -205,6 +214,7 @@ public class JsNumberTest {
         try{
             number = new JsNumber((BigDecimal)null);
             fail();
+            assert number == number;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -225,17 +235,20 @@ public class JsNumberTest {
             number.traverse(new ValueVisitor(){
                 int ct = 0;
 
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     assertEquals(new JsNumber("0"), value);
                     assertTrue(this.ct++ <= 0);
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
@@ -346,7 +359,8 @@ public class JsNumberTest {
         assertTrue(new JsNumber("1").equals(new JsNumber("1")));
         assertFalse(new JsNumber("1").equals(new JsNumber("2")));
         assertFalse(new JsNumber("1").equals(nullVal));
-        assertFalse(new JsNumber("1").equals(""));
+        Object obj = "";
+        assertFalse(new JsNumber("1").equals(obj));
 
         assertTrue(new JsNumber("1.23").equals(new JsNumber("123e-2")));
         assertFalse(new JsNumber("1.0").equals(new JsNumber("1.00")));
@@ -489,6 +503,7 @@ public class JsNumberTest {
 
     /**
      * Test of scale method, of class JsNumber.
+     * @throws java.lang.Exception
      */
     @Test
     public void testScale() throws Exception{

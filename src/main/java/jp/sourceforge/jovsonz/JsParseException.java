@@ -8,99 +8,117 @@
 package jp.sourceforge.jovsonz;
 
 /**
- * 入力文字列パース中断例外。
- *
- * <p>JSON文字列ソースへのパース処理の中断時に投げられる。
+ * Exception due to JSON grammar violation.
  */
 @SuppressWarnings("serial")
 public class JsParseException extends Exception {
 
+    /** ERROR MESSAGE: invalid token. */
     static final String ERRMSG_INVALIDTOKEN =
             "invalid JSON token";
+    /** ERROR MESSAGE: invalid root. */
     static final String ERRMSG_INVALIDROOT =
             "top root JSON value must be OBJECT or ARRAY";
+    /** ERROR MESSAGE: no more data. */
     static final String ERRMSG_NODATA =
             "We need but no more JSON data";
 
     private static final int LINE_UNKNOWN = 0;
 
+
     /** line number. */
     private final int lineNumber;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      */
-    public JsParseException(){
+    public JsParseException() {
         this(null, LINE_UNKNOWN);
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param message 詳細メッセージ。不明な場合はnull
-     * @param lineNumber 行番号。不明な場合は0以下の値
+     * @param message the detail message. (A {@code null} value is permitted)
+     * @param lineNumber line number where the JSON grammar violation occurred.
+     *     If the line number is unknown, the value is less than or equal to 0.
      */
-    public JsParseException(String message, int lineNumber){
+    public JsParseException(String message, int lineNumber) {
         this(message, (Throwable) null, lineNumber);
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param message 詳細メッセージ。不明な場合はnull
-     * @param cause 原因となった例外。不明な場合はnull
-     * @param lineNumber 行番号。不明な場合は0以下の値
+     * @param message the detail message. (A {@code null} value is permitted)
+     * @param cause the cause.  (A {@code null} value is permitted,
+     *     and indicates that the cause is nonexistent or unknown.)
+     * @param lineNumber line number where the JSON grammar violation occurred.
+     *     If the line number is unknown, the value is less than or equal to 0.
      */
-    public JsParseException(String message, Throwable cause, int lineNumber){
+    public JsParseException(String message, Throwable cause, int lineNumber) {
         super(message, cause);
         this.lineNumber = lineNumber;
         return;
     }
 
+
     /**
-     * パースエラーの起きた行番号を返す。
+     * Returns the line number where the JSON grammar violation occurred.
      *
-     * @return 行番号。不明な場合は0以下の値。
+     * <p>If the line number is unknown, the value is less than or equal to 0.
+     *
+     * @return line number.
      */
-    public int getLineNumber(){
+    public int getLineNumber() {
         return this.lineNumber;
     }
 
     /**
-     * 有効な行番号を保持しているか判定する。
+     * Returns {@code true} if line number is valid.
      *
-     * @return 有効な行番号(1以上)を保持していればtrue
+     * <p>A valid line number is when it is greater than or equal to 1.
+     *
+     * @return true if line number is valid.
      */
-    public boolean hasValidLineNumber(){
-        if(this.lineNumber > 0) return true;
-        return false;
+    public boolean hasValidLineNumber() {
+        boolean result = this.lineNumber > 0;
+        return result;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the detail message string of this throwable.
      *
-     * <p>有効な行番号があれば一緒に出力される。
+     * <p>If there are valid line numbers, they are output together.
      *
-     * @return {@inheritDoc}
+     * @return the detail message string of this {@code Throwable} instance
+     *     (which may be {@code null}).
      */
     @Override
-    public String getMessage(){
+    public String getMessage() {
         StringBuilder message = new StringBuilder();
 
         String superMessage = super.getMessage();
-        if(superMessage != null){
+        if (superMessage != null) {
             message.append(superMessage);
         }
 
-        if(hasValidLineNumber()){
-            if(message.length() > 0) message.append(' ');
-            message.append("[line:").append(this.lineNumber).append(']');
+        if (hasValidLineNumber()) {
+            if (message.length() > 0) message.append(' ');
+            message .append("[line:")
+                    .append(this.lineNumber)
+                    .append(']');
         }
 
-        if(message.length() <= 0) return null;
-        return message.toString();
+        if (message.length() <= 0) {
+            return null;
+        }
+
+        String result = message.toString();
+        return result;
     }
 
 }

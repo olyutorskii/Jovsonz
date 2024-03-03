@@ -11,13 +11,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * JSON ARRAY型Valueを表す。
+ * JSON ARRAY Value.
  *
- * <p>子要素の配列リストを反映する。
+ * <p>Implements list of childs.
  *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * [
@@ -35,55 +36,60 @@ public class JsArray
     private static final String ERRMSG_NOELEM =
             "missing element in ARRAY";
 
+
     private final List<JsValue> valueList = new LinkedList<>();
     private boolean changed = false;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      */
-    public JsArray(){
+    public JsArray() {
         super();
         return;
     }
 
+
     /**
-     * JSON文字列ソースからARRAY型Valueを読み込む。
+     * Try parsing ARRAY Value from JSON source.
      *
-     * <p>さらに子Valueへとパース解析が進む可能性がある。
-     * 別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * @param source 文字列ソース
-     * @return ARRAY型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正な表現または意図しない入力終了
+     * <p>In addition, the parsing process may proceed recursively to child Values.
+     *
+     * @param source input source
+     * @return ARRAY typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsArray parseArray(JsonSource source)
             throws IOException, JsParseException {
         char charHead = source.readOrDie();
-        if(charHead != '['){
+        if (charHead != '[') {
             source.unread(charHead);
             return null;
         }
 
         JsArray result = new JsArray();
 
-        for(;;){
+        for (;;) {
             source.skipWhiteSpace();
             char chData = source.readOrDie();
-            if(chData == ']') break;
+            if (chData == ']') break;
 
-            if(result.isEmpty()){
+            if (result.isEmpty()) {
                 source.unread(chData);
-            }else{
-                if(chData != ','){
+            } else {
+                if (chData != ',') {
                     throw new JsParseException(ERRMSG_NOARRAYCOMMA,
                                                source.getLineNumber() );
                 }
             }
 
             JsValue value = Json.parseValue(source);
-            if(value == null){
+            if (value == null) {
                 throw new JsParseException(ERRMSG_NOELEM,
                                            source.getLineNumber() );
             }
@@ -97,46 +103,46 @@ public class JsArray
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#ARRAY}を返す。
+     * <p>Always return {@link JsTypes#ARRAY}.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.ARRAY;
     }
 
     /**
-     * このValueおよび子孫に変更があったか判定する。
+     * Determine if this Value and its descendants have changed.
      *
-     * <p>子要素の追加・削除が行われたか、
-     * もしくは子要素のいずれかに変更が認められれば、
-     * このARRAY型Valueに変更があったとみなされる。
+     * <p>A change is considered to have occurred to this ARRAY Value
+     * if a child element is added or deleted,
+     * or if a change is recognized in any of the child elements.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public boolean hasChanged(){
-        if(this.changed) return true;
+    public boolean hasChanged() {
+        if (this.changed) return true;
 
-        for(JsValue value : this.valueList){
-            if( ! (value instanceof JsComposition) ) continue;
+        for (JsValue value : this.valueList) {
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
-            if(composition.hasChanged()) return true;
+            if (composition.hasChanged()) return true;
         }
 
         return false;
     }
 
     /**
-     * このValueおよび子孫に変更がなかったことにする。
+     * {@inheritDoc}
      */
     @Override
-    public void setUnchanged(){
+    public void setUnchanged() {
         this.changed = false;
 
-        for(JsValue value : this.valueList){
-            if( ! (value instanceof JsComposition) ) continue;
+        for (JsValue value : this.valueList) {
+            if ( !(value instanceof JsComposition) ) continue;
             JsComposition<?> composition = (JsComposition) value;
             composition.setUnchanged();
         }
@@ -145,18 +151,19 @@ public class JsArray
     }
 
     /**
-     * 深さ優先探索を行い各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>thisを通知した後、子Valueを順に訪問し、最後に閉じ括弧を通知する。
+     * <p>After notifying this object, the child Values are visited in sequence,
+     * and finally the closing bracket is notified.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
      */
     @Override
-    public void traverse(ValueVisitor visitor) throws JsVisitException{
+    public void traverse(ValueVisitor visitor) throws JsVisitException {
         visitor.visitValue(this);
 
-        for(JsValue value : this.valueList){
+        for (JsValue value : this.valueList) {
             value.traverse(visitor);
         }
 
@@ -166,117 +173,86 @@ public class JsArray
     }
 
     /**
-     * 配列要素数を返す。
+     * Return number of childs.
+     *
+     * <p>For ARRAY type, the total number of JsValue directly below.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public int size(){
+    public int size() {
         return this.valueList.size();
     }
 
     /**
-     * 配列が空か判定する。
+     * {@inheritDoc}
      *
      * @return {@inheritDoc}
      */
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return this.valueList.isEmpty();
     }
 
     /**
-     * 配列を空にする。
+     * {@inheritDoc}
      */
     @Override
-    public void clear(){
-        if(this.valueList.size() > 0) this.changed = true;
+    public void clear() {
+        if (!this.valueList.isEmpty()) this.changed = true;
         this.valueList.clear();
         return;
     }
 
     /**
-     * ハッシュ値を返す。
+     * Add Value to child.
      *
-     * <p>全ての子孫Valueのハッシュ値からその都度合成される。高コスト注意！。
-     *
-     * @return {@inheritDoc}
-     * @see java.util.List#hashCode()
-     */
-    @Override
-    public int hashCode(){
-        return this.valueList.hashCode();
-    }
-
-    /**
-     * 等価判定を行う。
-     *
-     * <p>双方の配列サイズが一致し
-     * その全ての子Valueでのequals()が等価と判断された場合のみ
-     * 等価と判断される。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
-     * @see java.util.List#equals(Object)
-     */
-    @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-
-        if( ! (obj instanceof JsArray) ) return false;
-        JsArray array = (JsArray) obj;
-
-        return this.valueList.equals(array.valueList);
-    }
-
-    /**
-     * 配列にValueを追加する。
-     *
-     * <p>同じJsValueインスタンスを複数回追加することも可能。
+     * <p>The same JsValue instance can be added multiple times.
      *
      * @param value JSON Value
-     * @throws NullPointerException 引数がnull
+     * @throws NullPointerException argument is null
      */
-    public void add(JsValue value) throws NullPointerException{
-        if(value == null) throw new NullPointerException();
+    public void add(JsValue value) {
+        Objects.requireNonNull(value);
         this.valueList.add(value);
         this.changed = true;
         return;
     }
 
     /**
-     * 配列から指定された位置のValueを返す。
+     * Returns the Value at the specified position in this childs.
      *
-     * @param index 0で始まる配列上の位置
+     * @param index index of the child to return. Starting from 0.
      * @return Value JSON Value
-     * @throws IndexOutOfBoundsException 不正な位置指定
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public JsValue get(int index) throws IndexOutOfBoundsException{
+    public JsValue get(int index) {
         return this.valueList.get(index);
     }
 
     /**
-     * 配列からValueを削除する。
+     * Remove Value from childs.
      *
-     * <p>{@link java.util.List#remove(Object)}と異なり、
-     * 削除対象の検索に際して
-     * {@link java.lang.Object#equals(Object)}は使われない。
+     * <p>Unlike {@link java.util.List#remove(Object)},
+     * {@link java.lang.Object#equals(Object)} is not used to search
+     * for deletion targets.
      *
-     * <p>一致するインスタンスが複数存在する場合、
-     * 先頭に近いインスタンスのみ削除される。
-     * 一致するインスタンスが存在しなければなにもしない。
+     * <p>If there are multiple same instances,
+     * only the instance closest to the top is deleted.
+     * If there are no same instances, nothing is done.
      *
      * @param value JSON Value
-     * @return 既存のValueが削除されたならtrue
+     * @return true if the existing Value is deleted
      */
-    // TODO 必要？
-    public boolean remove(JsValue value){
+    // TODO Is it really necessary?
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    public boolean remove(JsValue value) {
         boolean removed = false;
 
         Iterator<JsValue> it = this.valueList.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             JsValue elem = it.next();
-            if(elem == value){
+            if (elem == value) {
                 it.remove();
                 this.changed = true;
                 removed = true;
@@ -288,52 +264,83 @@ public class JsArray
     }
 
     /**
-     * 配列から指定位置のValueを削除する。
+     * Remove Value from childs by index.
      *
-     * @param index 0で始まる削除対象のインデックス値
-     * @return 削除されたValue
-     * @throws IndexOutOfBoundsException 不正なインデックス値
+     * @param index the index of the child Value to be removed starting 0
+     * @return Removed child Value
+     * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public JsValue remove(int index) throws IndexOutOfBoundsException{
+    public JsValue remove(int index) {
         JsValue removed = this.valueList.remove(index);
         this.changed = true;
         return removed;
     }
 
     /**
-     * Valueにアクセスするための反復子を提供する。
+     * Returns an iterator over childs Value.
      *
-     * <p>この反復子での削除作業はできない。
+     * <p>Remove operation is not possible with this iterator.
      *
-     * @return 反復子イテレータ
+     * @return Iterator
      * @see UnmodIterator
      */
     @Override
-    public Iterator<JsValue> iterator(){
+    public Iterator<JsValue> iterator() {
         return UnmodIterator.unmodIterator(this.valueList);
     }
 
     /**
-     * {@inheritDoc}
+     * Return hash code.
      *
-     * <p>文字列表現を返す。
+     * <p>It is synthesized each time from the hash values of all descendant Values.
+     * It is a high cost process.
      *
-     * <p>JSON表記の全体もしくは一部としての利用も可能。
+     * @return a hash code value for this object
+     * @see java.util.List#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return this.valueList.hashCode();
+    }
+
+    /**
+     * Indicates whether some other ARRAY Value is "equal to" this ARRAY Value.
+     *
+     * <p>Only if both array sizes match
+     * and equals() on all its children
+     * is determined to be equivalent is it determined to be equivalent.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
+     * @see java.util.List#equals(Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if ( !(obj instanceof JsArray) ) return false;
+        JsArray array = (JsArray) obj;
+
+        return this.valueList.equals(array.valueList);
+    }
+
+    /**
+     * Returns JSON notation.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder text = new StringBuilder();
 
-        text.append("[");
+        text.append('[');
         boolean hasElem = false;
-        for(JsValue value : this.valueList){
-            if(hasElem) text.append(',');
+        for (JsValue value : this.valueList) {
+            if (hasElem) text.append(',');
             text.append(value);
             hasElem = true;
         }
-        text.append("]");
+        text.append(']');
 
         return text.toString();
     }

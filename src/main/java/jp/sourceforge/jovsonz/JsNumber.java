@@ -12,18 +12,19 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
- * JSON NUMBER型Valueを表す。
+ * JSON NUMBER Value.
  *
- * <p>整数、実数を含めた数値を反映する。
+ * <p>Reflects numeric types, including integers and decimals.
  *
- * <p>10を基数とした{@link java.math.BigDecimal}を実装ベースとする。
- * ※ IEEE754浮動小数ではない。
+ * <p>{@link java.math.BigDecimal} as the base of the implementation.
+ * * Not IEEE754 floating point number.
  *
- * <p>(1)と(1.0)はスケール値によって区別される
+ * <p>{@code (1)} and {@code (1.0)} are distinguished by scale parameter.
  *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * -43
@@ -46,124 +47,124 @@ public class JsNumber
     private static final String ERRMSG_EXTRAZERO =
             "extra zero found";
 
+
     private final BigDecimal decimal;
 
+
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param val 初期整数値
+     * @param val initial integer value
      */
-    public JsNumber(long val){
+    public JsNumber(long val) {
         this(BigDecimal.valueOf(val));
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>{@link java.math.BigDecimal#valueOf(double)}と同等の丸めが行われる。
+     * <p>Equivalent to {@link java.math.BigDecimal#valueOf(double)}, rounding is performed.
      *
-     * <p>(1.0/10.0)を渡すと0.1相当になる。
+     * <p>if {@code (1.0/10.0)} double value given, it rounds to &quot;{@code 0.1}&quot;.
      *
-     * <p>必要に応じて{@link java.math.BigDecimal}を
-     * 引数に持つコンストラクタと使い分けること。
+     * <p>Use {@link JsNumber#JsNumber(java.math.BigDecimal)} and this constructor as needed.
      *
-     * @param val 初期実数値
+     * @param val initial floating-point value
      * @see java.math.BigDecimal#valueOf(double)
      */
-    public JsNumber(double val){
+    public JsNumber(double val) {
         this(BigDecimal.valueOf(val));
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param val 初期整数値
-     * @throws ArithmeticException 正確な結果を
-     *     {@link java.math.BigDecimal}に納め切れない
+     * @param val initial integer value
+     * @throws NullPointerException argument is null
      */
-    public JsNumber(BigInteger val) throws ArithmeticException{
+    public JsNumber(BigInteger val) {
         this(new BigDecimal(val, DEF_MC));
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * <p>書式は{@link java.math.BigDecimal#BigDecimal(String)}に準ずる。
+     * <p>Formatting is the same as {@link java.math.BigDecimal#BigDecimal(String)}.
      *
-     * @param val 初期数値の文字列表記
-     * @throws NumberFormatException 不正な数値表記
-     * @throws ArithmeticException 正確な結果を
-     *     {@link java.math.BigDecimal}に納め切れない
+     * @param val number notation
+     * @throws NumberFormatException invalid number format
+     * @throws NullPointerException argument is null
      *
      * @see java.math.BigDecimal#BigDecimal(String)
      */
-    public JsNumber(CharSequence val)
-            throws NumberFormatException, ArithmeticException{
+    public JsNumber(CharSequence val) {
         this(new BigDecimal(val.toString(), DEF_MC));
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param val 初期数値
-     * @throws NullPointerException 引数がnull
+     * @param val initial decimal value
+     * @throws NullPointerException argument is null
      */
-    public JsNumber(BigDecimal val) throws NullPointerException{
+    public JsNumber(BigDecimal val) {
         super();
-        if(val == null) throw new NullPointerException();
-        this.decimal = val;
+        this.decimal = Objects.requireNonNull(val);
         return;
     }
 
+
     /**
-     * 任意の文字がUnicodeのBasic-Latinの数字か否か判定する。
+     * Determine if any character is Unicode Basic-Latin number or not.
      *
-     * @param ch 文字
-     * @return 数字ならtrue
+     * @param ch character
+     * @return true if [0-9]
      *
      * @see java.lang.Character#isDigit(char)
      */
-    public static boolean isLatinDigit(char ch){
-        if('0' <= ch && ch <= '9') return true;
-        return false;
+    public static boolean isLatinDigit(char ch) {
+        boolean result;
+        result = '0' <= ch && ch <= '9';
+        return result;
     }
 
     /**
-     * 文字ソースから符号付きの数字並びを読み込む。
+     * Read a sequence of digits with leading sign from input source.
      *
-     * <p>先頭'+'符号は読み飛ばされる。
-     * 冒頭のゼロ'0'に続く数字を許すか否か指定が可能。
+     * <p>The leading sign '+' is skipped.
+     * Can specify whether or not to allow digits following '0' at the beginning.
      *
-     * <p>NUMBER型表記の整数部、小数部、指数部読み込みの下請けメソッド。
-     *
-     * @param source 文字列ソース
-     * @param app 出力先
-     * @param allowZeroTrail 冒頭のゼロ'0'に続く数字を許すならtrue
-     * @return 引数と同じ出力先
-     * @throws IOException 入出力エラー
-     * @throws JsParseException 不正な書式もしくは意図しない入力終了
+     * @param source input source
+     * @param app output target
+     * @param allowZeroTrail true if allow digits following '0' at the beginning.
+     * @return Same as output argument
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
      */
     private static Appendable appendDigitText(JsonSource source,
-                                              Appendable app,
-                                              boolean allowZeroTrail)
-            throws IOException, JsParseException{
+                                               Appendable app,
+                                               boolean allowZeroTrail)
+            throws IOException, JsParseException {
         char head = source.readOrDie();
-        if     (head == '-') app.append('-');
-        else if(head != '+') source.unread(head);
+        if (head == '-') {
+            app.append('-');
+        } else if (head != '+') {
+            source.unread(head);
+        }
 
         boolean hasAppended = false;
-        boolean zeroStarted = false;    // 先頭は0か
-        for(;;){
-            if( ! source.hasMore() && hasAppended) break;
+        boolean zeroStarted = false;    // leading 0
+        for (;;) {
+            if ( !source.hasMore() && hasAppended ) break;
 
             char readedCh = source.readOrDie();
 
-            if( ! isLatinDigit(readedCh) ){
-                if( ! hasAppended ){
+            if ( !isLatinDigit(readedCh) ) {
+                if ( !hasAppended ) {
                     throw new JsParseException(ERRMSG_NONUMBER,
                                                source.getLineNumber() );
                 }
@@ -171,13 +172,13 @@ public class JsNumber
                 break;
             }
 
-            if(hasAppended){
-                if(zeroStarted && ! allowZeroTrail){
+            if (hasAppended) {
+                if (zeroStarted && !allowZeroTrail) {
                     throw new JsParseException(ERRMSG_EXTRAZERO,
                                                source.getLineNumber() );
                 }
-            }else{                       // 1st char
-                if(readedCh == '0'){
+            } else {                       // 1st char
+                if (readedCh == '0') {
                     zeroStarted = true;
                 }
             }
@@ -190,39 +191,39 @@ public class JsNumber
     }
 
     /**
-     * 文字ソースから、ピリオド「.」で始まるNUMBER型小数部を読み込む。
+     * Read a sequence of fraction digits with leading dot'.' from input source.
      *
-     * <p>小数部がなければなにもせずに戻る。
+     * <p>If no fraction digits, do nothing and return.
      *
-     * @param source 文字列ソース
-     * @param app 出力先
-     * @return 引数と同じ出力先
-     * @throws IOException 入出力エラー
-     * @throws JsParseException 不正な書式もしくは意図しない入力終了
+     * @param source input source
+     * @param app output target
+     * @return Same as output argument
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
      */
     private static Appendable appendFractionPart(JsonSource source,
-                                                 Appendable app )
-            throws IOException, JsParseException{
-        if( ! source.hasMore() ) return app;
+                                                  Appendable app )
+            throws IOException, JsParseException {
+        if ( !source.hasMore() ) return app;
 
         char chData;
 
         chData = source.readOrDie();
-        if(chData != '.'){
+        if (chData != '.') {
             source.unread(chData);
             return app;
         }
 
-        app.append(".");
+        app.append('.');
 
         boolean hasAppended = false;
-        for(;;){
-            if( ! source.hasMore() && hasAppended) break;
+        for (;;) {
+            if ( !source.hasMore() && hasAppended ) break;
 
             chData = source.readOrDie();
 
-            if( ! isLatinDigit(chData) ){
-                if( ! hasAppended ){
+            if ( !isLatinDigit(chData) ) {
+                if ( !hasAppended ) {
                     throw new JsParseException(ERRMSG_INVFRAC,
                                                source.getLineNumber());
                 }
@@ -238,23 +239,23 @@ public class JsNumber
     }
 
     /**
-     * 文字ソースから「e」もしくは「E」で始まるNUMBER型指数部を読み込む。
+     * Read a sequence of exponential digits with leading 'e' or 'E' from input source.
      *
-     * <p>指数部がなければなにもせずに戻る。
+     * <p>If no exponential digits, do nothing and return.
      *
-     * @param source 文字列ソース
-     * @param app 出力先
-     * @return 引数と同じ出力先
-     * @throws IOException 入出力エラー
-     * @throws JsParseException 不正な書式もしくは意図しない入力終了
+     * @param source input source
+     * @param app output target
+     * @return Same as output argument
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
      */
     private static Appendable appendExpPart(JsonSource source,
                                             Appendable app )
-            throws IOException, JsParseException{
-        if( ! source.hasMore() ) return app;
+            throws IOException, JsParseException {
+        if ( !source.hasMore() ) return app;
 
         char chData = source.readOrDie();
-        if(chData != 'e' && chData != 'E'){
+        if (chData != 'e' && chData != 'E') {
             source.unread(chData);
             return app;
         }
@@ -267,29 +268,30 @@ public class JsNumber
     }
 
     /**
-     * JSON文字列ソースからNUMBER型Valueを読み込む。
+     * Try parsing NUMBER Value from JSON source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * @param source 文字列ソース
-     * @return NUMBER型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正な表記もしくは意図しない入力終了
+     * @param source input source
+     * @return NUMBER typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsNumber parseNumber(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         char charHead = source.readOrDie();
         source.unread(charHead);
-        if( charHead != '-' && ! JsNumber.isLatinDigit(charHead) ){
+        if ( charHead != '-' && !JsNumber.isLatinDigit(charHead) ) {
             return null;
         }
 
         StringBuilder numText = new StringBuilder();
 
-        appendDigitText   (source, numText, false);
-        appendFractionPart(source, numText);
-        appendExpPart     (source, numText);
+        appendDigitText(    source, numText, false);
+        appendFractionPart( source, numText );
+        appendExpPart(      source, numText );
 
         JsNumber result = new JsNumber(numText);
 
@@ -299,183 +301,179 @@ public class JsNumber
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#NUMBER}を返す。
+     * <p>Always return {@link JsTypes#NUMBER}.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.NUMBER;
     }
 
     /**
-     * 各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>この実装ではthisの出現のみを通知する。
+     * <p>This implementation only notifies this-object.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
 
     /**
-     * {@inheritDoc}
+     * Return a hash code.
      *
-     * <p>ハッシュ値を返す。
-     * {@link java.math.BigDecimal#hashCode()}と同じ値を返す。
+     * <p>Equivalent to {@link java.math.BigDecimal#hashCode()}.
      *
-     * @return {@inheritDoc}
+     * @return hash code
      *
      * @see java.math.BigDecimal#hashCode()
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return this.decimal.hashCode();
     }
 
     /**
-     * {@inheritDoc}
+     * Indicates whether some other NUMBER Value is "equal to" this NUMBER Value.
      *
-     * <p>等価判定を行う。
-     * {@link java.math.BigDecimal#equals(Object)}と同等の判断が行われる。
+     * <p>The same decision is made as for {@link java.math.BigDecimal#equals(Object)}.
      *
-     * <p>「1.2」と「0.12E+1」など、
-     * スケールの一致しない値は異なる値と見なされる。
+     * <p>Values that do not match the scale, such as {@code 1.2} and {@code 0.12E+1},
+     * are considered different values.
      *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
      *
      * @see java.math.BigDecimal#equals(Object)
      */
     @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if( ! (obj instanceof JsNumber) ) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if ( !(obj instanceof JsNumber) ) return false;
         JsNumber number = (JsNumber) obj;
         return this.decimal.equals(number.decimal);
     }
 
     /**
-     * {@inheritDoc}
+     * Compare between NUMBER typed Value.
      *
-     * <p>NUMBER型Valueを昇順に順序付ける。
+     * <p>For example, {@code 1.2} and {@code 0.12E+1} are considered equal
+     * if they have the same value even
+     * if they are on different scales.
      *
-     * <p>「1.2」と「0.12E+1」など、スケールが異なっても値が同じであれば
-     * 等しい値と見なされる。
-     *
-     * @param value {@inheritDoc}
-     * @return {@inheritDoc}
+     * @param value the object to be compared
+     * @return a negative integer, zero, or a positive integer
+     *     as this object is less than, equal to, or greater than the specified object.
      *
      * @see java.math.BigDecimal#compareTo(BigDecimal)
      */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     @Override
-    public int compareTo(JsNumber value){
-        if(this == value) return 0;
+    public int compareTo(JsNumber value) {
+        if (this == value) return 0;
         return this.decimal.compareTo(value.decimal);
     }
 
     /**
-     * int型の数値を返す。
+     * Return int value.
      *
-     * <p>情報が失われる可能性がある。
+     * <p>Potential loss of information.
      *
-     * @return int型数値
+     * @return int value
      *
      * @see java.lang.Number#intValue()
      * @see java.math.BigDecimal#intValue()
      */
-    public int intValue(){
+    public int intValue() {
         return this.decimal.intValue();
     }
 
     /**
-     * long型の数値を返す。
+     * Return long value.
      *
-     * <p>情報が失われる可能性がある。
+     * <p>Potential loss of information.
      *
-     * @return long型数値
+     * @return long value
      *
      * @see java.lang.Number#longValue()
      * @see java.math.BigDecimal#longValue()
      */
-    public long longValue(){
+    public long longValue() {
         return this.decimal.longValue();
     }
 
     /**
-     * float型の数値を返す。
+     * Return float value.
      *
-     * <p>情報が失われる可能性がある。
+     * <p>Potential loss of information.
      *
-     * @return float型数値
+     * @return float value
      *
      * @see java.lang.Number#floatValue()
      * @see java.math.BigDecimal#floatValue()
      */
-    public float floatValue(){
+    public float floatValue() {
         return this.decimal.floatValue();
     }
 
     /**
-     * double型の数値を返す。
+     * Return double value.
      *
-     * <p>情報が失われる可能性がある。
+     * <p>Potential loss of information.
      *
-     * @return double型数値
+     * @return double value
      *
      * @see java.lang.Number#doubleValue()
      * @see java.math.BigDecimal#doubleValue()
      */
-    public double doubleValue(){
+    public double doubleValue() {
         return this.decimal.doubleValue();
     }
 
     /**
-     * {@link java.math.BigDecimal}型の数値表現を返す。
+     * Return {@link java.math.BigDecimal} value.
      *
-     * @return BigDecimal型数値
+     * @return BigDecimal value
      */
-    public BigDecimal decimalValue(){
+    public BigDecimal decimalValue() {
         return this.decimal;
     }
 
     /**
-     * スケール値を返す。
-     *
-     * <p>このインスタンスが整数文字列表記に由来する場合、
-     * スケール値は0になるはず。
+     * Return scale of NUMBER.
      *
      * <ul>
-     * <li>"99"のスケール値は0
-     * <li>"99.0"のスケール値は1
-     * <li>"99.01"のスケール値は2
-     * <li>"99E+3"のスケール値は-3
-     * <li>"99.0E+3"のスケール値は-2
+     * <li>Scale of "99" is 0
+     * <li>Scale of "99.0" is 1
+     * <li>Scale of "99.01" is 2
+     * <li>Scale of "99E+3" is -3
+     * <li>Scale of "99.0E+3" is -2
      * </ul>
      *
-     * @return スケール値
+     * @return scale
      *
      * @see java.math.BigDecimal#scale()
      */
-    public int scale(){
+    public int scale() {
         return this.decimal.scale();
     }
 
     /**
-     * 文字列表現を返す。
+     * Returns JSON notation.
      *
-     * <p>{@link java.math.BigDecimal#toString()}に準ずる。
-     * JSON表記の一部としての利用も可能。
+     * <p>like {@link java.math.BigDecimal#toString()}.
      *
-     * @return {@inheritDoc}
+     * @return a string representation of the object
      */
     @Override
-    public String toString(){
+    public String toString() {
         return this.decimal.toString();
     }
 

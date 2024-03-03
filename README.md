@@ -13,19 +13,22 @@ that supports [JSON][JSON] format text I/O.
 * Jovsonz is a simple.
 7 classes derived from JSON basic type, 2 Exception classes, for a total of 15 classes.
 
-* Jovsonz oss-project was hosted by [OSDN][OSDN](formerly known as SourceForge.jp)
+* Jovsonz OSS-project was hosted by [OSDN][OSDN](formerly known as SourceForge.jp)
 until 2023 October.
 We decided to switch to hosting on GitHub due to concerns about OSDN availability.
 
-* Jovsonz is a project derived from the chat game client [Jindolf][JINDOLF].
 
-* Jindolf was played by a community of Japanese speakers,
-so much of Jovsonz's documentation and comments contain Japanese word.
-We plan to provide information in English at some point.
+## Why did you make it ? ##
+
+* JSON input/output code was added to chat game client [Jindolf][JINDOLF]
+because no MIT-licensed JSON library for Java could be found as of 2009.
+This code was later separated and became the Jovsonz library.
 
 
 ## API document ##
 * [API docs](https://olyutorskii.github.io/Jovsonz/apidocs/index.html)
+* [Coding Samples](https://github.com/olyutorskii/Jovsonz/wiki/Coding-Samples)
+* [UML diagram](https://github.com/olyutorskii/Jovsonz/wiki/Class-diagram)
 * [Maven report](https://olyutorskii.github.io/Jovsonz/)
 
 
@@ -51,13 +54,15 @@ if you don't use Maven nor JUnit nor resource-access.
 
 ## Key technology ##
 
-- [JavaScript Object Notation (Wikipedia)](http://en.wikipedia.org/wiki/JavaScript_Object_Notation)
-- [RFC4627](http://www.ietf.org/rfc/rfc4627.txt)
+- [JSON (Wikipedia)](https://en.wikipedia.org/wiki/JSON)
+- [RFC4627](http://www.ietf.org/rfc/rfc4627.txt) (obsoleted)
+- [RFC7159](http://www.ietf.org/rfc/rfc7159.txt) (obsoleted)
+- [RFC8259](http://www.ietf.org/rfc/rfc8259.txt)
 
 
 [JSON]: https://www.json.org/
 [OSDN]: https://ja.osdn.net/projects/jovsonz/
-[JINDOLF]: http://jindolf.sourceforge.jp/
+[JINDOLF]: https://github.com/olyutorskii/Jindolf
 [MIT]: https://opensource.org/licenses/MIT
 
 

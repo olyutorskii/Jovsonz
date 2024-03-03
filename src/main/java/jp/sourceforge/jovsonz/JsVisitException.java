@@ -8,52 +8,50 @@
 package jp.sourceforge.jovsonz;
 
 /**
- * トラバース中断例外。
+ * Exception when a traverse is aborted.
  *
- * <p>JSONツリー構造のトラバース処理の中断時に投げられる。
- *
- * <p>トラバース処理内部でIOExceptionなどのチェック例外が発生した場合、
- * チェーン例外機構({@link java.lang.Throwable#getCause()} etc.)
- * を用いるのが望ましい。
+ * <p>Thrown when the traversing process of the JSON tree Objects is aborted.
  */
 @SuppressWarnings("serial")
 public class JsVisitException extends Exception {
 
     /**
-     * コンストラクタ。
+     * Constructor.
      */
-    public JsVisitException(){
+    public JsVisitException() {
         super();
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param message 詳細メッセージ。不明な場合はnull
+     * @param message the detail message. (A {@code null} value is permitted)
      */
-    public JsVisitException(String message){
+    public JsVisitException(String message) {
         super(message);
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param message 詳細メッセージ。不明な場合はnull
-     * @param cause 原因となった例外。不明な場合はnull
+     * @param message the detail message. (A {@code null} value is permitted)
+     * @param cause the cause.  (A {@code null} value is permitted,
+     *     and indicates that the cause is nonexistent or unknown.)
      */
-    public JsVisitException(String message, Throwable cause){
+    public JsVisitException(String message, Throwable cause) {
         super(message, cause);
         return;
     }
 
     /**
-     * コンストラクタ。
+     * Constructor.
      *
-     * @param cause 原因となった例外。不明な場合はnull
+     * @param cause the cause.  (A {@code null} value is permitted,
+     *     and indicates that the cause is nonexistent or unknown.)
      */
-    public JsVisitException(Throwable cause){
+    public JsVisitException(Throwable cause) {
         super(cause);
         return;
     }

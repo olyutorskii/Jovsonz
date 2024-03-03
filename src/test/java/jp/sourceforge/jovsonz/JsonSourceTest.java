@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,8 +26,25 @@ public class JsonSourceTest {
     public JsonSourceTest() {
     }
 
+    @BeforeAll
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterAll
+    public static void tearDownClass() throws Exception {
+    }
+
+    @BeforeEach
+    public void setUp() throws Exception {
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+    }
+
     /**
      * Test of constructor, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testConstructor() throws Exception{
@@ -48,6 +69,7 @@ public class JsonSourceTest {
         try{
             source = new JsonSource((Reader)null);
             fail();
+            assert source == source;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -55,6 +77,7 @@ public class JsonSourceTest {
         try{
             source = new JsonSource((String)null);
             fail();
+            assert source == source;
         }catch(NullPointerException e){
             //GOOD
         }
@@ -64,6 +87,7 @@ public class JsonSourceTest {
 
     /**
      * Test of getLineNumber method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetLineNumber() throws Exception{
@@ -112,6 +136,7 @@ public class JsonSourceTest {
 
     /**
      * Test of read method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testRead() throws Exception{
@@ -169,6 +194,7 @@ public class JsonSourceTest {
 
     /**
      * Test of readOrDie method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testReadOrDie() throws Exception{
@@ -188,7 +214,7 @@ public class JsonSourceTest {
             assertEquals(2, e.getLineNumber());
             assertEquals("We need but no more JSON data [line:2]",
                          e.getMessage());
-        }catch(Throwable e){
+        }catch(IOException e){
             fail();
         }
 
@@ -200,7 +226,7 @@ public class JsonSourceTest {
             fail();
         }catch(IOException e){
             // GOOD!
-        }catch(Throwable e){
+        }catch(JsParseException e){
             fail();
         }
 
@@ -209,6 +235,7 @@ public class JsonSourceTest {
 
     /**
      * Test of matchOrDie method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testMatchOrDie() throws Exception{
@@ -241,6 +268,7 @@ public class JsonSourceTest {
 
     /**
      * Test of unread method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUnread() throws Exception{
@@ -319,6 +347,7 @@ public class JsonSourceTest {
 
     /**
      * Test of unread method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUnread_int() throws Exception{
@@ -375,6 +404,7 @@ public class JsonSourceTest {
 
     /**
      * Test of unread method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testUnread_char() throws Exception{
@@ -420,6 +450,7 @@ public class JsonSourceTest {
 
     /**
      * Test of close method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testClose() throws Exception{
@@ -451,6 +482,7 @@ public class JsonSourceTest {
 
     /**
      * Test of getPushBackSpared method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testGetPushBackSpared() throws Exception{
@@ -529,6 +561,7 @@ public class JsonSourceTest {
 
     /**
      * Test of skipWhiteSpace method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testSkipWhiteSpace() throws Exception{
@@ -567,6 +600,7 @@ public class JsonSourceTest {
 
     /**
      * Test of hasMore method, of class JsonSource.
+     * @throws java.lang.Exception
      */
     @Test
     public void testHasMore() throws Exception{

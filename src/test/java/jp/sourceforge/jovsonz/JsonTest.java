@@ -24,6 +24,7 @@ public class JsonTest {
 
     /**
      * Test of dumpJson method, of class Json.
+     * @throws java.lang.Exception
      */
     @Test
     public void testDumpJson() throws Exception{
@@ -186,6 +187,7 @@ public class JsonTest {
 
     /**
      * Test of parseValue method, of class Json.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseValue() throws Exception{
@@ -238,6 +240,7 @@ public class JsonTest {
             source = new JsonSource("#");
             value = Json.parseValue(source);
             fail();
+            assert value == value;
         }catch(JsParseException e){
             //GOOD
         }
@@ -247,6 +250,7 @@ public class JsonTest {
 
     /**
      * Test of parseJson method, of class Json.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseJson() throws Exception{
@@ -303,6 +307,7 @@ public class JsonTest {
             reader = new StringReader("true");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -311,6 +316,7 @@ public class JsonTest {
             reader = new StringReader("false");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -319,6 +325,7 @@ public class JsonTest {
             reader = new StringReader("null");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -327,6 +334,7 @@ public class JsonTest {
             reader = new StringReader("\"ABC\"");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -335,6 +343,7 @@ public class JsonTest {
             reader = new StringReader("-0.5");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -343,6 +352,7 @@ public class JsonTest {
             reader = new StringReader("#");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -351,6 +361,7 @@ public class JsonTest {
             reader = new StringReader(" [ 1 , 2 , 3 ");
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(JsParseException e){
             //GOOD
         }
@@ -359,6 +370,7 @@ public class JsonTest {
             reader = new TroubleReader(" [ 1 , 2 , 3 ] ", 3);
             root = Json.parseJson(reader);
             fail();
+            assert root == root;
         }catch(IOException e){
             //GOOD
         }

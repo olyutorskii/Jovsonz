@@ -39,17 +39,20 @@ public class JsNullTest {
             JsNull.NULL.traverse(new ValueVisitor(){
                 int ct = 0;
 
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     assertEquals(JsNull.NULL, value);
                     assertTrue(this.ct++ <= 0);
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     throw new JsVisitException();
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     throw new JsVisitException();
@@ -113,7 +116,8 @@ public class JsNullTest {
         JsNull nullVal = null;
         assertFalse(JsNull.NULL.equals(nullVal));
 
-        assertFalse(JsNull.NULL.equals(""));
+        Object obj = "";
+        assertFalse(JsNull.NULL.equals(obj));
 
         return;
     }
@@ -132,6 +136,7 @@ public class JsNullTest {
 
     /**
      * Test of parseNull method, of class JsNull.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseNull() throws Exception{
@@ -152,6 +157,7 @@ public class JsNullTest {
             source = new JsonSource("nX");
             result = JsNull.parseNull(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -160,6 +166,7 @@ public class JsNullTest {
             source = new JsonSource("nuX");
             result = JsNull.parseNull(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }
@@ -168,6 +175,7 @@ public class JsNullTest {
             source = new JsonSource("nulX");
             result = JsNull.parseNull(source);
             fail();
+            assert result == result;
         }catch(JsParseException e){
             //GOOD
         }

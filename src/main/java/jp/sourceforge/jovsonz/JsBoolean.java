@@ -8,14 +8,14 @@
 package jp.sourceforge.jovsonz;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
- * JSON BOOLEAN型Valueを表す。
+ * JSON BOOLEAN Value.
  *
- * <p>真偽値を反映する。
- * インスタンスは2つしか存在しえない。
+ * <p>Two instances only.
  *
- * <p>表記例
+ * <p>example of notation
  *
  * <pre>
  * true
@@ -25,60 +25,61 @@ import java.io.IOException;
 public final class JsBoolean
         implements JsValue, Comparable<JsBoolean> {
 
-    /** 唯一の真値。 */
+    /** The only true Value instance. */
     public static final JsBoolean TRUE  = new JsBoolean();
-    /** 唯一の偽値。 */
+    /** The only false Value instance. */
     public static final JsBoolean FALSE = new JsBoolean();
 
-    /** 真の文字列表現。 */
+    /** Notation of true. */
     public static final String TEXT_TRUE  = "true";
-    /** 偽の文字列表現。 */
+    /** Notation of false. */
     public static final String TEXT_FALSE = "false";
 
-    /** 真のハッシュ値。 */
+    /** hash number of true. */
     public static final int HASH_TRUE = Boolean.TRUE.hashCode();
-    /** 偽のハッシュ値。 */
+    /** hash number of false. */
     public static final int HASH_FALSE = Boolean.FALSE.hashCode();
 
+
     /**
-     * 隠しコンストラクタ。
-     *
-     * <p>2回しか呼ばれないはず。
+     * Hidden Constructor.
      */
-    private JsBoolean(){
+    private JsBoolean() {
         super();
         return;
     }
 
+
     /**
-     * JSON文字列ソースからBOOLEAN型Valueを読み込む。
+     * Try parsing BOOLEAN Value from JSON source.
      *
-     * <p>別型の可能性のある先頭文字を読み込んだ場合、
-     * ソースに文字を読み戻した後nullが返される。
+     * <p>If a leading character of another possible type is read,
+     * null is returned after push-back character into the source.
      *
-     * @param source 文字列ソース
-     * @return BOOLEAN型Value。別型の可能性がある場合はnull。
-     * @throws IOException 入力エラー
-     * @throws JsParseException 不正トークンもしくは意図しない入力終了
+     * @param source input source
+     * @return BOOLEAN typed Value. null if another possible type.
+     * @throws IOException I/O error
+     * @throws JsParseException invalid token or EOF
+     * @throws NullPointerException argument is null
      */
     static JsBoolean parseBoolean(JsonSource source)
-            throws IOException, JsParseException{
+            throws IOException, JsParseException {
         JsBoolean result = null;
         boolean hasError = false;
 
         char charHead = source.readOrDie();
-        switch(charHead){
+        switch (charHead) {
         case 't':
-            if(source.matchOrDie("rue")){
+            if (source.matchOrDie("rue")) {
                 result = JsBoolean.TRUE;
-            }else{
+            } else {
                 hasError = true;
             }
             break;
         case 'f':
-            if(source.matchOrDie("alse")){
+            if (source.matchOrDie("alse")) {
                 result = JsBoolean.FALSE;
-            }else{
+            } else {
                 hasError = true;
             }
             break;
@@ -87,7 +88,7 @@ public final class JsBoolean
             break;
         }
 
-        if(hasError){
+        if (hasError) {
             throw new JsParseException(JsParseException.ERRMSG_INVALIDTOKEN,
                                        source.getLineNumber() );
         }
@@ -95,137 +96,151 @@ public final class JsBoolean
         return result;
     }
 
+
     /**
      * {@inheritDoc}
      *
-     * <p>常に{@link JsTypes#BOOLEAN}を返す。
+     * <p>Always return {@link JsTypes#BOOLEAN}.
      *
      * @return {@inheritDoc}
      */
     @Override
-    public JsTypes getJsTypes(){
+    public JsTypes getJsTypes() {
         return JsTypes.BOOLEAN;
     }
 
     /**
-     * 各種構造の出現をビジターに通知する。
+     * {@inheritDoc}
      *
-     * <p>この実装ではthisの出現のみを通知する。
+     * <p>This implementation only notifies this-object.
      *
      * @param visitor {@inheritDoc}
      * @throws JsVisitException {@inheritDoc}
+     * @throws NullPointerException argument is null
      */
     @Override
     public void traverse(ValueVisitor visitor)
-            throws JsVisitException{
+            throws JsVisitException {
         visitor.visitValue(this);
         return;
     }
 
     /**
-     * {@inheritDoc}
+     * Returns a BOOLEAN instance representing the specified boolean value.
      *
-     * <p>ハッシュ値を返す。
-     * 真なら{@link #HASH_TRUE}、偽なら{@link #HASH_FALSE}を返す。
-     *
-     * @return {@inheritDoc}
+     * @param bool boolean Value
+     * @return BOOLEAN instance
      */
-    @Override
-    public int hashCode(){
-        int result;
-        if(this == TRUE) result = HASH_TRUE;
-        else             result = HASH_FALSE;
-        return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>等価判定を行う。
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object obj){
-        if(this == obj) return true;
-        if(obj instanceof JsBoolean) return false;
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <p>BOOLEAN型Valueを順序付ける。
-     * ({@link #TRUE}、{@link #FALSE})の順に順序付けられる。
-     *
-     * @param value {@inheritDoc}
-     * @return {@inheritDoc}
-     * @throws NullPointerException 引数がnull
-     */
-    @Override
-    public int compareTo(JsBoolean value) throws NullPointerException{
-        if(value == null) throw new NullPointerException();
-
-        int result;
-        if(this == value)     result =  0;
-        else if(this == TRUE) result = -1;
-        else                  result = +1;
-
-        return result;
-    }
-
-    /**
-     * boolean値を反映したBOOLEAN型Valueを返す。
-     *
-     * @param bool boolean値
-     * @return BOOLEAN型Value
-     */
-    public static JsBoolean valueOf(boolean bool){
-        if(bool) return TRUE;
+    public static JsBoolean valueOf(boolean bool) {
+        if (bool) return TRUE;
         return FALSE;
     }
 
     /**
-     * boolean値を返す。
+     * Return boolean primitive.
      *
-     * @return boolean値
+     * @return boolean
      */
-    public boolean booleanValue(){
-        if(this == TRUE) return true;
-        return false;
+    public boolean booleanValue() {
+        boolean result;
+        result = this == TRUE;
+        return result;
     }
 
     /**
-     * 真か判定する。
+     * Determine if it is true.
      *
-     * @return 真ならtrue
+     * @return true if TRUE
      */
-    public boolean isTrue(){
-        if(this == TRUE) return true;
-        return false;
+    public boolean isTrue() {
+        boolean result;
+        result = this == TRUE;
+        return result;
     }
 
     /**
-     * 偽か判定する。
+     * Determine if it is false.
      *
-     * @return 偽ならtrue
+     * @return true if FALSE
      */
-    public boolean isFalse(){
-        if(this != TRUE) return true;
-        return false;
+    public boolean isFalse() {
+        boolean result;
+        result = this != TRUE;
+        return result;
     }
 
     /**
-     * 文字列表現を返す。
+     * Return a hash code.
      *
-     * <p>JSON表記の一部としての利用も可能。
+     * <p>Return {@link #HASH_TRUE} if true.
      *
-     * @return {@inheritDoc}
+     * <p>Return {@link #HASH_FALSE} if false.
+     *
+     * @return hash code
      */
     @Override
-    public String toString(){
-        if(this == TRUE) return TEXT_TRUE;
+    public int hashCode() {
+        int result;
+        if (this == TRUE) result = HASH_TRUE;
+        else              result = HASH_FALSE;
+        return result;
+    }
+
+    /**
+     * Indicates whether some other BOOLEAN Value is "equal to" this BOOLEAN Value.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        boolean result;
+        if (obj instanceof JsBoolean) {
+            result = this == obj;
+        } else {
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * Compare between BOOLEAN typed Value.
+     *
+     * <p>Order is ( {@link #TRUE} &lt; {@link #FALSE} ).
+     *
+     * <p>* Warning : The order is the reverse of
+     * {@link java.lang.Boolean#compareTo(java.lang.Boolean)}
+     *
+     * @param value the object to be compared
+     * @return a negative integer, zero, or a positive integer
+     *     as this object is less than, equal to, or greater than the specified object.
+     * @throws NullPointerException argument is null
+     */
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    @Override
+    public int compareTo(JsBoolean value) {
+        Objects.requireNonNull(value);
+
+        int result;
+        if (this == value) {
+            result =  0;
+        } else if (this == TRUE) {
+            result = -1;
+        } else {
+            result = +1;
+        }
+
+        return result;
+    }
+
+    /**
+     * Returns JSON notation.
+     *
+     * @return a string representation of the object
+     */
+    @Override
+    public String toString() {
+        if (this == TRUE) return TEXT_TRUE;
         return TEXT_FALSE;
     }
 

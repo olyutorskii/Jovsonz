@@ -24,6 +24,7 @@ public class JsArrayTest {
 
     /**
      * Test of parseArray method, of class JsArray.
+     * @throws java.lang.Exception
      */
     @Test
     public void testParseArray() throws Exception{
@@ -61,6 +62,7 @@ public class JsArrayTest {
             source = new JsonSource("[,]");
             array = JsArray.parseArray(source);
             fail();
+            assert array == array;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -69,6 +71,7 @@ public class JsArrayTest {
             source = new JsonSource("[true,]");
             array = JsArray.parseArray(source);
             fail();
+            assert array == array;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -77,6 +80,7 @@ public class JsArrayTest {
             source = new JsonSource("[true#]");
             array = JsArray.parseArray(source);
             fail();
+            assert array == array;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -85,6 +89,7 @@ public class JsArrayTest {
             source = new JsonSource("[true,");
             array = JsArray.parseArray(source);
             fail();
+            assert array == array;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -93,6 +98,7 @@ public class JsArrayTest {
             source = new JsonSource("[true");
             array = JsArray.parseArray(source);
             fail();
+            assert array == array;
         }catch(JsParseException e){
             // NOTHING
         }
@@ -344,7 +350,8 @@ public class JsArrayTest {
 
         assertFalse(array1.equals(nullVal));
 
-        assertFalse(array1.equals(""));
+        Object obj = "";
+        assertFalse(array1.equals(obj));
 
         return;
     }
@@ -374,6 +381,7 @@ public class JsArrayTest {
 
     /**
      * Test of traverse method, of class JsArray.
+     * @throws java.lang.Exception
      */
     @Test
     public void testTraverse() throws Exception{
@@ -385,22 +393,25 @@ public class JsArrayTest {
         array.add(val1);
         array.add(val2);
 
-        final List<Object> visited = new LinkedList<Object>();
+        final List<Object> visited = new LinkedList<>();
 
         try{
             array.traverse(new ValueVisitor(){
+                @Override
                 public void visitValue(JsValue value)
                         throws JsVisitException{
                     visited.add(value);
                     return;
                 }
 
+                @Override
                 public void visitPairName(String name)
                         throws JsVisitException{
                     visited.add(name);
                     return;
                 }
 
+                @Override
                 public void visitCompositionClose(JsComposition<?> composite)
                         throws JsVisitException{
                     visited.add(composite);
