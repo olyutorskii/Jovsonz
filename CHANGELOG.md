@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Add new checkstyle rules for 10.18.0
+- Add 2 entries to .gitignore
 
 
 ## [1.101.110] - 2024-03-03
