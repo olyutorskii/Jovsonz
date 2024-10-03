@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update SpotBugs for JDK23
 - Update Maven plugins
 - Update PMD
+- Update GitHub workflows
 
 ### Added
 - Add new checkstyle rules for 10.18.0
