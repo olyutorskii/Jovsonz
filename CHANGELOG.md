@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.101.112] - 2024-10-04
+
+### Changed
+- Update Jacoco for JDK23
+- Update SpotBugs for JDK23
+- Update Maven plugins
+- Update PMD
+- Update GitHub workflows
+
+### Added
+- Add new checkstyle rules for 10.18.0
+- Add 2 entries to .gitignore
+
+
 ## [1.101.110] - 2024-03-03
 
 ### Changed
@@ -54,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Release
 
 
-[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.110...HEAD
+[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.112...HEAD
+[1.101.112]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.110...v1.101.112
 [1.101.110]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.108...v1.101.110
 [1.101.108]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.106...v1.101.108
 [1.101.106]: https://github.com/olyutorskii/Jovsonz/compare/release-1.101.104...v1.101.106
