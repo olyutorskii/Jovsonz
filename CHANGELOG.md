@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.101.114] - 2025-12-15
+
+### Fixed
+- Update Jacoco, SpotBugs, and PMD for JDK25
+- Update Checkstyle
+- Update Maven plugins
+- Update GitHub workflows
+
 
 ## [1.101.112] - 2024-10-04
 
@@ -68,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial Release
 
 
-[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.112...HEAD
+[Unreleased]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.114...HEAD
+[1.101.114]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.112...v1.101.114
 [1.101.112]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.110...v1.101.112
 [1.101.110]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.108...v1.101.110
 [1.101.108]: https://github.com/olyutorskii/Jovsonz/compare/v1.101.106...v1.101.108
